@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { HOSPITALS, SERVICES_FORM } from '../data';
 import './AppointmentForm.css';
 
-const API = 'http://localhost:5000';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 /* ── helpers ── */
 function localStr(d) {
