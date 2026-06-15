@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.al-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0e1a;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Animated Background ── */
+.al-bg { position: absolute; inset: 0; pointer-events: none; }
+
+.al-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  animation: al-float 8s ease-in-out infinite;
+}
+.al-orb1 { width: 400px; height: 400px; background: radial-gradient(circle, #4f46e5, transparent); top: -100px; left: -100px; animation-delay: 0s; }
+.al-orb2 { width: 350px; height: 350px; background: radial-gradient(circle, #06b6d4, transparent); bottom: -80px; right: -80px; animation-delay: -3s; }
+.al-orb3 { width: 300px; height: 300px; background: radial-gradient(circle, #8b5cf6, transparent); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -6s; }
+
+@keyframes al-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+}
+
+/* ── Card ── */
+.al-card {
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 48px 44px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+  animation: al-slideUp 0.5s ease;
+}
+
+@keyframes al-slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Logo ── */
+.al-logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.al-logo-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(79,70,229,0.4);
+}
+.al-logo-icon svg { width: 26px; height: 26px; color: #fff; }
+
+.al-logo-text h1 { font-size: 1.2rem; font-weight: 700; color: #fff; line-height: 1.2; }
+.al-logo-text p  { font-size: 0.78rem; color: #94a3b8; margin-top: 2px; }
+
+/* ── Form Fields ── */
+.al-form { display: flex; flex-direction: column; gap: 20px; }
+
+.al-field { display: flex; flex-direction: column; gap: 8px; }
+.al-field label { font-size: 0.82rem; font-weight: 500; color: #94a3b8; letter-spacing: 0.03em; }
+
+.al-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.al-icon {
+  position: absolute;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+.al-icon svg { width: 17px; height: 17px; color: #64748b; }
+
+.al-input-wrap input {
+  width: 100%;
+  padding: 13px 46px 13px 44px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  color: #f1f5f9;
+  font-size: 0.92rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.al-input-wrap input::placeholder { color: #475569; }
+.al-input-wrap input:focus {
+  border-color: #4f46e5;
+  background: rgba(79,70,229,0.08);
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+}
+
+.al-toggle-pass {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+.al-toggle-pass svg { width: 17px; height: 17px; color: #64748b; transition: color 0.2s; }
+.al-toggle-pass:hover svg { color: #94a3b8; }
+
+/* ── Error ── */
+.al-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #fca5a5;
+  font-size: 0.83rem;
+  animation: al-shake 0.4s ease;
+}
+.al-error svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+@keyframes al-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+/* ── Submit Button ── */
+.al-btn {
+  margin-top: 4px;
+  padding: 14px;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  box-shadow: 0 8px 24px rgba(79,70,229,0.4);
+}
+.al-btn svg { width: 18px; height: 18px; }
+.al-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(79,70,229,0.5);
+}
+.al-btn:active:not(:disabled) { transform: translateY(0); }
+.al-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.al-spinner {
+  width: 20px; height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: al-spin 0.7s linear infinite;
+}
+@keyframes al-spin { to { transform: rotate(360deg); } }
+
+/* ── Footer Note ── */
+.al-footer-note {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #475569;
+}

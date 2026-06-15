@@ -1,0 +1,163 @@
+.schedule-section {
+  padding: 100px 0;
+  background: var(--light-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.schedule-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1400&q=80');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.04;
+}
+
+.schedule-hospitals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+/* Hospital card */
+.schedule-hosp-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1.5px solid var(--teal-pale);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.schedule-hosp-card:hover {
+  box-shadow: var(--shadow-teal);
+  transform: translateY(-4px);
+}
+
+.schedule-hosp-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 28px;
+  background: linear-gradient(135deg, var(--teal-pale), #fff);
+  border-bottom: 1px solid var(--teal-pale);
+}
+
+.schedule-hosp-icon {
+  width: 46px;
+  height: 46px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(13,115,119,0.3);
+}
+
+.schedule-hosp-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  font-family: 'Playfair Display', serif;
+  line-height: 1.3;
+}
+
+.schedule-hosp-address {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.schedule-hosp-address i {
+  color: var(--teal);
+  font-size: 11px;
+}
+
+/* Table */
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedule-table thead tr {
+  background: rgba(13,115,119,0.06);
+}
+
+.schedule-table th {
+  padding: 11px 20px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--teal);
+  border-bottom: 1px solid var(--teal-pale);
+}
+
+.schedule-table td {
+  padding: 12px 20px;
+  font-size: 14px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.schedule-table td strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.schedule-table tr:last-child td {
+  border-bottom: none;
+}
+
+.schedule-table tr:hover td {
+  background: var(--teal-pale);
+}
+
+/* Today highlight */
+.schedule-table tr.today td {
+  background: rgba(13,115,119,0.07);
+  font-weight: 600;
+}
+
+.schedule-table tr.today td strong {
+  color: var(--teal-dark);
+}
+
+/* Status badges */
+.status-open {
+  display: inline-block;
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.status-closed {
+  display: inline-block;
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .schedule-hospitals-grid {
+    grid-template-columns: 1fr;
+  }
+}

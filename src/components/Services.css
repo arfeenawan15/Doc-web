@@ -1,0 +1,118 @@
+/* ── Services ──────────────────────────────────────────────── */
+.services-section {
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--dark) 0%, #0a2828 100%);
+}
+
+.services-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=1400&q=80');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.04;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+}
+
+/* Card */
+.service-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: var(--radius-lg);
+  padding: 34px 28px;
+  cursor: default;
+  transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(13,115,119,0.08) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.service-card.hovered::after {
+  opacity: 1;
+}
+
+.service-card.hovered {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
+  border-color: transparent;
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(13,115,119,0.35);
+}
+
+.service-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(13,115,119,0.25);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--teal-light);
+  margin-bottom: 20px;
+  transition: background 0.3s, color 0.3s, transform 0.3s;
+}
+
+.service-card.hovered .service-icon {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.service-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.service-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+  transition: color 0.3s;
+  margin-bottom: 18px;
+}
+
+.service-card.hovered .service-desc {
+  color: rgba(255,255,255,0.88);
+}
+
+.service-learn-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 16px;
+  transition: color 0.3s, gap 0.3s;
+  width: 100%;
+}
+
+.service-card.hovered .service-learn-more {
+  color: rgba(255,255,255,0.9);
+  gap: 10px;
+  border-color: rgba(255,255,255,0.2);
+}
+
+@media (max-width: 600px) {
+  .services-grid { grid-template-columns: 1fr; }
+}

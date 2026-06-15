@@ -1,0 +1,217 @@
+/* ── About ─────────────────────────────────────────────────── */
+.about-section {
+  padding: 100px 0;
+  background: var(--light-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 72px;
+  align-items: center;
+}
+
+/* Left */
+.about-img-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.about-img-placeholder {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(13,115,119,0.18);
+  border: 3px solid var(--teal-pale);
+}
+
+.about-img-placeholder img {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.about-badge-card {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 8px 32px rgba(13,115,119,0.35);
+  line-height: 1.4;
+}
+
+.about-badge-card i { font-size: 22px; }
+
+/* Floating stat pills */
+.about-stat-pill {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border-radius: 30px;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--dark);
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  animation: float 5s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+.about-stat-pill i {
+  color: var(--teal);
+  font-size: 14px;
+}
+
+.about-stat-pill strong {
+  color: var(--teal);
+}
+
+.about-stat-pill-1 {
+  top: 20px;
+  left: -30px;
+  animation-delay: -2s;
+}
+
+.about-stat-pill-2 {
+  top: 80px;
+  left: -50px;
+  animation-delay: -4s;
+}
+
+.about-text {
+  font-size: 15.5px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.about-edu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
+.edu-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.edu-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--teal);
+  flex-shrink: 0;
+  margin-top: 5px;
+  box-shadow: 0 0 0 4px var(--teal-pale);
+}
+
+.edu-degree {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  font-family: 'Playfair Display', serif;
+}
+
+.edu-place {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* Clinical Expertise Grid */
+.about-expertise {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
+.about-expertise-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 18px;
+}
+
+.about-expertise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.about-expertise-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--teal-pale);
+  border: 1px solid rgba(13, 115, 119, 0.08);
+  border-radius: 10px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.about-expertise-grid.animate .about-expertise-item {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: var(--delay, 0s);
+}
+
+.about-expertise-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 115, 119, 0.08);
+  border-color: rgba(13, 115, 119, 0.25);
+  background: #fff;
+}
+
+.expertise-check-icon {
+  color: var(--teal);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expertise-item-text {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+
+/* Responsive */
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .about-left { text-align: center; }
+  .about-img-placeholder { max-width: 320px; margin: 0 auto; }
+  .about-img-placeholder img { height: 360px; }
+  .about-badge-card { right: 0; bottom: -10px; }
+  .about-stat-pill { display: none; }
+}

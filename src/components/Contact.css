@@ -1,0 +1,98 @@
+/* ── Contact ───────────────────────────────────────────────── */
+.contact-section {
+  padding: 100px 0;
+  background: var(--dark2);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1666214280391-8ff5bd3d0bf0?w=1400&q=80');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.05;
+}
+
+.contact-section .section-tag {
+  background: rgba(13,115,119,0.2);
+  border-color: rgba(13,115,119,0.35);
+  color: var(--teal-light);
+}
+
+.contact-section .section-title { color: #fff; }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Card */
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 36px 22px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.contact-card.hovered {
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  border-color: transparent;
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(13,115,119,0.3);
+}
+
+.contact-card i {
+  font-size: 32px;
+  color: var(--teal-light);
+  transition: color 0.3s;
+}
+
+.contact-card.hovered i { color: #fff; }
+
+.contact-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.contact-card p {
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.6;
+  transition: color 0.3s;
+}
+
+.contact-card.hovered p { color: rgba(255,255,255,0.85); }
+
+.contact-cta {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal-light);
+  margin-top: 4px;
+  transition: color 0.3s;
+}
+
+.contact-card.hovered .contact-cta { color: #fff; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 500px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
