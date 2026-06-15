@@ -17,8 +17,8 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'waqasahmadawan1122';
 /* ─── Middleware ─── */
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow any localhost origin (5173, 5174, 3000, etc.) or no origin (Postman/curl)
-    if (!origin || /^http:\/\/localhost:\d+$/.test(origin)) {
+    // Allow any localhost origin, no origin (Postman), or Vercel deployments
+    if (!origin || /^http:\/\/localhost:\d+$/.test(origin) || origin.includes('vercel.app')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
