@@ -1,6 +1,6 @@
 .navbar {
   position: fixed;
-  top: 34px; left: 0; right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 1000;
   padding: 0 5%;
   height: 70px;
@@ -86,6 +86,13 @@
 .nav-links a.active-link {
   color: var(--teal-light);
   background: rgba(13,115,119,0.2);
+}
+
+.nav-admin-link {
+  color: var(--gold) !important; /* Stand out slightly */
+}
+.nav-admin-link i {
+  margin-right: 5px;
 }
 
 .nav-links .nav-btn {

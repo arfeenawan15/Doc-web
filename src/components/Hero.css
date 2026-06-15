@@ -120,16 +120,21 @@
 }
 
 /* Container */
-.hero-container {
+.hero-container.section-container {
   flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
-  align-items: center;
-  padding-top: 154px; /* extra for strip + navbar */
+  align-items: start; /* Fallback for safe centering */
+  padding-top: 100px;
   padding-bottom: 60px;
   position: relative;
   z-index: 1;
+}
+
+.hero-left, .hero-image-wrap {
+  margin-top: auto;
+  margin-bottom: auto; /* margin auto prevents unsafe overflow at the top */
 }
 
 

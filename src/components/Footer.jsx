@@ -1,6 +1,6 @@
+import { Link } from 'react-router-dom';
 import { DOCTOR, NAV_LINKS } from '../data';
 import './Footer.css';
-
 const scrollTo = (e, href) => {
   e.preventDefault();
   const id = href.replace('#', '');
@@ -71,7 +71,10 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <p>© {new Date().getFullYear()} Dr. Waqas Ahmad Awan. All rights reserved.</p>
-        <p>Member · Association of Paediatric Surgeons of Pakistan</p>
+        <p>
+          Member · Association of Paediatric Surgeons of Pakistan |{' '}
+          <Link to="/admin" className="admin-link">Admin Portal</Link>
+        </p>
       </div>
     </footer>
   );

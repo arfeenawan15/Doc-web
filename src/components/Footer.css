@@ -137,6 +137,16 @@
   color: rgba(255,255,255,0.3);
 }
 
+.admin-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.admin-link:hover {
+  color: var(--teal-light);
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .footer-container { grid-template-columns: 1fr 1fr; }

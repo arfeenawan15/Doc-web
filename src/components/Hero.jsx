@@ -25,17 +25,7 @@ export default function Hero() {
 
   return (
     <section className="hero" id="home">
-      {/* Emergency top strip */}
-      <div className="hero-emergency-strip">
-        <span className="hero-emergency-badge">
-          <i className="fas fa-phone-volume" /> Emergency Consultation
-        </span>
-        <span className="hero-emergency-number">+92 331 8034846</span>
-        <span className="hero-emergency-sep">|</span>
-        <span className="hero-live-clock">
-          <i className="fas fa-clock" /> {dateStr} &nbsp;—&nbsp; {timeStr}
-        </span>
-      </div>
+
 
       <div className="hero-bg-photo" />
       <div className="hero-overlay" />

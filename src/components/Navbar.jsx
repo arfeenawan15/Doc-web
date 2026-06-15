@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { NAV_LINKS } from '../data';
 import { useScrolled, useActiveSection } from '../hooks';
 import './Navbar.css';
@@ -44,6 +45,11 @@ export default function Navbar() {
               </a>
             </li>
           ))}
+          <li>
+            <Link to="/admin" className="nav-admin-link" onClick={() => setOpen(false)}>
+              <i className="fas fa-user-shield" /> Admin
+            </Link>
+          </li>
           <li>
             <a
               href="#appointment"
