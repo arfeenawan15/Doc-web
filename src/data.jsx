@@ -22,13 +22,55 @@ export const STATS = [
 ];
 
 export const SERVICES = [
-  { icon: "fas fa-male",          title: "Undescended Testes",     desc: "Surgical correction (orchidopexy) to reposition undescended testes into the scrotum, preventing long-term complications in young boys." },
-  { icon: "fas fa-brain",         title: "VP Shunting",            desc: "Ventriculoperitoneal shunt placement to drain excess cerebrospinal fluid in children with hydrocephalus, relieving pressure on the brain." },
-  { icon: "fas fa-notes-medical", title: "MMC Repair",             desc: "Surgical closure of myelomeningocele (open spina bifida) in newborns to protect the exposed spinal cord and prevent serious infection." },
-  { icon: "fas fa-smile",         title: "Cleft Lip & Palate",     desc: "Reconstructive surgery to repair cleft lip and palate, restoring normal appearance, feeding function, and speech development." },
-  { icon: "fas fa-procedures",    title: "Rectal Polyps",          desc: "Endoscopic or surgical removal of rectal polyps, addressing rectal bleeding, prolapse, and bowel irregularities safely and effectively." },
-  { icon: "fas fa-dot-circle",    title: "Umbilical Granuloma",    desc: "Safe and effective treatment of umbilical granuloma in newborns and infants, preventing infection and promoting healthy navel healing." },
-  { icon: "fas fa-band-aid",      title: "Intestinal Obstruction", desc: "Emergency and elective surgical management of intestinal obstruction caused by adhesions, intussusception, volvulus, or congenital anomalies." },
+  { 
+    icon: "fas fa-male", 
+    title: "Undescended Testes", 
+    desc: "Surgical correction (orchidopexy) to reposition undescended testes into the scrotum, preventing long-term complications in young boys.",
+    image: "/assets/service_undescended_testes_1781631584940.png",
+    details: "An undescended testicle (cryptorchidism) is a testicle that hasn't moved into its proper position in the scrotum before birth. Surgery (orchidopexy) is typically recommended between 6 and 18 months of age to reposition the testicle, reducing the risk of fertility issues and testicular cancer later in life. The procedure is performed under general anesthesia, and patients usually go home the same day."
+  },
+  { 
+    icon: "fas fa-brain", 
+    title: "VP Shunting", 
+    desc: "Ventriculoperitoneal shunt placement to drain excess cerebrospinal fluid in children with hydrocephalus, relieving pressure on the brain.",
+    image: "/assets/service_vp_shunting_1781631605499.png",
+    details: "Ventriculoperitoneal (VP) shunting is a surgical procedure used to relieve pressure on the brain caused by fluid accumulation (hydrocephalus). A thin plastic tube (shunt) is placed in the brain to drain the excess cerebrospinal fluid into the abdominal cavity, where it is safely absorbed. This vital procedure helps protect the child's developing brain from damage and requires careful long-term follow-up."
+  },
+  { 
+    icon: "fas fa-notes-medical", 
+    title: "MMC Repair", 
+    desc: "Surgical closure of myelomeningocele (open spina bifida) in newborns to protect the exposed spinal cord and prevent serious infection.",
+    image: "/assets/service_mmc_repair_1781631618080.png",
+    details: "Myelomeningocele (MMC) is a severe form of spina bifida where the spinal canal remains open, exposing the spinal cord and nerves. Surgical repair is typically performed within the first 48 hours of life. The surgery involves closing the opening in the back to protect the spinal cord from infection and further trauma. Comprehensive post-operative care and rehabilitation are essential for optimal outcomes."
+  },
+  { 
+    icon: "fas fa-smile", 
+    title: "Cleft Lip & Palate", 
+    desc: "Reconstructive surgery to repair cleft lip and palate, restoring normal appearance, feeding function, and speech development.",
+    image: "/assets/service_cleft_lip_1781631631806.png",
+    details: "Cleft lip and cleft palate are common congenital conditions where the tissues of the mouth or lip do not form properly during fetal development. Reconstructive surgery aims to close the cleft, restoring normal function for feeding, speech development, and improving facial appearance. Cleft lip repair is typically done at 3-6 months, while palate repair is done around 9-12 months of age."
+  },
+  { 
+    icon: "fas fa-procedures", 
+    title: "Rectal Polyps", 
+    desc: "Endoscopic or surgical removal of rectal polyps, addressing rectal bleeding, prolapse, and bowel irregularities safely and effectively.",
+    image: "/assets/service_rectal_polyps_1781631649819.png",
+    details: "Rectal polyps are growths on the inner lining of the rectum, often causing painless rectal bleeding in children. Most pediatric polyps are benign (juvenile polyps). They are typically removed safely and effectively via endoscopy or minor surgery under general anesthesia. The removed polyps are sent for biopsy to confirm they are benign, ensuring peace of mind for the family."
+  },
+  { 
+    icon: "fas fa-dot-circle", 
+    title: "Umbilical Granuloma", 
+    desc: "Safe and effective treatment of umbilical granuloma in newborns and infants, preventing infection and promoting healthy navel healing.",
+    image: "/assets/service_umbilical_granuloma_1781631703630.png",
+    details: "An umbilical granuloma is a small piece of red, moist tissue that remains in the belly button after the umbilical cord falls off. It is a common, minor issue in newborns. Treatment often involves applying a small amount of silver nitrate to cauterize the tissue, or in rare cases, a minor surgical tie or excision. The procedure is quick, painless, and promotes healthy healing of the navel."
+  },
+  { 
+    icon: "fas fa-band-aid", 
+    title: "Intestinal Obstruction", 
+    desc: "Emergency and elective surgical management of intestinal obstruction caused by adhesions, intussusception, volvulus, or congenital anomalies.",
+    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80",
+    details: "Intestinal obstruction in children can be caused by various conditions, including intussusception, malrotation, atresia, or hernias. It prevents food and fluids from passing through the intestines, leading to symptoms like severe pain, vomiting, and bloating. Depending on the cause, emergency surgery may be required to remove the blockage or repair the bowel, preventing serious complications and restoring normal digestive function."
+  },
 ];
 
 export const HOSPITALS = {
