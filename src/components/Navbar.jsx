@@ -46,7 +46,7 @@ export default function Navbar() {
             </li>
           ))}
           <li>
-            <Link to="/admin" className="nav-admin-link" onClick={() => setOpen(false)}>
+            <Link to="/admin" target="_blank" rel="noopener noreferrer" className="nav-admin-link" onClick={() => setOpen(false)}>
               <i className="fas fa-user-shield" /> Admin
             </Link>
           </li>
