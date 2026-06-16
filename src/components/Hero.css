@@ -427,18 +427,25 @@
 
   .hero-actions { 
     width: 100%;
-    flex-direction: column; 
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 12px;
   }
   
   .hero-actions > a {
-    width: 100%;
+    flex: 1 1 calc(50% - 6px);
     justify-content: center;
+    padding: 12px 10px;
+    font-size: 14px;
+  }
+
+  .hero-actions > a.btn-outline {
+    flex: 1 1 100%;
   }
 
   .hero-image-wrap { 
     min-height: 340px; 
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100%;
   }
   .hero-avatar { width: 240px; height: 300px; margin: 0 auto; }
@@ -452,6 +459,9 @@
   .stats-divider { width: 60px; height: 1px; }
   .hero-stat-badge { padding: 0; }
   .hero-stat-num { font-size: 30px; }
-  .btn-primary, .btn-whatsapp, .btn-outline { padding: 14px 20px; font-size: 15px; }
   .hero-title { font-size: clamp(34px, 10vw, 42px); }
+  .hero-actions > a {
+    font-size: 13px;
+    padding: 12px 8px;
+  }
 }
