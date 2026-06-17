@@ -232,6 +232,9 @@
 
 .ad-stat-label { font-size: 0.78rem; color: #94a3b8; font-weight: 500; margin-bottom: 4px; }
 .ad-stat-value { font-size: 2rem; font-weight: 700; color: #0f172a; line-height: 1; }
+.ad-stat-trend { font-size: 0.74rem; color: #94a3b8; margin-top: 4px; }
+
+
 
 /* ══════════════════════════════════════
    BAR CHARTS

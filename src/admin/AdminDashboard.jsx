@@ -105,6 +105,26 @@ export default function AdminDashboard() {
     });
   };
 
+  /* ── Compute Monthly Report from appointments ── */
+  const getMonthlyReport = () => {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+    const monthName = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    const thisMonth = appointments.filter(a => {
+      if (!a.createdAt) return false;
+      const d = new Date(a.createdAt);
+      return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+    });
+    return {
+      monthName,
+      total: thisMonth.length,
+      confirmed: thisMonth.filter(a => a.status === 'confirmed').length,
+      pending: thisMonth.filter(a => a.status === 'pending').length,
+      cancelled: thisMonth.filter(a => a.status === 'cancelled').length,
+    };
+  };
+
   /* ── Fetch Appointments ── */
   const fetchAppointments = useCallback(async (isBackground = false) => {
     if (!isBackground) setLoading(true);
@@ -143,6 +163,10 @@ export default function AdminDashboard() {
         }
       }, 8000);
       return () => clearInterval(interval);
+    }
+    if (tab === 'dashboard') {
+      // Silently fetch all appointments for monthly report card
+      fetchAppointments(true);
     }
   }, [tab, filterStatus, fetchAppointments, token]);
 
@@ -583,6 +607,105 @@ export default function AdminDashboard() {
               ))}
             </div>
 
+            {/* ── Monthly Report Card ── */}
+            {(() => {
+              const report = getMonthlyReport();
+              return (
+                <div className="ad-monthly-report-section">
+                  <div className="ad-monthly-report-header">
+                    <div className="ad-monthly-report-title-group">
+                      <div className="ad-monthly-report-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="3" y="4" width="18" height="18" rx="2" />
+                          <line x1="16" y1="2" x2="16" y2="6" />
+                          <line x1="8" y1="2" x2="8" y2="6" />
+                          <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h2 className="ad-monthly-report-title">Monthly Report</h2>
+                        <p className="ad-monthly-report-sub">{report.monthName}</p>
+                      </div>
+                    </div>
+                    <span className="ad-monthly-report-badge">This Month</span>
+                  </div>
+
+                  <div className="ad-monthly-report-grid">
+                    {[
+                      {
+                        label: 'Total Bookings',
+                        value: report.total,
+                        sub: 'All bookings this month',
+                        color: '#6366f1',
+                        icon: <><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></>,
+                      },
+                      {
+                        label: 'Confirmed',
+                        value: report.confirmed,
+                        sub: 'Ready for consultation',
+                        color: '#10b981',
+                        icon: <><path d="M22 11.08V12a10 10 0 11-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></>,
+                      },
+                      {
+                        label: 'Pending',
+                        value: report.pending,
+                        sub: 'Awaiting confirmation',
+                        color: '#f59e0b',
+                        icon: <><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></>,
+                      },
+                      {
+                        label: 'Cancelled',
+                        value: report.cancelled,
+                        sub: 'Requires follow-up',
+                        color: '#ef4444',
+                        icon: <><circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" /></>,
+                      },
+                    ].map(({ label, value, sub, color, icon }) => (
+                      <div className="ad-monthly-card" key={label} style={{ '--mc-color': color }}>
+                        <div className="ad-monthly-card-icon">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">{icon}</svg>
+                        </div>
+                        <div className="ad-monthly-card-body">
+                          <p className="ad-monthly-card-label">{label}</p>
+                          <h3 className="ad-monthly-card-value">{value}</h3>
+                          <p className="ad-monthly-card-sub">{sub}</p>
+                        </div>
+                        <div className="ad-monthly-card-accent" />
+                      </div>
+                    ))}
+                  </div>
+
+                  {report.total > 0 && (
+                    <div className="ad-monthly-progress-row">
+                      <div className="ad-monthly-progress-item">
+                        <span className="ad-monthly-progress-label">Confirmed Rate</span>
+                        <div className="ad-monthly-progress-bar-wrap">
+                          <div className="ad-monthly-progress-bar ad-mpb-green"
+                            style={{ width: `${Math.round((report.confirmed / report.total) * 100)}%` }} />
+                        </div>
+                        <span className="ad-monthly-progress-pct">{Math.round((report.confirmed / report.total) * 100)}%</span>
+                      </div>
+                      <div className="ad-monthly-progress-item">
+                        <span className="ad-monthly-progress-label">Pending Rate</span>
+                        <div className="ad-monthly-progress-bar-wrap">
+                          <div className="ad-monthly-progress-bar ad-mpb-amber"
+                            style={{ width: `${Math.round((report.pending / report.total) * 100)}%` }} />
+                        </div>
+                        <span className="ad-monthly-progress-pct">{Math.round((report.pending / report.total) * 100)}%</span>
+                      </div>
+                      <div className="ad-monthly-progress-item">
+                        <span className="ad-monthly-progress-label">Cancellation Rate</span>
+                        <div className="ad-monthly-progress-bar-wrap">
+                          <div className="ad-monthly-progress-bar ad-mpb-red"
+                            style={{ width: `${Math.round((report.cancelled / report.total) * 100)}%` }} />
+                        </div>
+                        <span className="ad-monthly-progress-pct">{Math.round((report.cancelled / report.total) * 100)}%</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Interactive distribution row */}
             <div className="ad-dashboard-interactive-row">
