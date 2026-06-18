@@ -83,7 +83,6 @@ export default function UserSignup() {
                   <i className="fas fa-user icon-left"></i>
                   <input 
                     type="text" 
-                    placeholder="John Doe"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -96,7 +95,6 @@ export default function UserSignup() {
                   <i className="fas fa-envelope icon-left"></i>
                   <input 
                     type="email" 
-                    placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -109,7 +107,6 @@ export default function UserSignup() {
                   <i className="fas fa-lock icon-left"></i>
                   <input 
                     type="password" 
-                    placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />

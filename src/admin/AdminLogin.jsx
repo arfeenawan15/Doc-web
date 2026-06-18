@@ -78,7 +78,6 @@ export default function AdminLogin() {
                 id="admin-email"
                 type="email"
                 name="email"
-                placeholder="admin@example.com"
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -100,7 +99,6 @@ export default function AdminLogin() {
                 id="admin-password"
                 type={showPass ? 'text' : 'password'}
                 name="password"
-                placeholder="Enter your password"
                 value={form.password}
                 onChange={handleChange}
                 required
