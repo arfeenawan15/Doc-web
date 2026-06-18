@@ -15,6 +15,10 @@ import AdminLogin     from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
 import ProtectedRoute from './admin/ProtectedRoute';
 
+import UserLogin from './components/UserLogin';
+import UserSignup from './components/UserSignup';
+import { AuthProvider } from './context/AuthContext';
+
 function PublicSite() {
   const [toast, setToast] = useState(null);
   const showToast = (message, type = 'success') => setToast({ message, type });
@@ -46,20 +50,26 @@ function PublicSite() {
 
 export default function App() {
   return (
-    <Routes>
-      {/* ── Public website ── */}
-      <Route path="/" element={<PublicSite />} />
+    <AuthProvider>
+      <Routes>
+        {/* ── Public website ── */}
+        <Route path="/" element={<PublicSite />} />
 
-      {/* ── Admin portal ── */}
-      <Route path="/admin" element={<AdminLogin />} />
-      <Route
-        path="/admin/dashboard"
-        element={
-          <ProtectedRoute>
-            <AdminDashboard />
-          </ProtectedRoute>
-        }
-      />
-    </Routes>
+        {/* ── User Auth ── */}
+        <Route path="/login" element={<UserLogin />} />
+        <Route path="/signup" element={<UserSignup />} />
+
+        {/* ── Admin portal ── */}
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </AuthProvider>
   );
 }

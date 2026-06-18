@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { HOSPITALS, SERVICES_FORM } from '../data';
+import { useAuth } from '../context/AuthContext';
 import './AppointmentForm.css';
 
 const API = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000' : 'https://doc-web-prq3.onrender.com');
@@ -35,11 +36,28 @@ const EMPTY_FORM = {
 };
 
 export default function AppointmentForm({ onSuccess }) {
-  const [form, setForm]       = useState(EMPTY_FORM);
+  const { user } = useAuth();
+  
+  const [form, setForm]       = useState({
+    ...EMPTY_FORM,
+    guardianName: user ? user.name : '',
+    guardianEmail: user ? user.email : '',
+  });
   const [errors, setErrors]   = useState({});
   const [loading, setLoading] = useState(false);
   const [dateWarn, setDateWarn] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  // If user logs in/out while on page, update form prefill if fields are empty
+  useEffect(() => {
+    if (user) {
+      setForm(f => ({
+        ...f,
+        guardianName: f.guardianName || user.name,
+        guardianEmail: f.guardianEmail || user.email,
+      }));
+    }
+  }, [user]);
 
   const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
 
@@ -117,7 +135,11 @@ export default function AppointmentForm({ onSuccess }) {
 
       if (data.success) {
         setSubmitted(true);
-        setForm(EMPTY_FORM);
+        setForm({
+          ...EMPTY_FORM,
+          guardianName: user ? user.name : '',
+          guardianEmail: user ? user.email : '',
+        });
         setErrors({});
         onSuccess && onSuccess(payload);
         /* reset success banner after 6 seconds */

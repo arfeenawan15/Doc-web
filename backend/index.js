@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import Appointment from './appointment.js';
+import User from './user.js';
 import { sendAppointmentEmail } from './emailService.js';
 
 const app = express();
@@ -55,6 +56,70 @@ mongoose.connect(process.env.MONGO_URI)
 /* ─── Health Check ─── */
 app.get('/', (req, res) => {
   res.json({ status: 'API Running', timestamp: new Date() });
+});
+
+/* ─── POST /auth/signup — User Registration ─── */
+app.post('/auth/signup', async (req, res) => {
+  const { name, email, password } = req.body;
+  if (!name || !email || !password)
+    return res.status(400).json({ success: false, message: 'Please provide all fields.' });
+
+  // Email validation regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ success: false, message: 'Please provide a valid email address.' });
+  }
+
+  try {
+    // DNS MX Record check to ensure email domain exists
+    const domain = email.split('@')[1];
+    try {
+      const mxRecords = await dns.promises.resolveMx(domain);
+      if (!mxRecords || mxRecords.length === 0) {
+        return res.status(400).json({ success: false, message: 'Email domain does not exist or cannot receive mail.' });
+      }
+    } catch (dnsErr) {
+      if (dnsErr.code === 'ENOTFOUND' || dnsErr.code === 'ENODATA') {
+        return res.status(400).json({ success: false, message: 'Invalid email domain.' });
+      }
+      // If network is restricted (e.g., ECONNREFUSED, timeout), we allow it to pass.
+    }
+
+    const userExists = await User.findOne({ email });
+    if (userExists)
+      return res.status(400).json({ success: false, message: 'Email already in use.' });
+
+    const user = await User.create({ name, email, password });
+
+    const token = jwt.sign({ id: user._id, role: user.role, name: user.name, email: user.email }, JWT_SECRET, { expiresIn: '30d' });
+
+    res.status(201).json({ success: true, token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message, message: 'Internal server error.' });
+  }
+});
+
+/* ─── POST /auth/login — User Authentication ─── */
+app.post('/auth/login', async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    return res.status(400).json({ success: false, message: 'Please provide email and password.' });
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.status(401).json({ success: false, message: 'Invalid credentials.' });
+
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch)
+      return res.status(401).json({ success: false, message: 'Invalid credentials.' });
+
+    const token = jwt.sign({ id: user._id, role: user.role, name: user.name, email: user.email }, JWT_SECRET, { expiresIn: '30d' });
+
+    res.json({ success: true, token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 /* ─── POST /admin/login — Admin Authentication ─── */
