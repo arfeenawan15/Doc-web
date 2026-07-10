@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import SEO           from './components/SEO';
 import Navbar        from './components/Navbar';
 import Hero          from './components/Hero';
 import About         from './components/About';
@@ -25,6 +26,12 @@ function PublicSite() {
 
   return (
     <>
+      <SEO 
+        title="Best Pediatric Surgeon in Mian Channu & Multan"
+        description="Looking for the Best Pediatric Surgeon in Mian Channu? Dr. Waqas Ahmad Awan is a top-rated child surgeon and child specialist offering expert pediatric and neonatal surgery."
+        keywords="Best Pediatric Surgeon in mian channu, Child surgeon, child specialist, best pediatric surgeon in multan, pediatric surgeon near me, children hospital multan child specialist, neonatal surgeon"
+        url="https://drwaqasawan.com/"
+      />
       <Navbar />
       <WhatsAppFloat />
       {toast && (

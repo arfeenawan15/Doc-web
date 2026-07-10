@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Block admin panel from search engines
+Disallow: /admin
+
+Sitemap: https://drwaqasawan.com/sitemap.xml

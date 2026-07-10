@@ -5,15 +5,36 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import Appointment from './appointment.js';
 import User from './user.js';
 import { sendAppointmentEmail } from './emailService.js';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const CREDS_FILE = path.join(__dirname, 'admin_credentials.json');
+
+// Load admin credentials: from JSON file if exists, else fall back to .env
+const loadAdminCreds = () => {
+  try {
+    if (fs.existsSync(CREDS_FILE)) {
+      return JSON.parse(fs.readFileSync(CREDS_FILE, 'utf-8'));
+    }
+  } catch { /* ignore */ }
+  return {
+    email: process.env.ADMIN_EMAIL,
+    password: process.env.ADMIN_PASSWORD,
+  };
+};
+
+const saveAdminCreds = (creds) => {
+  fs.writeFileSync(CREDS_FILE, JSON.stringify(creds, null, 2), 'utf-8');
+};
+
 const app = express();
 const PORT = process.env.PORT || 5000;
-const JWT_SECRET = process.env.JWT_SECRET || 'drwaqas_admin_secret_2024';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'drwaqasahmadawan@gmail.com';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'waqasahmadawan1122';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 /* ─── Middleware ─── */
 app.use(cors({
@@ -128,11 +149,41 @@ app.post('/admin/login', (req, res) => {
   if (!email || !password)
     return res.status(400).json({ success: false, message: 'Email and password required.' });
 
-  if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD)
+  const creds = loadAdminCreds();
+  if (!creds.email || !creds.password)
+    return res.status(500).json({ success: false, message: 'Admin credentials not configured on server.' });
+
+  if (email !== creds.email || password !== creds.password)
     return res.status(401).json({ success: false, message: 'Invalid email or password.' });
 
   const token = jwt.sign({ email, role: 'admin' }, JWT_SECRET, { expiresIn: '8h' });
   res.json({ success: true, token, message: 'Login successful.' });
+});
+
+/* ─── POST /admin/change-credentials — Securely Update Admin Login ─── */
+app.post('/admin/change-credentials', authMiddleware, (req, res) => {
+  const { currentPassword, newEmail, newPassword } = req.body;
+
+  if (!currentPassword || !newEmail || !newPassword)
+    return res.status(400).json({ success: false, message: 'All fields are required.' });
+
+  if (newPassword.length < 8)
+    return res.status(400).json({ success: false, message: 'New password must be at least 8 characters.' });
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(newEmail))
+    return res.status(400).json({ success: false, message: 'Please provide a valid email address.' });
+
+  const creds = loadAdminCreds();
+  if (currentPassword !== creds.password)
+    return res.status(401).json({ success: false, message: 'Current password is incorrect.' });
+
+  // Save new credentials to file
+  saveAdminCreds({ email: newEmail, password: newPassword });
+
+  // Issue a fresh token with the new email
+  const token = jwt.sign({ email: newEmail, role: 'admin' }, JWT_SECRET, { expiresIn: '8h' });
+  res.json({ success: true, message: 'Credentials updated successfully.', token });
 });
 
 /* ─── GET /admin/stats — Dashboard Statistics ─── */

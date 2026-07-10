@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SEO from '../components/SEO';
 import './AdminDashboard.css';
 
 const API = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000' : 'https://doc-web-prq3.onrender.com');
@@ -28,6 +29,13 @@ export default function AdminDashboard() {
   const [expandedAptId, setExpandedAptId] = useState(null); // id of expanded row
   const [notesText, setNotesText] = useState({});
   const [emailLoading, setEmailLoading] = useState({});
+
+  // Settings / Change Credentials
+  const [credsForm, setCredsForm] = useState({ currentPassword: '', newEmail: '', newPassword: '', confirmPassword: '' });
+  const [credsLoading, setCredsLoading] = useState(false);
+  const [credsError, setCredsError] = useState('');
+  const [credsSuccess, setCredsSuccess] = useState('');
+  const [showCredsPass, setShowCredsPass] = useState({ current: false, newp: false, confirm: false });
 
   const handleToggleExpand = (apt) => {
     if (expandedAptId === apt._id) {
@@ -468,6 +476,44 @@ export default function AdminDashboard() {
     navigate('/admin');
   };
 
+  /* ── Change Credentials ── */
+  const handleChangeCredentials = async (e) => {
+    e.preventDefault();
+    setCredsError('');
+    setCredsSuccess('');
+    if (credsForm.newPassword !== credsForm.confirmPassword) {
+      setCredsError('New passwords do not match.');
+      return;
+    }
+    setCredsLoading(true);
+    try {
+      const res = await fetch(`${API}/admin/change-credentials`, {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify({
+          currentPassword: credsForm.currentPassword,
+          newEmail: credsForm.newEmail,
+          newPassword: credsForm.newPassword,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        // Update stored token and email
+        localStorage.setItem('adminToken', data.token);
+        localStorage.setItem('adminEmail', credsForm.newEmail);
+        setCredsSuccess('✅ Credentials updated successfully! Your new login details are now active.');
+        setCredsForm({ currentPassword: '', newEmail: '', newPassword: '', confirmPassword: '' });
+        logActivity('Admin credentials changed securely', 'success');
+        showToast('🔐 Admin credentials updated!');
+      } else {
+        setCredsError(data.message || 'Failed to update credentials.');
+      }
+    } catch {
+      setCredsError('Connection error. Please try again.');
+    }
+    setCredsLoading(false);
+  };
+
   /* ── Search handler ── */
   const handleSearch = (e) => {
     e.preventDefault();
@@ -476,6 +522,10 @@ export default function AdminDashboard() {
 
   return (
     <div className="ad-root">
+      <SEO 
+        title="Admin Dashboard"
+        description="Secure admin portal for managing pediatric appointments."
+      />
       {/* ── Sidebar ── */}
       <aside className={`ad-sidebar ${sidebarOpen ? 'open' : 'collapsed'}`}>
         <div className="ad-sidebar-header">
@@ -517,6 +567,7 @@ export default function AdminDashboard() {
           {[
             { key: 'dashboard', label: 'Dashboard', icon: <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />, fill: true },
             { key: 'appointments', label: 'Appointments', icon: <><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></>, badge: stats?.pending > 0 ? stats.pending : null },
+            { key: 'settings', label: 'Settings', icon: <><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" /></> },
           ].map(({ key, label, icon, fill, badge }) => (
             <button
               key={key}
@@ -1287,6 +1338,184 @@ export default function AdminDashboard() {
             )}
           </div>
         )}
+        {/* ════ SETTINGS TAB ════ */}
+        {tab === 'settings' && (
+          <div className="ad-page">
+            <div className="ad-page-header">
+              <div>
+                <h1>Settings</h1>
+                <p>Manage your admin account and security credentials</p>
+              </div>
+            </div>
+
+            <div className="ad-settings-grid">
+              {/* Change Credentials Card */}
+              <div className="ad-settings-card">
+                <div className="ad-settings-card-header">
+                  <div className="ad-settings-card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2>Change Admin Credentials</h2>
+                    <p>Update your admin email and password securely</p>
+                  </div>
+                </div>
+
+                <form className="ad-creds-form" onSubmit={handleChangeCredentials}>
+                  {/* Current Password */}
+                  <div className="ad-creds-field">
+                    <label htmlFor="creds-current-pass">Current Password</label>
+                    <div className="ad-creds-input-wrap">
+                      <input
+                        id="creds-current-pass"
+                        type={showCredsPass.current ? 'text' : 'password'}
+                        placeholder="Enter your current password"
+                        value={credsForm.currentPassword}
+                        onChange={e => { setCredsForm(p => ({ ...p, currentPassword: e.target.value })); setCredsError(''); setCredsSuccess(''); }}
+                        required
+                        autoComplete="current-password"
+                      />
+                      <button type="button" className="ad-creds-eye" onClick={() => setShowCredsPass(p => ({ ...p, current: !p.current }))}>
+                        {showCredsPass.current
+                          ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                          : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        }
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="ad-creds-divider"><span>New Credentials</span></div>
+
+                  {/* New Email */}
+                  <div className="ad-creds-field">
+                    <label htmlFor="creds-new-email">New Admin Email</label>
+                    <div className="ad-creds-input-wrap">
+                      <input
+                        id="creds-new-email"
+                        type="email"
+                        placeholder="Enter new email address"
+                        value={credsForm.newEmail}
+                        onChange={e => { setCredsForm(p => ({ ...p, newEmail: e.target.value })); setCredsError(''); setCredsSuccess(''); }}
+                        required
+                        autoComplete="email"
+                      />
+                    </div>
+                  </div>
+
+                  {/* New Password */}
+                  <div className="ad-creds-field">
+                    <label htmlFor="creds-new-pass">New Password</label>
+                    <div className="ad-creds-input-wrap">
+                      <input
+                        id="creds-new-pass"
+                        type={showCredsPass.newp ? 'text' : 'password'}
+                        placeholder="Min 8 characters"
+                        value={credsForm.newPassword}
+                        onChange={e => { setCredsForm(p => ({ ...p, newPassword: e.target.value })); setCredsError(''); setCredsSuccess(''); }}
+                        required
+                        autoComplete="new-password"
+                      />
+                      <button type="button" className="ad-creds-eye" onClick={() => setShowCredsPass(p => ({ ...p, newp: !p.newp }))}>
+                        {showCredsPass.newp
+                          ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                          : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        }
+                      </button>
+                    </div>
+                    {/* Password strength indicator */}
+                    {credsForm.newPassword && (
+                      <div className="ad-pass-strength">
+                        {[1,2,3,4].map(lvl => {
+                          const strength = [/[a-z]/, /[A-Z]/, /[0-9]/, /[^a-zA-Z0-9]/].filter(r => r.test(credsForm.newPassword)).length;
+                          return <div key={lvl} className={`ad-pass-bar ${strength >= lvl ? (strength <= 1 ? 'weak' : strength === 2 ? 'fair' : strength === 3 ? 'good' : 'strong') : ''}`} />;
+                        })}
+                        <span>{(() => { const s = [/[a-z]/, /[A-Z]/, /[0-9]/, /[^a-zA-Z0-9]/].filter(r => r.test(credsForm.newPassword)).length; return ['', 'Weak', 'Fair', 'Good', 'Strong'][s]; })()}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Confirm Password */}
+                  <div className="ad-creds-field">
+                    <label htmlFor="creds-confirm-pass">Confirm New Password</label>
+                    <div className="ad-creds-input-wrap">
+                      <input
+                        id="creds-confirm-pass"
+                        type={showCredsPass.confirm ? 'text' : 'password'}
+                        placeholder="Re-enter new password"
+                        value={credsForm.confirmPassword}
+                        onChange={e => { setCredsForm(p => ({ ...p, confirmPassword: e.target.value })); setCredsError(''); setCredsSuccess(''); }}
+                        required
+                        autoComplete="new-password"
+                      />
+                      <button type="button" className="ad-creds-eye" onClick={() => setShowCredsPass(p => ({ ...p, confirm: !p.confirm }))}>
+                        {showCredsPass.confirm
+                          ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                          : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        }
+                      </button>
+                    </div>
+                    {credsForm.confirmPassword && credsForm.newPassword !== credsForm.confirmPassword && (
+                      <p className="ad-creds-mismatch">⚠️ Passwords do not match</p>
+                    )}
+                  </div>
+
+                  {/* Feedback */}
+                  {credsError && (
+                    <div className="ad-creds-error">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                      {credsError}
+                    </div>
+                  )}
+                  {credsSuccess && (
+                    <div className="ad-creds-success">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                      {credsSuccess}
+                    </div>
+                  )}
+
+                  <button type="submit" className="ad-creds-submit" disabled={credsLoading}>
+                    {credsLoading
+                      ? <><span className="ad-spinner" /> Updating.....</>
+                      : <><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0110 0v4" /></svg> Update Credentials</>
+                    }
+                  </button>
+                </form>
+              </div>
+
+              {/* Security Info Card */}
+              <div className="ad-settings-info-card">
+                <div className="ad-settings-info-header">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                  <h3>Security Guidelines</h3>
+                </div>
+                <ul className="ad-security-tips">
+                  <li><span className="tip-dot green" />Use at least 12 characters for your password</li>
+                  <li><span className="tip-dot green" />Mix uppercase, lowercase, numbers &amp; symbols</li>
+                  <li><span className="tip-dot amber" />Never share your admin credentials with anyone</li>
+                  <li><span className="tip-dot amber" />Change your password every 3–6 months</li>
+                  <li><span className="tip-dot red" />Do not use the same password for other services</li>
+                  <li><span className="tip-dot red" />Logout when done using the admin panel</li>
+                </ul>
+                <div className="ad-settings-session-info">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                  </svg>
+                  <div>
+                    <p className="session-label">Current Session</p>
+                    <p className="session-email">{adminEmail}</p>
+                    <p className="session-note">Session expires in 8 hours</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
       </main>
 
       {/* ════ EDIT MODAL ════ */}

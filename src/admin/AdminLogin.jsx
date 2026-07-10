@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SEO from '../components/SEO';
 import './AdminLogin.css';
 
 export default function AdminLogin() {
@@ -42,6 +43,10 @@ export default function AdminLogin() {
 
   return (
     <div className="al-root">
+      <SEO 
+        title="Admin Login"
+        description="Login to the secure administrator portal."
+      />
       {/* Animated background orbs */}
       <div className="al-bg">
         <div className="al-orb al-orb1" />
