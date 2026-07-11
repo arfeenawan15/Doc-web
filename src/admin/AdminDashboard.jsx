@@ -542,7 +542,7 @@ export default function AdminDashboard() {
               </div>
             )}
           </div>
-          <button className="ad-collapse-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          <button className="ad-collapse-btn" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Toggle sidebar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               {sidebarOpen
                 ? <polyline points="15 18 9 12 15 6" />
@@ -574,6 +574,7 @@ export default function AdminDashboard() {
               className={`ad-nav-item ${tab === key ? 'active' : ''}`}
               onClick={() => setTab(key)}
               title={!sidebarOpen ? label : ''}
+              aria-label={label}
             >
               <div className="ad-nav-icon-wrap">
                 <svg viewBox="0 0 24 24" fill={fill && tab === key ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
@@ -598,7 +599,7 @@ export default function AdminDashboard() {
               </div>
             )}
           </div>
-          <button className="ad-logout-btn" onClick={handleLogout} title="Logout">
+          <button className="ad-logout-btn" onClick={handleLogout} title="Logout" aria-label="Logout">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
               <polyline points="16 17 21 12 16 7" />
@@ -627,7 +628,7 @@ export default function AdminDashboard() {
                 <h1>Dashboard</h1>
                 <p>Welcome back, Administrator</p>
               </div>
-              <button className="ad-refresh-btn" onClick={() => { fetchStats(); }}>
+              <button className="ad-refresh-btn" onClick={() => { fetchStats(); }} aria-label="Refresh stats">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <polyline points="23 4 23 10 17 10" />
                   <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" />
@@ -1080,6 +1081,7 @@ export default function AdminDashboard() {
                                   <button
                                     className="ad-act-btn ad-act-confirm"
                                     title="Confirm Appointment"
+                                    aria-label="Confirm Appointment"
                                     onClick={() => confirmAppointment(apt._id)}
                                   >
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -1091,6 +1093,7 @@ export default function AdminDashboard() {
                                   <button
                                     className="ad-act-btn ad-act-cancel"
                                     title="Cancel Appointment"
+                                    aria-label="Cancel Appointment"
                                     onClick={() => cancelAppointment(apt._id)}
                                   >
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -1101,6 +1104,7 @@ export default function AdminDashboard() {
                                 <button
                                   className="ad-act-btn ad-act-edit"
                                   title="Edit Fields"
+                                  aria-label="Edit Appointment"
                                   onClick={() => setEditModal({ ...apt })}
                                 >
                                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -1111,6 +1115,7 @@ export default function AdminDashboard() {
                                 <button
                                   className="ad-act-btn ad-act-delete"
                                   title="Remove Permanent"
+                                  aria-label="Delete Appointment"
                                   onClick={() => setDeleteConfirm(apt._id)}
                                 >
                                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -1256,6 +1261,7 @@ export default function AdminDashboard() {
                                           Clinical Notes & Treatment Plan
                                         </h3>
                                         <textarea
+                                          aria-label="Clinical notes"
                                           className="clinical-notes-textarea"
                                           placeholder="Type clinical diagnosis, prescriptions, or post-operative advice..."
                                           rows={4}
@@ -1381,7 +1387,7 @@ export default function AdminDashboard() {
                         required
                         autoComplete="current-password"
                       />
-                      <button type="button" className="ad-creds-eye" onClick={() => setShowCredsPass(p => ({ ...p, current: !p.current }))}>
+                      <button type="button" className="ad-creds-eye" aria-label="Toggle password visibility" onClick={() => setShowCredsPass(p => ({ ...p, current: !p.current }))}>
                         {showCredsPass.current
                           ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
                           : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -1421,7 +1427,7 @@ export default function AdminDashboard() {
                         required
                         autoComplete="new-password"
                       />
-                      <button type="button" className="ad-creds-eye" onClick={() => setShowCredsPass(p => ({ ...p, newp: !p.newp }))}>
+                      <button type="button" className="ad-creds-eye" aria-label="Toggle password visibility" onClick={() => setShowCredsPass(p => ({ ...p, newp: !p.newp }))}>
                         {showCredsPass.newp
                           ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
                           : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -1453,7 +1459,7 @@ export default function AdminDashboard() {
                         required
                         autoComplete="new-password"
                       />
-                      <button type="button" className="ad-creds-eye" onClick={() => setShowCredsPass(p => ({ ...p, confirm: !p.confirm }))}>
+                      <button type="button" className="ad-creds-eye" aria-label="Toggle password visibility" onClick={() => setShowCredsPass(p => ({ ...p, confirm: !p.confirm }))}>
                         {showCredsPass.confirm
                           ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
                           : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -1527,7 +1533,7 @@ export default function AdminDashboard() {
           <div className="ad-modal" onClick={e => e.stopPropagation()}>
             <div className="ad-modal-header">
               <h2>Edit Appointment</h2>
-              <button className="ad-modal-close" onClick={() => setEditModal(null)}>✕</button>
+              <button className="ad-modal-close" onClick={() => setEditModal(null)} aria-label="Close edit modal">✕</button>
             </div>
             <div className="ad-modal-body">
               {[
@@ -1542,8 +1548,9 @@ export default function AdminDashboard() {
                 { field: 'service', label: 'Service', type: 'text' },
               ].map(({ field, label, type }) => (
                 <div className="ad-modal-field" key={field}>
-                  <label>{label}</label>
+                  <label htmlFor={`edit-${field}`}>{label}</label>
                   <input
+                    id={`edit-${field}`}
                     type={type}
                     value={editModal[field] ?? ''}
                     onChange={e => setEditModal(prev => ({ ...prev, [field]: e.target.value }))}
@@ -1551,8 +1558,9 @@ export default function AdminDashboard() {
                 </div>
               ))}
               <div className="ad-modal-field">
-                <label>Status</label>
+                <label htmlFor="edit-status">Status</label>
                 <select
+                  id="edit-status"
                   value={editModal.status}
                   onChange={e => setEditModal(prev => ({ ...prev, status: e.target.value }))}
                 >
@@ -1562,8 +1570,9 @@ export default function AdminDashboard() {
                 </select>
               </div>
               <div className="ad-modal-field">
-                <label>Concern / Notes</label>
+                <label htmlFor="edit-concern">Concern / Notes</label>
                 <textarea
+                  id="edit-concern"
                   rows={3}
                   value={editModal.concern ?? ''}
                   onChange={e => setEditModal(prev => ({ ...prev, concern: e.target.value }))}

@@ -109,7 +109,7 @@ export default function AdminLogin() {
                 required
                 autoComplete="current-password"
               />
-              <button type="button" className="al-toggle-pass" onClick={() => setShowPass(!showPass)}>
+              <button type="button" className="al-toggle-pass" onClick={() => setShowPass(!showPass)} aria-label="Toggle password visibility">
                 {showPass ? (
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>

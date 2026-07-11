@@ -36,7 +36,7 @@ export default function Footer() {
 
         {/* Quick Links */}
         <div className="footer-links">
-          <h4>Quick Links</h4>
+          <h2>Quick Links</h2>
           {NAV_LINKS.map(({ label, href }) => (
             <a key={href} href={href} onClick={e => scrollTo(e, href)}>
               {label}
@@ -49,7 +49,7 @@ export default function Footer() {
 
         {/* Contact */}
         <div className="footer-contact">
-          <h4>Contact</h4>
+          <h2>Contact</h2>
           <p><i className="fas fa-phone-alt" /> {DOCTOR.phone1}</p>
           <p><i className="fas fa-phone-alt" /> {DOCTOR.phone2}</p>
           <p>

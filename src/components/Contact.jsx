@@ -63,7 +63,7 @@ function ContactCard({ card, index }) {
       onMouseLeave={() => setHovered(false)}
     >
       <i className={card.icon} />
-      <h4>{card.title}</h4>
+      <h3>{card.title}</h3>
       <p>{card.lines.map((l, i) => <span key={i}>{l}{i < card.lines.length - 1 && <br />}</span>)}</p>
       <span className="contact-cta">{card.label}</span>
     </a>
