@@ -181,8 +181,8 @@ export default function AppointmentForm({ onSuccess }) {
 
       {/* Hospital */}
       <div className="form-group full">
-        <label>Select Hospital *</label>
-        <select value={form.hospital} onChange={e => set('hospital', e.target.value)}>
+        <label htmlFor="hospital">Select Hospital *</label>
+        <select id="hospital" value={form.hospital} onChange={e => set('hospital', e.target.value)}>
           <option value="">Choose hospital</option>
           <option value="almanzoor">Al Manzoor Hospital – Mian Channu</option>
           <option value="sughran">Sughran Wazir Medical Complex – Multan</option>
@@ -193,8 +193,9 @@ export default function AppointmentForm({ onSuccess }) {
       {/* Date + Time */}
       <div className="form-row">
         <div className="form-group">
-          <label>Date *</label>
+          <label htmlFor="date">Date *</label>
           <input
+            id="date"
             type="date"
             value={form.date}
             min={localStr(new Date())}
@@ -206,8 +207,9 @@ export default function AppointmentForm({ onSuccess }) {
         </div>
 
         <div className="form-group">
-          <label>Time Slot *</label>
+          <label htmlFor="time">Time Slot *</label>
           <select
+            id="time"
             value={form.time}
             onChange={e => set('time', e.target.value)}
             disabled={!form.hospital}
@@ -224,8 +226,9 @@ export default function AppointmentForm({ onSuccess }) {
       {/* Patient + Guardian Name */}
       <div className="form-row">
         <div className="form-group">
-          <label>Patient Name *</label>
+          <label htmlFor="patientName">Patient Name *</label>
           <input
+            id="patientName"
             placeholder="Full name of patient"
             value={form.patientName}
             onChange={e => set('patientName', e.target.value)}
@@ -234,8 +237,9 @@ export default function AppointmentForm({ onSuccess }) {
         </div>
 
         <div className="form-group">
-          <label>Guardian Name *</label>
+          <label htmlFor="guardianName">Guardian Name *</label>
           <input
+            id="guardianName"
             placeholder="Father / Mother name"
             value={form.guardianName}
             onChange={e => set('guardianName', e.target.value)}
@@ -247,8 +251,9 @@ export default function AppointmentForm({ onSuccess }) {
       {/* Phone + Age */}
       <div className="form-row">
         <div className="form-group">
-          <label>Phone *</label>
+          <label htmlFor="phone">Phone *</label>
           <input
+            id="phone"
             placeholder="+92 300 0000000"
             value={form.phone}
             onChange={e => set('phone', e.target.value)}
@@ -257,8 +262,9 @@ export default function AppointmentForm({ onSuccess }) {
         </div>
 
         <div className="form-group">
-          <label>Patient Age * (0–18)</label>
+          <label htmlFor="age">Patient Age * (0–18)</label>
           <input
+            id="age"
             type="number"
             placeholder="e.g. 5"
             min={0} max={18}
@@ -271,8 +277,9 @@ export default function AppointmentForm({ onSuccess }) {
 
       {/* Email */}
       <div className="form-group full">
-        <label>Guardian Email *</label>
+        <label htmlFor="guardianEmail">Guardian Email *</label>
         <input
+          id="guardianEmail"
           type="email"
           placeholder="example@email.com"
           value={form.guardianEmail}
@@ -283,8 +290,8 @@ export default function AppointmentForm({ onSuccess }) {
 
       {/* Service */}
       <div className="form-group full">
-        <label>Service / Condition</label>
-        <select value={form.service} onChange={e => set('service', e.target.value)}>
+        <label htmlFor="service">Service / Condition</label>
+        <select id="service" value={form.service} onChange={e => set('service', e.target.value)}>
           <option value="">Select a service (optional)</option>
           {SERVICES_FORM.map(s => (
             <option key={s} value={s}>{s}</option>
@@ -294,8 +301,9 @@ export default function AppointmentForm({ onSuccess }) {
 
       {/* Concern */}
       <div className="form-group full">
-        <label>Additional Concern</label>
+        <label htmlFor="concern">Additional Concern</label>
         <textarea
+          id="concern"
           rows={4}
           placeholder="Describe the patient's condition or any specific concern..."
           value={form.concern}

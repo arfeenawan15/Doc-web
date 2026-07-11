@@ -78,10 +78,11 @@ export default function UserSignup() {
 
             <form className="auth-form-styled" onSubmit={handleSubmit}>
               <div className="input-group-styled">
-                <label>Full Name</label>
+                <label htmlFor="signup-name">Full Name</label>
                 <div className="input-with-icon">
                   <i className="fas fa-user icon-left"></i>
                   <input 
+                    id="signup-name"
                     type="text" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -90,10 +91,11 @@ export default function UserSignup() {
               </div>
 
               <div className="input-group-styled">
-                <label>Email Address</label>
+                <label htmlFor="signup-email">Email Address</label>
                 <div className="input-with-icon">
                   <i className="fas fa-envelope icon-left"></i>
                   <input 
+                    id="signup-email"
                     type="email" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -102,10 +104,11 @@ export default function UserSignup() {
               </div>
               
               <div className="input-group-styled">
-                <label>Password</label>
+                <label htmlFor="signup-password">Password</label>
                 <div className="input-with-icon">
                   <i className="fas fa-lock icon-left"></i>
                   <input 
+                    id="signup-password"
                     type="password" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

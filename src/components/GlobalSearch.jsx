@@ -138,6 +138,7 @@ export default function GlobalSearch({ isOpen, onClose }) {
           <i className="fas fa-search search-icon-input"></i>
           <input
             ref={inputRef}
+            aria-label="Global search"
             type="text"
             placeholder="Search services, locations, or actions..."
             value={query}

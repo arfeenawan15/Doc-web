@@ -77,10 +77,11 @@ export default function UserLogin() {
 
             <form className="auth-form-styled" onSubmit={handleSubmit}>
               <div className="input-group-styled">
-                <label>Email Address</label>
+                <label htmlFor="login-email">Email Address</label>
                 <div className="input-with-icon">
                   <i className="fas fa-envelope icon-left"></i>
                   <input 
+                    id="login-email"
                     type="email" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -89,10 +90,11 @@ export default function UserLogin() {
               </div>
               
               <div className="input-group-styled">
-                <label>Password</label>
+                <label htmlFor="login-password">Password</label>
                 <div className="input-with-icon">
                   <i className="fas fa-lock icon-left"></i>
                   <input 
+                    id="login-password"
                     type="password" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

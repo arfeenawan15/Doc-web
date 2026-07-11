@@ -949,6 +949,7 @@ export default function AdminDashboard() {
                     <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
                   </svg>
                   <input
+                    aria-label="Search appointments"
                     type="text"
                     placeholder="Search patient name, guardian, phone, hospital location..."
                     value={search}
@@ -983,6 +984,7 @@ export default function AdminDashboard() {
                       <th style={{ width: '40px' }}></th>
                       <th style={{ width: '40px' }} onClick={e => e.stopPropagation()}>
                         <input
+                          aria-label="Select all appointments"
                           type="checkbox"
                           className="ad-header-checkbox"
                           checked={selectedIds.length === appointments.length && appointments.length > 0}
@@ -1034,6 +1036,7 @@ export default function AdminDashboard() {
                             </td>
                             <td className="td-checkbox-cell" onClick={e => e.stopPropagation()}>
                               <input 
+                                aria-label={`Select appointment for ${apt.patientName}`}
                                 type="checkbox"
                                 className="ad-row-checkbox"
                                 checked={isSelected}

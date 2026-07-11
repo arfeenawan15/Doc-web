@@ -110,7 +110,7 @@ export default function Hero() {
           <div className="hero-ring" />
           <div className="hero-ring ring2" />
           <div className="hero-avatar">
-            <img src="/assets/pic1.png" alt="Dr. Waqas Ahmad Awan" />
+            <img src="/assets/pic1.png" alt="Dr. Waqas Ahmad Awan" fetchpriority="high" loading="eager" />
           </div>
         </div>
       </div>
