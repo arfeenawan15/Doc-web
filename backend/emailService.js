@@ -1,13 +1,7 @@
-import nodemailer from 'nodemailer';
-
-/* ─── Gmail SMTP Transporter ─── */
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.ADMIN_EMAIL,
-    pass: process.env.EMAIL_APP_PASSWORD, // Gmail App Password (16-char)
-  },
-});
+/**
+ * We are using the Brevo (Sendinblue) HTTP API instead of nodemailer.
+ * This bypasses free-tier hosting SMTP port blocks (like Render) since it uses standard HTTPS.
+ */
 
 /**
  * Generate plain-text version of the email (required for anti-spam)
@@ -248,28 +242,38 @@ export async function sendAppointmentEmail(appointment, newStatus) {
   </html>
   `;
 
-  const mailOptions = {
-    from: {
+  const mailPayload = {
+    sender: {
       name: 'Dr. Waqas Ahmad Awan',
-      address: process.env.ADMIN_EMAIL,
+      email: process.env.ADMIN_EMAIL, // Must be verified in Brevo
     },
-    replyTo: process.env.ADMIN_EMAIL,
-    to: appointment.guardianEmail,
-    subject,
-    text: generatePlainText(appointment, newStatus),  // Plain-text fallback (anti-spam)
-    html: htmlBody,
-    headers: {
-      'X-Priority': '1',
-      'X-Mailer': 'DrWaqasClinic-Notifier',
-      'Precedence': 'bulk',
-      'List-Unsubscribe': `<mailto:${process.env.ADMIN_EMAIL}?subject=Unsubscribe>`,
-    },
+    to: [
+      { email: appointment.guardianEmail }
+    ],
+    subject: subject,
+    htmlContent: htmlBody,
+    textContent: generatePlainText(appointment, newStatus)
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`Email sent to ${appointment.guardianEmail}: ${info.messageId}`);
-    return { success: true, messageId: info.messageId };
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': process.env.BREVO_API_KEY,
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(mailPayload)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to send email via Brevo');
+    }
+
+    console.log(`Email sent to ${appointment.guardianEmail}: ${data.messageId}`);
+    return { success: true, messageId: data.messageId };
   } catch (error) {
     console.error(`Email failed to ${appointment.guardianEmail}:`, error.message);
     return { success: false, error: error.message };
