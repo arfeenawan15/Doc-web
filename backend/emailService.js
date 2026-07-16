@@ -1,11 +1,3 @@
-/**
- * We are using the Brevo (Sendinblue) HTTP API instead of nodemailer.
- * This bypasses free-tier hosting SMTP port blocks (like Render) since it uses standard HTTPS.
- */
-
-/**
- * Generate plain-text version of the email (required for anti-spam)
- */
 function generatePlainText(appointment, newStatus) {
   const isConfirmed = newStatus === 'confirmed';
   const statusText = isConfirmed ? 'Confirmed' : 'Cancelled';
