@@ -251,6 +251,51 @@ app.post('/appointments', async (req, res) => {
   }
 });
 
+/* ─── GET /appointments/me — Fetch User's Own Appointments (Protected) ─── */
+app.get('/appointments/me', authMiddleware, async (req, res) => {
+  try {
+    const userEmail = req.admin.email;
+    if (!userEmail) return res.status(403).json({ success: false, message: 'Invalid token payload.' });
+    const appointments = await Appointment.find({ guardianEmail: userEmail }).sort({ createdAt: -1 });
+    res.json({ success: true, count: appointments.length, data: appointments });
+  } catch (err) {
+    console.error('❌ Fetch Error:', err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/* ─── PUT /appointments/me/:id/cancel — User Cancel Own Appointment (Protected) ─── */
+app.put('/appointments/me/:id/cancel', authMiddleware, async (req, res) => {
+  try {
+    const userEmail = req.admin.email;
+    if (!userEmail) return res.status(403).json({ success: false, message: 'Invalid token payload.' });
+    
+    const appointment = await Appointment.findById(req.params.id);
+    if (!appointment) return res.status(404).json({ success: false, message: 'Appointment not found.' });
+    
+    if (appointment.guardianEmail !== userEmail) {
+      return res.status(403).json({ success: false, message: 'Unauthorized. You can only cancel your own appointments.' });
+    }
+    
+    if (appointment.status === 'cancelled') {
+      return res.status(400).json({ success: false, message: 'Appointment is already cancelled.' });
+    }
+    
+    appointment.status = 'cancelled';
+    const updated = await appointment.save();
+    
+    // Auto-send cancellation email
+    let emailResult = await sendAppointmentEmail(updated, 'cancelled');
+    updated.emailStatus = emailResult.success ? 'sent' : 'failed';
+    updated.lastEmailError = emailResult.success ? '' : (emailResult.error || 'Unknown error');
+    await updated.save();
+
+    res.json({ success: true, message: 'Appointment cancelled.', data: updated, emailSent: emailResult.success });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 /* ─── GET /appointments — Fetch All Appointments (Protected) ─── */
 app.get('/appointments', authMiddleware, async (req, res) => {
   try {

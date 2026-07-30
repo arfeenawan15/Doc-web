@@ -18,6 +18,8 @@ import ProtectedRoute from './admin/ProtectedRoute';
 
 import UserLogin from './components/UserLogin';
 import UserSignup from './components/UserSignup';
+import UserProtectedRoute from './components/UserProtectedRoute';
+import PatientDashboard from './components/PatientDashboard';
 import { AuthProvider } from './context/AuthContext';
 
 function PublicSite() {
@@ -56,9 +58,14 @@ export default function App() {
         {/* ── Public website ── */}
         <Route path="/" element={<PublicSite />} />
 
-        {/* ── User Auth ── */}
+        {/* ── User Auth & Portal ── */}
         <Route path="/login" element={<UserLogin />} />
         <Route path="/signup" element={<UserSignup />} />
+        <Route path="/patient-dashboard" element={
+          <UserProtectedRoute>
+            <PatientDashboard />
+          </UserProtectedRoute>
+        } />
 
         {/* ── Admin portal ── */}
         <Route path="/admin" element={<AdminLogin />} />

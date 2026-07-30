@@ -64,7 +64,9 @@ export default function Navbar() {
           {user ? (
             <>
               <li>
-                <span className="nav-user-name">Hi, {user.name.split(' ')[0]}</span>
+                <Link to="/patient-dashboard" className="nav-user-name" onClick={() => setOpen(false)}>
+                  Hi, {user.name.split(' ')[0]}
+                </Link>
               </li>
               <li>
                 <button onClick={() => { logout(); setOpen(false); }} className="nav-btn nav-logout">
