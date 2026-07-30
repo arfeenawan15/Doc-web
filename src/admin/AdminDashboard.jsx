@@ -525,6 +525,7 @@ export default function AdminDashboard() {
       <SEO 
         title="Admin Dashboard"
         description="Secure admin portal for managing pediatric appointments."
+        noIndex
       />
       {/* ── Sidebar ── */}
       <aside className={`ad-sidebar ${sidebarOpen ? 'open' : 'collapsed'}`}>

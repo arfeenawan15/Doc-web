@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-export default function SEO({ title, description, keywords, url }) {
+export default function SEO({ title, description, keywords, url, noIndex }) {
   const siteName = "Dr. Waqas Ahmad Awan | Pediatric Surgeon";
   const fullTitle = title === siteName ? title : `${title} | Dr. Waqas Ahmad Awan`;
   
@@ -11,6 +11,7 @@ export default function SEO({ title, description, keywords, url }) {
       <meta name="title" content={fullTitle} />
       {description && <meta name="description" content={description} />}
       {keywords && <meta name="keywords" content={keywords} />}
+      {noIndex && <meta name="robots" content="noindex, nofollow" />}
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />

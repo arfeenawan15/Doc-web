@@ -46,6 +46,7 @@ export default function AdminLogin() {
       <SEO 
         title="Admin Login"
         description="Login to the secure administrator portal."
+        noIndex
       />
       {/* Animated background orbs */}
       <div className="al-bg">

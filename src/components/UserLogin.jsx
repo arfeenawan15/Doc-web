@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import SEO from './SEO';
 import './UserAuth.css';
 
 const API = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000' : 'https://doc-web-prq3.onrender.com');
@@ -52,6 +53,7 @@ export default function UserLogin() {
 
   return (
     <div className="auth-wrapper">
+      <SEO title="Sign In | Dr. Waqas Ahmad Awan" noIndex />
       <div className="auth-split-container">
         
         {/* Left Side: Branding / Graphic */}

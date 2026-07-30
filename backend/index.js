@@ -39,8 +39,12 @@ const JWT_SECRET = process.env.JWT_SECRET;
 /* ─── Middleware ─── */
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow any localhost origin, no origin (Postman), or Vercel deployments
-    if (!origin || /^http:\/\/localhost:\d+$/.test(origin) || origin.includes('vercel.app')) {
+    const allowedDomains = [
+      'https://drwaqasawan.com',
+      'https://www.drwaqasawan.com',
+      'https://drwaqasahmadawan.vercel.app'
+    ];
+    if (!origin || /^http:\/\/localhost:\d+$/.test(origin) || allowedDomains.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));

@@ -163,7 +163,7 @@ export default function AppointmentForm({ onSuccess }) {
       <div className="appointment-success">
         <div className="success-icon">✅</div>
         <h3>Appointment Booked!</h3>
-        <p>Your appointment has been <strong>saved to the database</strong>. We will contact you shortly to confirm.</p>
+        <p>Your appointment request has been <strong>successfully submitted</strong>. We will contact you shortly to confirm.</p>
         <button className="btn-secondary" onClick={() => setSubmitted(false)}>
           Book Another Appointment
         </button>
@@ -314,7 +314,7 @@ export default function AppointmentForm({ onSuccess }) {
       {/* Submit */}
       <button type="submit" className="btn-submit" disabled={loading}>
         {loading ? (
-          <><span className="spinner" /> Saving to Database...</>
+          <><span className="spinner" /> Submitting Request...</>
         ) : (
           '📅 Confirm Appointment'
         )}
