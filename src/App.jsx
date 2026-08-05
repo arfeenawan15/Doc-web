@@ -21,6 +21,28 @@ import UserSignup from './components/UserSignup';
 import UserProtectedRoute from './components/UserProtectedRoute';
 import PatientDashboard from './components/PatientDashboard';
 import { AuthProvider } from './context/AuthContext';
+import { SiteProvider, useSite } from './context/SiteContext';
+
+function AvailabilityBanner() {
+  const { settings, loading } = useSite();
+  if (loading || settings.doctorAvailable) return null;
+  return (
+    <div style={{
+      backgroundColor: '#ef4444',
+      color: 'white',
+      textAlign: 'center',
+      padding: '10px 20px',
+      fontSize: '15px',
+      fontWeight: '600',
+      position: 'sticky',
+      top: 0,
+      zIndex: 1000
+    }}>
+      <i className="fas fa-exclamation-triangle" style={{ marginRight: '8px' }}></i>
+      {settings.availabilityMessage}
+    </div>
+  );
+}
 
 function PublicSite() {
   const [toast, setToast] = useState(null);
@@ -28,6 +50,7 @@ function PublicSite() {
 
   return (
     <>
+      <AvailabilityBanner />
       <Navbar />
       <WhatsAppFloat />
       {toast && (
@@ -53,9 +76,10 @@ function PublicSite() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Routes>
-        {/* ── Public website ── */}
+    <SiteProvider>
+      <AuthProvider>
+        <Routes>
+          {/* ── Public website ── */}
         <Route path="/" element={<PublicSite />} />
 
         {/* ── User Auth & Portal ── */}
@@ -77,7 +101,8 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-      </Routes>
-    </AuthProvider>
+        </Routes>
+      </AuthProvider>
+    </SiteProvider>
   );
 }

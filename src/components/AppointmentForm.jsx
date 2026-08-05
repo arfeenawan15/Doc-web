@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { HOSPITALS, SERVICES_FORM } from '../data';
 import { useAuth } from '../context/AuthContext';
+import { useSite } from '../context/SiteContext';
 import './AppointmentForm.css';
 
 const API = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000' : 'https://doc-web-prq3.onrender.com');
@@ -37,6 +37,8 @@ const EMPTY_FORM = {
 
 export default function AppointmentForm({ onSuccess }) {
   const { user } = useAuth();
+  const { hospitals, services } = useSite();
+  const SERVICES_FORM = services.map(s => s.title).concat(["General Consultation", "Other"]);
   
   const [form, setForm]       = useState({
     ...EMPTY_FORM,
@@ -48,7 +50,6 @@ export default function AppointmentForm({ onSuccess }) {
   const [dateWarn, setDateWarn] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  // If user logs in/out while on page, update form prefill if fields are empty
   useEffect(() => {
     if (user) {
       setForm(f => ({
@@ -61,20 +62,19 @@ export default function AppointmentForm({ onSuccess }) {
 
   const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
 
-  /* auto-fill next valid date when hospital changes */
   useEffect(() => {
-    if (!form.hospital) return;
-    const h = HOSPITALS[form.hospital];
+    if (!form.hospital || !hospitals?.[form.hospital]) return;
+    const h = hospitals[form.hospital];
     const nxt = nextValid(h.allowedDays);
     set('date', nxt ? localStr(nxt) : '');
     set('time', '');
     setDateWarn('');
-  }, [form.hospital]);
+  }, [form.hospital, hospitals]);
 
   const handleDateChange = (val) => {
     set('date', val);
-    if (!form.hospital) return;
-    const h = HOSPITALS[form.hospital];
+    if (!form.hospital || !hospitals) return;
+    const h = hospitals[form.hospital];
     if (val && !isClinicDay(val, h.allowedDays)) {
       setDateWarn(`⚠️ Please pick a ${h.dayNames.join(' / ')} for this hospital.`);
       setTimeout(() => {
@@ -103,13 +103,12 @@ export default function AppointmentForm({ onSuccess }) {
     return Object.keys(e).length === 0;
   };
 
-  /* ── Submit → POST to MongoDB via backend ── */
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
     setLoading(true);
 
-    const h = HOSPITALS[form.hospital];
+    const h = hospitals[form.hospital];
     const payload = {
       hospitalKey:   form.hospital,
       hospital:      h.name,
@@ -142,22 +141,16 @@ export default function AppointmentForm({ onSuccess }) {
         });
         setErrors({});
         onSuccess && onSuccess(payload);
-        /* reset success banner after 6 seconds */
         setTimeout(() => setSubmitted(false), 6000);
       } else {
         setErrors({ general: data.message || 'Submission failed. Try again.' });
       }
-
     } catch {
       setErrors({ general: '❌ An error occurred. Please try again later.' });
     }
-
     setLoading(false);
   };
 
-  const hosp = form.hospital ? HOSPITALS[form.hospital] : null;
-
-  /* ── Success Banner ── */
   if (submitted) {
     return (
       <div className="appointment-success">
@@ -173,24 +166,21 @@ export default function AppointmentForm({ onSuccess }) {
 
   return (
     <form className="appointment-form" onSubmit={handleSubmit} noValidate>
-
-      {/* General Error Banner */}
       {errors.general && (
         <div className="form-error-banner">{errors.general}</div>
       )}
 
-      {/* Hospital */}
       <div className="form-group full">
         <label htmlFor="hospital">Select Hospital *</label>
         <select id="hospital" value={form.hospital} onChange={e => set('hospital', e.target.value)}>
           <option value="">Choose hospital</option>
-          <option value="almanzoor">Al Manzoor Hospital – Mian Channu</option>
-          <option value="sughran">Sughran Wazir Medical Complex – Multan</option>
+          {hospitals && Object.values(hospitals).map(h => (
+            <option key={h.key} value={h.key}>{h.name}</option>
+          ))}
         </select>
         {errors.hospital && <span className="field-error">{errors.hospital}</span>}
       </div>
 
-      {/* Date + Time */}
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="date">Date *</label>
@@ -215,7 +205,7 @@ export default function AppointmentForm({ onSuccess }) {
             disabled={!form.hospital}
           >
             <option value="">Select time</option>
-            {hosp?.slots?.map(slot => (
+            {hospitals?.[form.hospital]?.slots?.map(slot => (
               <option key={slot} value={slot}>{slot}</option>
             ))}
           </select>

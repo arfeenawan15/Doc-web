@@ -1,5 +1,5 @@
-import { HOSPITALS } from '../data';
 import { useInView } from '../hooks';
+import { useSite } from '../context/SiteContext';
 import './Locations.css';
 
 function LocationCard({ hosp }) {
@@ -63,6 +63,8 @@ function LocationCard({ hosp }) {
 }
 
 export default function Locations() {
+  const { hospitals, loading } = useSite();
+
   return (
     <section className="locations-section" id="locations">
       <div className="section-container" style={{ position: 'relative', zIndex: 2 }}>
@@ -74,11 +76,15 @@ export default function Locations() {
           </p>
         </div>
 
-        <div className="locations-grid">
-          {Object.values(HOSPITALS).map(hosp => (
-            <LocationCard key={hosp.key} hosp={hosp} />
-          ))}
-        </div>
+        {loading ? (
+          <div>Loading locations...</div>
+        ) : (
+          <div className="locations-grid">
+            {Object.values(hospitals).map(hosp => (
+              <LocationCard key={hosp.key} hosp={hosp} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

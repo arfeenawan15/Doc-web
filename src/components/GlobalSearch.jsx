@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SERVICES, HOSPITALS, NAV_LINKS } from '../data';
+import { NAV_LINKS } from '../data';
+import { useSite } from '../context/SiteContext';
 import './GlobalSearch.css';
 
 export default function GlobalSearch({ isOpen, onClose }) {
@@ -9,6 +10,7 @@ export default function GlobalSearch({ isOpen, onClose }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef(null);
   const navigate = useNavigate();
+  const { services, hospitals, loading } = useSite();
 
   // Focus input when modal opens
   useEffect(() => {
@@ -25,7 +27,7 @@ export default function GlobalSearch({ isOpen, onClose }) {
 
   // Handle Search Logic
   useEffect(() => {
-    if (!query.trim()) {
+    if (!query.trim() || loading) {
       setResults([]);
       return;
     }
@@ -34,7 +36,7 @@ export default function GlobalSearch({ isOpen, onClose }) {
     const newResults = [];
 
     // 1. Search Services
-    SERVICES.forEach(service => {
+    services.forEach(service => {
       if (service.title.toLowerCase().includes(lowerQuery) || service.desc.toLowerCase().includes(lowerQuery)) {
         newResults.push({
           id: `service-${service.title}`,
@@ -48,7 +50,7 @@ export default function GlobalSearch({ isOpen, onClose }) {
     });
 
     // 2. Search Hospitals
-    Object.values(HOSPITALS).forEach(hosp => {
+    Object.values(hospitals).forEach(hosp => {
       if (hosp.name.toLowerCase().includes(lowerQuery) || hosp.address.toLowerCase().includes(lowerQuery)) {
         newResults.push({
           id: `hosp-${hosp.key}`,

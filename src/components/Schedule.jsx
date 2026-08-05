@@ -1,12 +1,15 @@
-import { SCHEDULE, HOSPITALS } from '../data';
 import { useInView } from '../hooks';
+import { useSite } from '../context/SiteContext';
 import './Schedule.css';
 
 function ScheduleCard({ hospKey }) {
-  const hospital = HOSPITALS[hospKey];
-  const rows     = SCHEDULE[hospKey];
-  const today    = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+  const { schedule, hospitals, loading } = useSite();
+  const hospital = hospitals[hospKey];
+  const rows = schedule[hospKey];
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
   const [ref, inView] = useInView();
+
+  if (loading || !hospital || !rows) return null;
 
   return (
     <div ref={ref} className={`schedule-hosp-card reveal ${inView ? 'visible' : ''}`}>
@@ -52,6 +55,9 @@ function ScheduleCard({ hospKey }) {
 }
 
 export default function Schedule() {
+  const [ref, inView] = useInView({ threshold: 0.1 });
+  const { hospitals, loading } = useSite();
+
   return (
     <section className="schedule-section" id="schedule">
       <div className="section-container" style={{ position: 'relative', zIndex: 2 }}>
@@ -64,8 +70,19 @@ export default function Schedule() {
         </div>
 
         <div className="schedule-hospitals-grid">
-          <ScheduleCard hospKey="almanzoor" />
-          <ScheduleCard hospKey="sughran" />
+          {loading ? (
+            <div style={{ textAlign: 'center', width: '100%' }}>Loading schedule...</div>
+          ) : (
+            Object.keys(hospitals).map((key, i) => (
+              <div 
+                key={key} 
+                className={`schedule-card-wrapper ${inView ? 'animate-up' : ''}`}
+                style={{ animationDelay: `${i * 0.15}s` }}
+              >
+                <ScheduleCard hospKey={key} />
+              </div>
+            ))
+          )}
         </div>
       </div>
     </section>

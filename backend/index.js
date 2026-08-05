@@ -10,6 +10,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import Appointment from './appointment.js';
 import User from './user.js';
+import Settings from './settings.js';
+import { defaultServices, defaultHospitals } from './seedData.js';
 import { sendAppointmentEmail } from './emailService.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -72,11 +74,54 @@ const authMiddleware = (req, res, next) => {
 
 /* ─── MongoDB Connection ─── */
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ MongoDB Connected'))
+  .then(async () => {
+    console.log('✅ MongoDB Connected');
+    // Seed settings if empty
+    try {
+      const count = await Settings.countDocuments();
+      if (count === 0) {
+        console.log('🌱 Seeding default settings...');
+        await Settings.create({
+          services: defaultServices,
+          hospitals: defaultHospitals,
+          doctorAvailable: true,
+          availabilityMessage: "Doctor is currently unavailable."
+        });
+        console.log('✅ Settings seeded successfully.');
+      }
+    } catch (err) {
+      console.error('❌ Error seeding settings:', err.message);
+    }
+  })
   .catch(err => {
     console.error('❌ MongoDB Connection Error:', err.message);
     process.exit(1);
   });
+
+/* ─── Settings API ─── */
+app.get('/settings', async (req, res) => {
+  try {
+    let settings = await Settings.findOne();
+    if (!settings) {
+      settings = await Settings.create({
+        services: defaultServices,
+        hospitals: defaultHospitals
+      });
+    }
+    res.json({ success: true, data: settings });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.put('/settings', authMiddleware, async (req, res) => {
+  try {
+    const updated = await Settings.findOneAndUpdate({}, { $set: req.body }, { new: true, upsert: true });
+    res.json({ success: true, data: updated, message: 'Settings updated successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 /* ─── Health Check ─── */
 app.get('/', (req, res) => {

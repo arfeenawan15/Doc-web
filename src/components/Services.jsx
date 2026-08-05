@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { SERVICES } from '../data';
 import { useInView } from '../hooks';
+import { useSite } from '../context/SiteContext';
 import './Services.css';
 
 function ServiceModal({ service, onClose }) {
@@ -74,6 +74,7 @@ function ServiceCard({ icon, title, desc, image, index, onClick }) {
 
 export default function Services() {
   const [selectedService, setSelectedService] = useState(null);
+  const { services, loading } = useSite();
 
   return (
     <section className="services-section" id="services">
@@ -88,16 +89,20 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="services-grid">
-          {SERVICES.map((service, i) => (
-            <ServiceCard 
-              key={service.title} 
-              {...service} 
-              index={i} 
-              onClick={() => setSelectedService(service)}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '50px' }}>Loading services...</div>
+        ) : (
+          <div className="services-grid">
+            {services.map((service, i) => (
+              <ServiceCard 
+                key={service.title} 
+                {...service} 
+                index={i} 
+                onClick={() => setSelectedService(service)}
+              />
+            ))}
+          </div>
+        )}
       </div>
       
       {/* Detail Modal */}
