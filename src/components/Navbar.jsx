@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { NAV_LINKS } from '../data';
 import { useScrolled, useActiveSection } from '../hooks';
@@ -13,6 +13,27 @@ export default function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { user, logout } = useAuth();
 
+  const tapCountRef = useRef(0);
+  const tapTimerRef = useRef(null);
+
+  const handleLogoClick = (e) => {
+    tapCountRef.current += 1;
+    if (tapTimerRef.current) clearTimeout(tapTimerRef.current);
+
+    if (tapCountRef.current >= 3) {
+      tapCountRef.current = 0;
+      e.preventDefault();
+      window.open('/admin', '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    tapTimerRef.current = setTimeout(() => {
+      tapCountRef.current = 0;
+    }, 1200);
+
+    scrollTo(e, '#home');
+  };
+
   const scrollTo = (e, href) => {
     e.preventDefault();
     setOpen(false);
@@ -25,8 +46,8 @@ export default function Navbar() {
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="navbar">
       <div className="nav-container">
 
-        {/* Logo */}
-        <a href="#home" className="nav-logo" onClick={e => scrollTo(e, '#home')}>
+        {/* Logo (Triple-tap to open Admin on mobile/desktop) */}
+        <a href="#home" className="nav-logo" onClick={handleLogoClick}>
           <span className="logo-icon">
             <img src="/assets/logo.png" alt="Dr. Waqas" className="logo-img" />
           </span>

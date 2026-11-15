@@ -191,3 +191,40 @@
   font-size: 0.75rem;
   color: #475569;
 }
+
+/* ── Mobile Responsiveness ── */
+@media (max-width: 480px) {
+  .al-root {
+    padding: 24px 16px;
+    align-items: center;
+  }
+  .al-card {
+    padding: 32px 20px;
+    border-radius: 20px;
+    max-width: 100%;
+  }
+  .al-logo {
+    gap: 12px;
+    margin-bottom: 26px;
+  }
+  .al-logo-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+  .al-logo-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  .al-logo-text h1 {
+    font-size: 1.05rem;
+  }
+  .al-input-wrap input {
+    padding: 12px 42px 12px 40px;
+    font-size: 14px;
+  }
+  .al-btn {
+    padding: 13px;
+    font-size: 0.9rem;
+  }
+}

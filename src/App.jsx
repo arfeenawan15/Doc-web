@@ -16,6 +16,7 @@ import { Toast, WhatsAppFloat } from './components/Widgets';
 import AdminLogin     from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
 import ProtectedRoute from './admin/ProtectedRoute';
+import ErrorBoundary  from './components/ErrorBoundary';
 
 import UserLogin from './components/UserLogin';
 import UserSignup from './components/UserSignup';
@@ -110,13 +111,19 @@ export default function App() {
           } />
 
           {/* ── Admin portal ── */}
-          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin" element={
+            <ErrorBoundary>
+              <AdminLogin />
+            </ErrorBoundary>
+          } />
           <Route
             path="/admin/dashboard"
             element={
-              <ProtectedRoute>
-                <AdminDashboard />
-              </ProtectedRoute>
+              <ErrorBoundary>
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              </ErrorBoundary>
             }
           />
         </Routes>

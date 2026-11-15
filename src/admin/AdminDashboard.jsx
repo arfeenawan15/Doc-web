@@ -26,7 +26,7 @@ export default function AdminDashboard() {
   const [toast, setToast] = useState(null);
   const [editModal, setEditModal] = useState(null); // appointment to edit
   const [deleteConfirm, setDeleteConfirm] = useState(null); // id to delete
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(typeof window !== 'undefined' ? window.innerWidth > 900 : true);
   const [expandedAptId, setExpandedAptId] = useState(null); // id of expanded row
   const [notesText, setNotesText] = useState({});
   const [emailLoading, setEmailLoading] = useState({});
@@ -81,6 +81,13 @@ export default function AdminDashboard() {
     setTimeout(() => setToast(null), 3500);
   };
 
+  /* ── Logout ── */
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminEmail');
+    navigate('/admin');
+  }, [navigate]);
+
   /* ── Fetch Stats ── */
   const fetchStats = useCallback(async () => {
     try {
@@ -89,7 +96,7 @@ export default function AdminDashboard() {
       if (data.success) setStats(data.stats);
       else if (res.status === 401 || res.status === 403) handleLogout();
     } catch { /* silent */ }
-  }, []);
+  }, [handleLogout]);
 
   /* ── Get Chart Data for 7-Day Daily Trend ── */
   const getChartData = () => {
@@ -147,7 +154,7 @@ export default function AdminDashboard() {
       else if (res.status === 401 || res.status === 403) handleLogout();
     } catch { /* silent */ }
     if (!isBackground) setLoading(false);
-  }, [filterStatus, search]);
+  }, [filterStatus, search, handleLogout]);
 
   // Background polling for statistics to update pending badges dynamically
   useEffect(() => {
@@ -470,13 +477,6 @@ export default function AdminDashboard() {
     );
   };
 
-  /* ── Logout ── */
-  const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminEmail');
-    navigate('/admin');
-  };
-
   /* ── Change Credentials ── */
   const handleChangeCredentials = async (e) => {
     e.preventDefault();
@@ -575,7 +575,12 @@ export default function AdminDashboard() {
             <button
               key={key}
               className={`ad-nav-item ${tab === key ? 'active' : ''}`}
-              onClick={() => setTab(key)}
+              onClick={() => {
+                setTab(key);
+                if (typeof window !== 'undefined' && window.innerWidth <= 900) {
+                  setSidebarOpen(false);
+                }
+              }}
               title={!sidebarOpen ? label : ''}
               aria-label={label}
             >
@@ -615,6 +620,45 @@ export default function AdminDashboard() {
 
       {/* ── Main Content ── */}
       <main className="ad-main">
+
+        {/* ── Mobile Top Header ── */}
+        <div className="ad-mobile-topbar">
+          <button
+            className="ad-mobile-menu-btn"
+            onClick={() => setSidebarOpen(prev => !prev)}
+            aria-label="Toggle Navigation"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <div className="ad-mobile-title">
+            <span>Dr. Waqas Admin</span>
+          </div>
+          <button
+            className="ad-mobile-logout-btn"
+            onClick={handleLogout}
+            title="Logout"
+            aria-label="Logout"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* ── Mobile Backdrop ── */}
+        {sidebarOpen && (
+          <div
+            className="ad-sidebar-backdrop"
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden="true"
+          />
+        )}
 
         {/* ── Toast ── */}
         {toast && (
