@@ -95,39 +95,41 @@ export default function App() {
   }, []);
 
   return (
-    <SiteProvider>
-      <AuthProvider>
-        <Routes>
-          {/* ── Public website ── */}
-          <Route path="/" element={<PublicSite />} />
+    <ErrorBoundary>
+      <SiteProvider>
+        <AuthProvider>
+          <Routes>
+            {/* ── Public website ── */}
+            <Route path="/" element={<PublicSite />} />
 
-          {/* ── User Auth & Portal ── */}
-          <Route path="/login" element={<UserLogin />} />
-          <Route path="/signup" element={<UserSignup />} />
-          <Route path="/patient-dashboard" element={
-            <UserProtectedRoute>
-              <PatientDashboard />
-            </UserProtectedRoute>
-          } />
+            {/* ── User Auth & Portal ── */}
+            <Route path="/login" element={<UserLogin />} />
+            <Route path="/signup" element={<UserSignup />} />
+            <Route path="/patient-dashboard" element={
+              <UserProtectedRoute>
+                <PatientDashboard />
+              </UserProtectedRoute>
+            } />
 
-          {/* ── Admin portal ── */}
-          <Route path="/admin" element={
-            <ErrorBoundary>
-              <AdminLogin />
-            </ErrorBoundary>
-          } />
-          <Route
-            path="/admin/dashboard"
-            element={
+            {/* ── Admin portal ── */}
+            <Route path="/admin" element={
               <ErrorBoundary>
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
+                <AdminLogin />
               </ErrorBoundary>
-            }
-          />
-        </Routes>
-      </AuthProvider>
-    </SiteProvider>
+            } />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <ErrorBoundary>
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                </ErrorBoundary>
+              }
+            />
+          </Routes>
+        </AuthProvider>
+      </SiteProvider>
+    </ErrorBoundary>
   );
 }

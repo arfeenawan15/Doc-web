@@ -23,13 +23,19 @@ export default function Navbar() {
     if (tapCountRef.current >= 3) {
       tapCountRef.current = 0;
       e.preventDefault();
-      window.open('/admin', '_blank', 'noopener,noreferrer');
+      // On mobile devices, window.open in a new tab can be blocked by browser popup blockers.
+      // Navigate directly if on mobile or open in new tab if desktop:
+      if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+        window.location.href = '/admin';
+      } else {
+        window.open('/admin', '_blank', 'noopener,noreferrer');
+      }
       return;
     }
 
     tapTimerRef.current = setTimeout(() => {
       tapCountRef.current = 0;
-    }, 1200);
+    }, 1500);
 
     scrollTo(e, '#home');
   };

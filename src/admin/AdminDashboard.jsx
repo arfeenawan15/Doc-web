@@ -93,7 +93,7 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`${API}/admin/stats`, { headers: authHeaders });
       const data = await res.json();
-      if (data.success) setStats(data.stats);
+      if (data && data.success && data.stats) setStats(data.stats);
       else if (res.status === 401 || res.status === 403) handleLogout();
     } catch { /* silent */ }
   }, [handleLogout]);
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
   /* ── Get Chart Data for 7-Day Daily Trend ── */
   const getChartData = () => {
     if (!stats) return [];
-    const trend = stats.dailyTrend || [];
+    const trend = Array.isArray(stats.dailyTrend) ? stats.dailyTrend : [];
     const list = [];
     for (let i = 6; i >= 0; i--) {
       const d = new Date();
@@ -110,13 +110,13 @@ export default function AdminDashboard() {
       list.push(str);
     }
     return list.map(dateStr => {
-      const match = trend.find(x => x._id === dateStr);
+      const match = trend.find(x => x && x._id === dateStr);
       const dateObj = new Date(dateStr);
       const label = dateObj.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' });
       return {
         date: dateStr,
         label,
-        count: match ? match.count : 0
+        count: match ? (match.count || 0) : 0
       };
     });
   };
@@ -127,17 +127,18 @@ export default function AdminDashboard() {
     const currentYear = now.getFullYear();
     const currentMonth = now.getMonth();
     const monthName = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    const thisMonth = appointments.filter(a => {
-      if (!a.createdAt) return false;
+    const list = Array.isArray(appointments) ? appointments : [];
+    const thisMonth = list.filter(a => {
+      if (!a || !a.createdAt) return false;
       const d = new Date(a.createdAt);
       return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
     });
     return {
       monthName,
       total: thisMonth.length,
-      confirmed: thisMonth.filter(a => a.status === 'confirmed').length,
-      pending: thisMonth.filter(a => a.status === 'pending').length,
-      cancelled: thisMonth.filter(a => a.status === 'cancelled').length,
+      confirmed: thisMonth.filter(a => a?.status === 'confirmed').length,
+      pending: thisMonth.filter(a => a?.status === 'pending').length,
+      cancelled: thisMonth.filter(a => a?.status === 'cancelled').length,
     };
   };
 
@@ -150,8 +151,11 @@ export default function AdminDashboard() {
       if (search.trim()) params.set('search', search.trim());
       const res = await fetch(`${API}/appointments?${params}`, { headers: authHeaders });
       const data = await res.json();
-      if (data.success) setAppointments(data.data);
-      else if (res.status === 401 || res.status === 403) handleLogout();
+      if (data && data.success && Array.isArray(data.data)) {
+        setAppointments(data.data);
+      } else if (res.status === 401 || res.status === 403) {
+        handleLogout();
+      }
     } catch { /* silent */ }
     if (!isBackground) setLoading(false);
   }, [filterStatus, search, handleLogout]);
@@ -324,10 +328,11 @@ export default function AdminDashboard() {
   };
 
   const toggleSelectAll = () => {
-    if (selectedIds.length === appointments.length) {
+    const list = Array.isArray(appointments) ? appointments : [];
+    if (selectedIds.length === list.length) {
       setSelectedIds([]);
     } else {
-      setSelectedIds(appointments.map(a => a._id));
+      setSelectedIds(list.map(a => a._id));
     }
   };
 
@@ -389,12 +394,13 @@ export default function AdminDashboard() {
 
   /* ── Export CSV ── */
   const exportToCSV = () => {
-    if (appointments.length === 0) {
+    const list = Array.isArray(appointments) ? appointments : [];
+    if (list.length === 0) {
       showToast('No appointments to export.', 'warn');
       return;
     }
     const headers = ['#', 'Patient Name', 'Age', 'Guardian Name', 'Email', 'Phone', 'Hospital', 'Service', 'Date', 'Time', 'Concern', 'Status', 'Booked At'];
-    const rows = appointments.map((a, i) => [
+    const rows = list.map((a, i) => [
       i + 1,
       a.patientName,
       a.age,
@@ -439,12 +445,14 @@ export default function AdminDashboard() {
   };
 
   const getSortedAppointments = () => {
-    return [...appointments].sort((a, b) => {
+    const list = Array.isArray(appointments) ? appointments : [];
+    return [...list].sort((a, b) => {
+      if (!a || !b) return 0;
       let valA = a[sortKey] || '';
       let valB = b[sortKey] || '';
 
       if (sortKey === 'age') {
-        return sortOrder === 'asc' ? a.age - b.age : b.age - a.age;
+        return sortOrder === 'asc' ? (a.age || 0) - (b.age || 0) : (b.age || 0) - (a.age || 0);
       }
 
       if (sortKey === 'date') {
@@ -599,7 +607,7 @@ export default function AdminDashboard() {
 
         <div className="ad-sidebar-footer">
           <div className="ad-user-info">
-            <div className="ad-avatar">{adminEmail[0].toUpperCase()}</div>
+            <div className="ad-avatar">{(adminEmail && adminEmail[0] ? adminEmail[0] : 'A').toUpperCase()}</div>
             {sidebarOpen && (
               <div className="ad-user-detail">
                 <p className="ad-user-name">Administrator</p>
@@ -824,7 +832,7 @@ export default function AdminDashboard() {
                         <div className="ad-bar-track">
                           <div
                             className="ad-bar-fill"
-                            style={{ width: `${Math.round((count / stats.total) * 100)}%` }}
+                            style={{ width: `${stats.total > 0 ? Math.round(((count || 0) / stats.total) * 100) : 0}%` }}
                           />
                         </div>
                         <span className="ad-bar-count">{count}</span>
@@ -850,7 +858,7 @@ export default function AdminDashboard() {
                         <div className="ad-bar-track">
                           <div
                             className="ad-bar-fill"
-                            style={{ width: `${Math.round((count / stats.total) * 100)}%` }}
+                            style={{ width: `${stats.total > 0 ? Math.round(((count || 0) / stats.total) * 100) : 0}%` }}
                           />
                         </div>
                         <span className="ad-bar-count">{count}</span>
@@ -864,15 +872,17 @@ export default function AdminDashboard() {
             {/* ── 7-Day Daily Booking Trend Chart ── */}
             {stats && (() => {
               const chartData = getChartData();
-              const maxCount = Math.max(...chartData.map(d => d.count), 1);
+              if (!chartData || chartData.length < 2) return null;
+              const maxCount = Math.max(...chartData.map(d => d.count || 0), 1);
               const W = 700, H = 180, padL = 36, padR = 16, padT = 16, padB = 36;
               const innerW = W - padL - padR;
               const innerH = H - padT - padB;
               const points = chartData.map((d, i) => {
                 const x = padL + (i / (chartData.length - 1)) * innerW;
-                const y = padT + innerH - (d.count / maxCount) * innerH;
+                const y = padT + innerH - ((d.count || 0) / maxCount) * innerH;
                 return { x, y, ...d };
               });
+              if (!points.length || !points[0] || !points[points.length - 1]) return null;
               const polyline = points.map(p => `${p.x},${p.y}`).join(' ');
               const areaPath = `M${points[0].x},${padT + innerH} ` +
                 points.map(p => `L${p.x},${p.y}`).join(' ') +
@@ -1327,10 +1337,10 @@ export default function AdminDashboard() {
                                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{width:14, height:14, color:'#10b981'}}>
                                             <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                           </svg>
-                                          Past Visits History ({appointments.filter(a => a._id !== apt._id && a.phone === apt.phone && a.patientName === apt.patientName).length})
+                                          Past Visits History ({(Array.isArray(appointments) ? appointments : []).filter(a => a && a._id !== apt._id && a.phone === apt.phone && a.patientName === apt.patientName).length})
                                         </h3>
                                         {(() => {
-                                          const pastVisits = appointments.filter(a => a._id !== apt._id && a.phone === apt.phone && a.patientName === apt.patientName);
+                                          const pastVisits = (Array.isArray(appointments) ? appointments : []).filter(a => a && a._id !== apt._id && a.phone === apt.phone && a.patientName === apt.patientName);
                                           if (pastVisits.length === 0) {
                                             return <p className="past-history-none">No previous medical visits recorded in database.</p>;
                                           }
