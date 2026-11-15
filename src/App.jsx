@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import SEO           from './components/SEO';
 import Navbar        from './components/Navbar';
 import Hero          from './components/Hero';
@@ -78,32 +78,49 @@ function PublicSite() {
 }
 
 export default function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Check for Ctrl + Shift + A (Windows/Linux) or Cmd + Shift + A (Mac)
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        e.preventDefault();
+        navigate('/admin');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [navigate]);
+
   return (
     <SiteProvider>
       <AuthProvider>
         <Routes>
           {/* ── Public website ── */}
-        <Route path="/" element={<PublicSite />} />
+          <Route path="/" element={<PublicSite />} />
 
-        {/* ── User Auth & Portal ── */}
-        <Route path="/login" element={<UserLogin />} />
-        <Route path="/signup" element={<UserSignup />} />
-        <Route path="/patient-dashboard" element={
-          <UserProtectedRoute>
-            <PatientDashboard />
-          </UserProtectedRoute>
-        } />
+          {/* ── User Auth & Portal ── */}
+          <Route path="/login" element={<UserLogin />} />
+          <Route path="/signup" element={<UserSignup />} />
+          <Route path="/patient-dashboard" element={
+            <UserProtectedRoute>
+              <PatientDashboard />
+            </UserProtectedRoute>
+          } />
 
-        {/* ── Admin portal ── */}
-        <Route path="/admin" element={<AdminLogin />} />
-        <Route
-          path="/admin/dashboard"
-          element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
+          {/* ── Admin portal ── */}
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </AuthProvider>
     </SiteProvider>

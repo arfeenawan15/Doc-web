@@ -50,12 +50,6 @@ export default function Navbar() {
             </li>
           ))}
           <li>
-            <Link to="/admin" target="_blank" rel="noopener noreferrer" className="nav-admin-link" onClick={() => setOpen(false)}>
-              <i className="fas fa-user-shield" /> Admin
-            </Link>
-          </li>
-          
-          <li>
             <button className="nav-search-icon" onClick={() => { setIsSearchOpen(true); setOpen(false); }}>
               <i className="fas fa-search"></i>
             </button>
