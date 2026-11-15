@@ -46,7 +46,7 @@ export default function About() {
         <div ref={rightRef} className={`about-right reveal ${rightIn ? 'visible' : ''}`}>
           <div className="section-tag">About the Doctor</div>
           <h2 className="section-title">
-            Dedicated to Children's<br />Health &amp; Wellbeing
+            Top Child Specialist &amp; Surgeon<br />in Mian Channu &amp; Multan
           </h2>
 
           <p className="about-text">{DOCTOR.bio1}</p>
