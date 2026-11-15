@@ -1,7 +1,10 @@
 User-agent: *
 Allow: /
 
-# Block admin panel from search engines
+# Block private dashboards from search engines
 Disallow: /admin
+Disallow: /admin/
+Disallow: /patient-dashboard
+Disallow: /patient-dashboard/
 
-Sitemap: https://drwaqasawan.com/sitemap.xml
+Sitemap: https://drwaqasahmadawan.vercel.app/sitemap.xml

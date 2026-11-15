@@ -1,9 +1,9 @@
 export const DOCTOR = {
   name:      "Dr. Waqas Ahmad Awan",
-  title:     "Pediatric Surgeon",
-  tagline:   "MBBS, MS — Pediatric Surgeon",
-  bio1:      "Dr. Waqas Ahmad Awan, MBBS, MS is a dedicated Paediatric Surgeon with more than 8 years of clinical experience in managing surgical conditions in infants and children. He is currently serving as a Senior Registrar at Al Manzoor Hospital, Mian Channu, and Sughran Wazeer Hospital, Multan.",
-  bio2:      "Dr. Waqas has a special interest in Paediatric Gastrointestinal Surgery, Neonatal Surgery, and Minimally Invasive (Laparoscopic) Surgery. He is committed to providing safe, evidence-based, and compassionate surgical care for children. He is also a member of the Association of Paediatric Surgeons of Pakistan.",
+  title:     "Child Surgeon & Child Specialist",
+  tagline:   "MBBS, MS — Top Child Surgeon & Specialist in Mian Channu & Multan",
+  bio1:      "Dr. Waqas Ahmad Awan (MBBS, MS) is a leading Child Surgeon & Child Specialist in Mian Channu and Multan (بچوں کا ڈاکٹر اور سرجن). With more than 8 years of dedicated clinical experience at Children's Hospital Multan and Al Manzoor Hospital Mian Channu, he has performed over 1,000 successful surgeries in infants and children.",
+  bio2:      "Widely recommended as the best Bachon Ka Doctor and Bachon Ka Surgeon in Mian Channu, Dr. Waqas specializes in neonatal surgery, pediatric urology (undescended testes, hypospadias), hernia and hydrocele repair, VP shunting for hydrocephalus, cleft lip and palate, and minimally invasive laparoscopic surgery.",
   whatsapp:  "923318034846",
   phone1:    "+92 65 2663232",
   phone2:    "+92 3023569088",
@@ -137,6 +137,7 @@ export const NAV_LINKS = [
   { label: "Services",    href: "#services"    },
   { label: "Schedule",    href: "#schedule"    },
   { label: "Locations",   href: "#locations"   },
+  { label: "FAQs",        href: "#faq"         },
   { label: "Contact",     href: "#contact"     },
 ];
 

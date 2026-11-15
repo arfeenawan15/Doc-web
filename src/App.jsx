@@ -7,6 +7,7 @@ import About         from './components/About';
 import Services      from './components/Services';
 import Schedule      from './components/Schedule';
 import Locations     from './components/Locations';
+import FAQ           from './components/FAQ';
 import Appointment   from './components/Appointment';
 import Contact       from './components/Contact';
 import Footer        from './components/Footer';
@@ -50,6 +51,7 @@ function PublicSite() {
 
   return (
     <>
+      <SEO />
       <AvailabilityBanner />
       <Navbar />
       <WhatsAppFloat />
@@ -66,6 +68,7 @@ function PublicSite() {
         <Services />
         <Schedule />
         <Locations />
+        <FAQ />
         <Appointment />
         <Contact />
       </main>

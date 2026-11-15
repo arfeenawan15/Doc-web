@@ -34,7 +34,7 @@ export default function Hero() {
       <div className="hero-container section-container">
         {/* Left content */}
         <div className="hero-left">
-          <div className="hero-badge">✦ Pediatric Surgical Expert</div>
+          <div className="hero-badge">✦ Best Child Surgeon &amp; Child Specialist in Mian Channu</div>
 
           <h1 className="hero-title">
             Dr. Waqas<br />
@@ -42,8 +42,7 @@ export default function Hero() {
           </h1>
 
           <p className="hero-subtitle">
-            Specialist in Pediatric Surgery — Providing compassionate, expert surgical
-            care for children with precision and dedication.
+            Top <strong>Child Surgeon &amp; Child Specialist in Mian Channu &amp; Multan</strong> (بچوں کا ڈاکٹر اور سرجن). Providing compassionate, expert surgical and medical care for infants and children at Al Manzoor Hospital Mian Channu.
           </p>
 
           <div className="hero-creds">
@@ -53,7 +52,7 @@ export default function Hero() {
             </div>
             <div className="cred-item">
               <i className="fas fa-award" />
-              <span>Pediatric Surgery – Children's Hospital & Institute of Child Health Multan</span>
+              <span>Pediatric Surgery – Children's Hospital &amp; Institute of Child Health Multan</span>
             </div>
             <div className="cred-item">
               <i className="fas fa-stethoscope" />
@@ -62,9 +61,10 @@ export default function Hero() {
           </div>
 
           <div className="hero-trust-pills">
-            <span className="trust-pill"><i className="fas fa-shield-alt" /> Verified Specialist</span>
-            <span className="trust-pill"><i className="fas fa-child" /> 500+ Cases</span>
-            <span className="trust-pill"><i className="fas fa-star" /> Top Rated</span>
+            <span className="trust-pill"><i className="fas fa-user-md" /> Child Specialist Mian Channu</span>
+            <span className="trust-pill"><i className="fas fa-stethoscope" /> Bachon Ka Doctor &amp; Surgeon</span>
+            <span className="trust-pill"><i className="fas fa-hospital" /> Al Manzoor Hospital</span>
+            <span className="trust-pill"><i className="fas fa-award" /> 1000+ Surgeries</span>
           </div>
 
           <div className="hero-actions">

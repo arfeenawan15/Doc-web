@@ -1,14 +1,27 @@
-# Dr. Waqas Ahmad Awan - Pediatric Surgeon
+# Dr. Waqas Ahmad Awan - Best Child Surgeon & Child Specialist in Mian Channu & Multan
 
-This is the official website for Dr. Waqas Ahmad Awan, a top-rated pediatric surgeon and child specialist in Mian Channu and Multan, Pakistan.
+This is the official website for Dr. Waqas Ahmad Awan (MBBS, MS Pediatric Surgery), top-rated child surgeon, child specialist, and pediatric surgeon in Mian Channu and Multan, Pakistan. Also recognized as the leading Bachon Ka Doctor and Bachon Ka Surgeon at Al Manzoor Hospital Mian Channu.
 
-## Services
-- Pediatric Surgery
-- Neonatal Surgery
-- Pediatric Urology
-- General Pediatric Surgery
+## Core Specializations & Services
+- Pediatric Surgery & Neonatal Surgery (بچوں اور نومولود کی سرجری)
+- Pediatric Urology & Circumcision (خفتنہ / پیشاب کے امراض)
+- Undescended Testes Surgery (Orchidopexy)
+- Ventriculoperitoneal (VP) Shunting for Hydrocephalus (سر میں پانی کا علاج)
+- Myelomeningocele (MMC) Repair / Spina Bifida (کمر کے پھوڑے کا علاج)
+- Cleft Lip & Palate Repair (کٹے ہونٹ اور تالو کا علاج)
+- Pediatric Hernia & Hydrocele Surgery
+- Rectal Polyps & Intestinal Obstruction
+- Umbilical Granuloma Treatment
 
-## Contact Information
-- WhatsApp: +923318034846
-- Phone: +92 3098683232, +92 3023569088
-- Locations: Al Manzoor Hospital (Mian Channu), Sughran Wazir Medical Complex (Multan)
+## Practice Locations & Timings
+- **Mian Channu**: Al Manzoor Hospital, Tulamba Road, Mian Channu, Punjab.
+  - Timings: Every Sunday, 11:00 AM – 4:00 PM.
+  - Phone: +92 65 2663232, +92 309 8683232
+- **Multan**: Sughran Wazir Medical Complex (Child Clinic), Syedan Wala Bypass, Bosan Road, Multan.
+  - Timings: Thursday to Saturday, 6:00 PM – 9:00 PM.
+  - Phone: +92 302 3569088
+
+## Direct Booking & WhatsApp
+- WhatsApp: +92 331 8034846
+- Mobile: +92 309 8683232
+- Website: https://drwaqasahmadawan.vercel.app/
