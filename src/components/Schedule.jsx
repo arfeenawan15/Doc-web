@@ -55,7 +55,7 @@ function ScheduleCard({ hospKey }) {
 }
 
 export default function Schedule() {
-  const [ref, inView] = useInView({ threshold: 0.1 });
+  const [ref, inView] = useInView(0.1);
   const { hospitals, loading } = useSite();
 
   return (
