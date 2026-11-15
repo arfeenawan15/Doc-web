@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import SEO           from './components/SEO';
 import Navbar        from './components/Navbar';
 import Hero          from './components/Hero';
@@ -78,14 +78,12 @@ function PublicSite() {
 }
 
 export default function App() {
-  const navigate = useNavigate();
-
   useEffect(() => {
     const handleKeyDown = (e) => {
       // Check for Ctrl + Shift + A (Windows/Linux) or Cmd + Shift + A (Mac)
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
         e.preventDefault();
-        navigate('/admin');
+        window.open('/admin', '_blank', 'noopener,noreferrer');
       }
     };
 
@@ -93,7 +91,7 @@ export default function App() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [navigate]);
+  }, []);
 
   return (
     <SiteProvider>
