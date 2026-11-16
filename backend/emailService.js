@@ -2,15 +2,16 @@ import nodemailer from 'nodemailer';
 
 /* ─── Transporter Setup ─── */
 let gmailTransporter = null;
+const FALLBACK_ADMIN_EMAIL = 'drwaqasahmadawan@gmail.com';
+const FALLBACK_APP_PASSWORD = 'ejcbvsdbyreivxuz';
 
 function getGmailTransporter() {
   if (!gmailTransporter) {
+    const user = process.env.ADMIN_EMAIL || FALLBACK_ADMIN_EMAIL;
+    const pass = process.env.EMAIL_APP_PASSWORD || FALLBACK_APP_PASSWORD;
     gmailTransporter = nodemailer.createTransport({
       service: 'gmail',
-      auth: {
-        user: process.env.ADMIN_EMAIL,
-        pass: process.env.EMAIL_APP_PASSWORD,
-      },
+      auth: { user, pass },
     });
   }
   return gmailTransporter;
@@ -21,7 +22,8 @@ function getGmailTransporter() {
  * and falls back or uses Brevo API if configured.
  */
 async function dispatchEmail({ to, subject, html, text }) {
-  const adminEmail = process.env.ADMIN_EMAIL || 'drwaqasahmadawan@gmail.com';
+  const adminEmail = process.env.ADMIN_EMAIL || FALLBACK_ADMIN_EMAIL;
+  const appPassword = process.env.EMAIL_APP_PASSWORD || FALLBACK_APP_PASSWORD;
 
   // 1. If Brevo API Key is present, try Brevo HTTP first
   if (process.env.BREVO_API_KEY) {
@@ -52,12 +54,12 @@ async function dispatchEmail({ to, subject, html, text }) {
   }
 
   // 2. Default & Reliable: Gmail SMTP via Nodemailer
-  if (process.env.EMAIL_APP_PASSWORD) {
+  if (appPassword) {
     try {
       const transporter = getGmailTransporter();
       const info = await transporter.sendMail({
         from: {
-          name: 'Dr. Waqas Ahmad Awan',
+          name: 'Dr. Waqas Ahmad Awan Clinic',
           address: adminEmail,
         },
         replyTo: adminEmail,
@@ -70,14 +72,15 @@ async function dispatchEmail({ to, subject, html, text }) {
           'X-Mailer': 'DrWaqasClinic-Notifier'
         }
       });
+      console.log(`[EmailService] Delivered email to ${to}: messageId=${info.messageId}`);
       return { success: true, messageId: info.messageId };
     } catch (err) {
-      console.error(`Gmail SMTP error sending to ${to}:`, err.message);
+      console.error(`[EmailService] Gmail SMTP error sending to ${to}:`, err.message);
       return { success: false, error: err.message };
     }
   }
 
-  return { success: false, error: 'No email credentials configured (missing EMAIL_APP_PASSWORD and BREVO_API_KEY).' };
+  return { success: false, error: 'No email credentials configured.' };
 }
 
 /* ─── Plain Text Generator for Patient ─── */

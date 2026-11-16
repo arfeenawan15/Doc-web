@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import SiteConfig from './SiteConfig';
 
 const STATUS_COLORS = {
@@ -63,6 +63,24 @@ export default function DesktopAdminView({
   const safeClock = adminClock instanceof Date ? adminClock : new Date();
   const monthlyReport = typeof getMonthlyReport === 'function' ? getMonthlyReport() : { monthName: '', total: 0, confirmed: 0, pending: 0, cancelled: 0 };
   const sortedList = typeof getSortedAppointments === 'function' ? getSortedAppointments() : (Array.isArray(appointments) ? appointments : []);
+  const [testingEmail, setTestingEmail] = useState(false);
+
+  const handleSendTestEmail = async () => {
+    setTestingEmail(true);
+    try {
+      const API = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000' : 'https://doc-web-prq3.onrender.com');
+      const res = await fetch(`${API}/admin/test-email`, { method: 'POST', headers: authHeaders });
+      const data = await res.json();
+      if (data.success) {
+        showToast('📧 Test notification sent to ' + adminEmail);
+      } else {
+        showToast(data.message || 'Failed to send test email', 'error');
+      }
+    } catch {
+      showToast('Network error testing email', 'error');
+    }
+    setTestingEmail(false);
+  };
 
   return (
     <div className="desk-admin-root">
@@ -567,7 +585,13 @@ export default function DesktopAdminView({
                   </div>
                 ) : sortedList.length === 0 ? (
                   <div className="desk-empty-state">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      style={{ width: 48, height: 48, maxWidth: 48, maxHeight: 48, color: '#94a3b8', margin: '0 auto 12px', display: 'block' }}
+                    >
                       <rect x="3" y="4" width="18" height="18" rx="2" />
                       <line x1="16" y1="2" x2="16" y2="6" />
                       <line x1="8" y1="2" x2="8" y2="6" />
@@ -935,6 +959,21 @@ export default function DesktopAdminView({
                   <div className="desk-session-box">
                     <span className="label">Current Authenticated Account</span>
                     <span className="val">{adminEmail}</span>
+                  </div>
+
+                  <div className="desk-session-box" style={{ marginTop: 14 }}>
+                    <span className="label">Doctor Notification System</span>
+                    <p style={{ margin: '4px 0 10px', fontSize: 12, color: '#64748b' }}>
+                      Dispatch a test booking alert to {adminEmail} to verify your inbox configuration and SMTP connectivity.
+                    </p>
+                    <button
+                      className="desk-btn secondary"
+                      onClick={handleSendTestEmail}
+                      disabled={testingEmail}
+                      style={{ fontSize: 12, padding: '7px 14px' }}
+                    >
+                      {testingEmail ? 'Dispatching...' : '📧 Send Test Doctor Alert Email'}
+                    </button>
                   </div>
                 </div>
               </div>

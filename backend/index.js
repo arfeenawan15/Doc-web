@@ -410,20 +410,49 @@ app.post('/appointments', async (req, res) => {
     console.log('💾 Saved to MongoDB:', saved._id);
 
     // Notify doctor / admin via email immediately
-    sendAdminNewBookingNotification(saved).then(result => {
-      if (result && result.success) {
-        console.log(`📧 Admin notification email sent for appointment: ${saved._id}`);
+    try {
+      const emailRes = await sendAdminNewBookingNotification(saved);
+      if (emailRes && emailRes.success) {
+        console.log(`📧 Admin notification email dispatched for appointment: ${saved._id}`);
       } else {
-        console.error(`⚠️ Failed to send admin notification email:`, result?.error);
+        console.error(`⚠️ Failed to send admin notification email:`, emailRes?.error);
       }
-    }).catch(err => {
+    } catch (err) {
       console.error(`⚠️ Error triggering admin notification email:`, err.message);
-    });
+    }
 
     res.status(201).json({ success: true, message: 'Appointment booked successfully!', data: saved });
   } catch (err) {
     console.error('❌ Save Error:', err.message);
     res.status(400).json({ success: false, message: err.message });
+  }
+});
+
+/* ─── POST /admin/test-email — Test Doctor Notification Email ─── */
+app.post('/admin/test-email', async (req, res) => {
+  try {
+    const adminEmail = process.env.ADMIN_EMAIL || 'drwaqasahmadawan@gmail.com';
+    const testAppointment = {
+      patientName: 'Test Patient (Clinic System Check)',
+      age: 4,
+      guardianName: 'Clinic Doctor Notifier',
+      phone: '03098683232',
+      guardianEmail: adminEmail,
+      date: new Date().toISOString().slice(0, 10),
+      time: '11:00 AM',
+      hospital: 'Al Manzoor Hospital Mian Channu',
+      service: 'Pediatric Surgery Alert Test',
+      concern: 'This is a test notification confirming email delivery to Dr. Waqas Ahmad Awan.',
+      status: 'pending'
+    };
+
+    const result = await sendAdminNewBookingNotification(testAppointment);
+    res.json({
+      success: result.success,
+      message: result.success ? `Test notification sent successfully to ${adminEmail}` : (result.error || 'Failed to send test email')
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 

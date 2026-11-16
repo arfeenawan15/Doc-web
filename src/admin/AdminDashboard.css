@@ -759,6 +759,58 @@
 .desk-bulk-action.delete  { background: #ef4444; color: #ffffff; }
 .desk-bulk-action.clear   { background: #334155; color: #e2e8f0; }
 
+/* Empty State & Loading State */
+.desk-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.desk-empty-state svg {
+  width: 48px !important;
+  height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  color: #94a3b8;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.desk-empty-state p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0;
+}
+
+.desk-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #64748b;
+  width: 100%;
+}
+
+.desk-loading-state .desk-spinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #0284c7;
+  border-radius: 50%;
+  animation: deskSpin 0.8s linear infinite;
+  margin-bottom: 14px;
+}
+
+@keyframes deskSpin {
+  to { transform: rotate(360deg); }
+}
+
 /* Table */
 .desk-table-scroller {
   overflow-x: auto;
