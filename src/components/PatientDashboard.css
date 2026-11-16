@@ -7,21 +7,112 @@
 
 .pd-header {
   background: white;
-  padding: 30px 5%;
+  padding: 24px 5% 30px;
   border-bottom: 1px solid #e2e8f0;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
-.pd-header h1 {
+.pd-header-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.pd-back-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #f1f5f9;
+  color: #0f172a;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid #cbd5e1;
+}
+
+.pd-back-home-btn:hover {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+  transform: translateX(-3px);
+}
+
+.pd-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pd-nav-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #334155;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.pd-nav-link-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.pd-nav-link-btn.primary {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+  font-weight: 600;
+}
+
+.pd-nav-link-btn.primary:hover {
+  background: #0369a1;
+  color: #ffffff;
+}
+
+.pd-header-welcome h1 {
   font-family: 'Playfair Display', serif;
   font-size: 2.2rem;
   color: #1e293b;
   margin-bottom: 5px;
 }
 
-.pd-header p {
+.pd-header-welcome p {
   color: #64748b;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+}
+
+.pd-btn-home-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.pd-btn-home-outline:hover {
+  background: #f1f5f9;
+  color: #0f172a;
 }
 
 .pd-content {

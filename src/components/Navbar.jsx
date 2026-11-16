@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { NAV_LINKS } from '../data';
 import { useScrolled, useActiveSection } from '../hooks';
 import { useAuth } from '../context/AuthContext';
@@ -12,6 +12,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { user, logout } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const tapCountRef = useRef(0);
   const tapTimerRef = useRef(null);
@@ -37,12 +39,23 @@ export default function Navbar() {
       tapCountRef.current = 0;
     }, 1500);
 
+    if (location.pathname !== '/') {
+      e.preventDefault();
+      setOpen(false);
+      navigate('/');
+      return;
+    }
+
     scrollTo(e, '#home');
   };
 
   const scrollTo = (e, href) => {
     e.preventDefault();
     setOpen(false);
+    if (location.pathname !== '/') {
+      navigate('/' + (href === '#home' ? '' : href));
+      return;
+    }
     const id = href.replace('#', '');
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -82,6 +95,14 @@ export default function Navbar() {
             </button>
           </li>
           
+          {location.pathname !== '/' && (
+            <li>
+              <Link to="/" className="nav-btn" onClick={() => setOpen(false)} style={{ background: '#0284c7', color: '#fff', border: 'none' }}>
+                <i className="fas fa-home" style={{ marginRight: 6 }}></i> Main Website
+              </Link>
+            </li>
+          )}
+
           {user ? (
             <>
               <li>

@@ -3,6 +3,10 @@ import { DOCTOR, NAV_LINKS } from '../data';
 import './Footer.css';
 const scrollTo = (e, href) => {
   e.preventDefault();
+  if (typeof window !== 'undefined' && window.location.pathname !== '/') {
+    window.location.href = '/' + (href === '#home' ? '' : href);
+    return;
+  }
   const id = href.replace('#', '');
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 };

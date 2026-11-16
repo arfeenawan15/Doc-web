@@ -60,8 +60,9 @@ export default function DesktopAdminView({
   authHeaders,
   showToast
 }) {
-  const monthlyReport = getMonthlyReport();
-  const sortedList = getSortedAppointments();
+  const safeClock = adminClock instanceof Date ? adminClock : new Date();
+  const monthlyReport = typeof getMonthlyReport === 'function' ? getMonthlyReport() : { monthName: '', total: 0, confirmed: 0, pending: 0, cancelled: 0 };
+  const sortedList = typeof getSortedAppointments === 'function' ? getSortedAppointments() : (Array.isArray(appointments) ? appointments : []);
 
   return (
     <div className="desk-admin-root">
@@ -97,10 +98,10 @@ export default function DesktopAdminView({
         {sidebarOpen && (
           <div className="desk-sidebar-clock-box">
             <div className="desk-clock-time">
-              {adminClock.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+              {safeClock.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </div>
             <div className="desk-clock-date">
-              {adminClock.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
+              {safeClock.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
             </div>
           </div>
         )}
@@ -390,19 +391,19 @@ export default function DesktopAdminView({
                     </div>
                   </div>
 
-                  {stats?.byHospital?.length > 0 ? (
+                  {stats?.byHospital && Array.isArray(stats.byHospital) && stats.byHospital.length > 0 ? (
                     <div className="desk-bar-distribution-list">
                       {stats.byHospital.map(h => (
-                        <div key={h._id} className="desk-bar-dist-item">
+                        <div key={h?._id || Math.random()} className="desk-bar-dist-item">
                           <div className="desk-dist-head">
-                            <span className="desk-dist-name">{h._id}</span>
-                            <span className="desk-dist-count">{h.count} patients</span>
+                            <span className="desk-dist-name">{h?._id || 'General Clinic'}</span>
+                            <span className="desk-dist-count">{h?.count || 0} patients</span>
                           </div>
                           <div className="desk-pr-track">
                             <div
                               className="desk-pr-fill sky"
                               style={{
-                                width: `${stats.total > 0 ? ((h.count || 0) / stats.total) * 100 : 0}%`
+                                width: `${stats?.total > 0 ? (((h?.count || 0) / stats.total) * 100) : 0}%`
                               }}
                             />
                           </div>

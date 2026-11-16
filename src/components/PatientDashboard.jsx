@@ -71,8 +71,23 @@ export default function PatientDashboard() {
       <Navbar />
       
       <div className="pd-header">
-        <h1>Welcome, {user?.name?.split(' ')[0]}</h1>
-        <p>Manage your appointments and medical records</p>
+        <div className="pd-header-top-bar">
+          <Link to="/" className="pd-back-home-btn">
+            <i className="fas fa-arrow-left"></i> Return to Main Website
+          </Link>
+          <div className="pd-top-actions">
+            <Link to="/" className="pd-nav-link-btn">
+              <i className="fas fa-home"></i> Home
+            </Link>
+            <Link to="/#appointment" className="pd-nav-link-btn primary">
+              <i className="fas fa-calendar-plus"></i> Book New Consultation
+            </Link>
+          </div>
+        </div>
+        <div className="pd-header-welcome">
+          <h1>Welcome, {user?.name?.split(' ')[0] || user?.name || 'Patient'}</h1>
+          <p>Manage your child's clinical consultation bookings, review doctor advice, and track appointments</p>
+        </div>
       </div>
 
       <div className="pd-content">
@@ -89,8 +104,13 @@ export default function PatientDashboard() {
           <div className="pd-empty">
             <i className="fas fa-notes-medical"></i>
             <h3>No Appointments Found</h3>
-            <p>You don't have any past or upcoming appointments.</p>
-            <Link to="/#appointment" className="pd-btn-book">Book an Appointment</Link>
+            <p>You don't have any past or upcoming appointments registered under your account.</p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 18, flexWrap: 'wrap' }}>
+              <Link to="/#appointment" className="pd-btn-book">Book an Appointment</Link>
+              <Link to="/" className="pd-btn-home-outline">
+                <i className="fas fa-home"></i> Return to Main Website
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="pd-grid">

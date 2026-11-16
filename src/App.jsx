@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import SEO           from './components/SEO';
 import Navbar        from './components/Navbar';
 import Hero          from './components/Hero';
@@ -49,6 +49,19 @@ function AvailabilityBanner() {
 function PublicSite() {
   const [toast, setToast] = useState(null);
   const showToast = (message, type = 'success') => setToast({ message, type });
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }, 120);
+      }
+    }
+  }, [location.pathname, location.hash]);
 
   return (
     <>
