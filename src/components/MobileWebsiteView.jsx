@@ -313,16 +313,26 @@ export default function MobileWebsiteView() {
         </div>
 
         <div className="mwa-header-actions">
-          <button 
-            className="mwa-head-book-btn"
-            onClick={() => {
-              setActiveTab('book');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            title="Book Appointment"
+          <a 
+            href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20have%20an%20inquiry%20regarding%20my%20child." 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="mwa-head-wa-btn"
+            title="WhatsApp Clinic"
           >
-            <i className="fas fa-calendar-check"></i>
-            <span>Book Now</span>
+            <i className="fab fa-whatsapp"></i>
+            <span>Chat</span>
+          </a>
+          <button 
+            className="mwa-head-user-btn"
+            onClick={() => { setActiveTab('records'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            title={user ? user.name : "Patient Portal"}
+          >
+            {user ? (
+              <span className="mwa-user-initial">{(user.name && user.name[0] ? user.name[0] : 'U').toUpperCase()}</span>
+            ) : (
+              <i className="fas fa-user"></i>
+            )}
           </button>
         </div>
       </header>
@@ -330,7 +340,7 @@ export default function MobileWebsiteView() {
       {/* ── Main App Feed Panes ── */}
       <main className="mwa-main-canvas">
 
-        {/* ════ TAB 1: HOME FEED (CLEAN, UNCONGESTED WIDGET-BASED MOBILE APP DASHBOARD) ════ */}
+        {/* ════ TAB 1: HOME FEED (CLEAN, BESPOKE MOBILE HEALTHCARE APP DASHBOARD) ════ */}
         {activeTab === 'home' && (
           <div className="mwa-feed-pane">
 
@@ -354,7 +364,7 @@ export default function MobileWebsiteView() {
                     </p>
                     <div className="mwa-hero-trust-chips">
                       <span className="mwa-trust-chip"><i className="fas fa-award"></i> 8+ Yrs Exp</span>
-                      <span className="mwa-trust-chip"><i className="fas fa-stethoscope"></i> 1000+ Surgeries</span>
+                      <span className="mwa-trust-chip"><i className="fas fa-stethoscope"></i> 1,000+ Surgeries</span>
                     </div>
                   </div>
 
@@ -368,14 +378,14 @@ export default function MobileWebsiteView() {
                   Providing expert, compassionate surgical and medical care tailored exclusively for newborns, infants, and growing children at Al Manzoor Hospital Mian Channu and Multan.
                 </p>
 
-                {/* Direct Action Buttons Inside Hero */}
+                {/* Single Refined Action Row */}
                 <div className="mwa-hero-actions-row">
                   <button 
                     className="mwa-hero-btn-book"
                     onClick={() => handleSelectHospitalAndBook('')}
                   >
                     <i className="fas fa-calendar-check"></i>
-                    <span>Book Appointment</span>
+                    <span>Schedule Consultation</span>
                   </button>
                   <a 
                     href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20consult%20regarding%20my%20child." 
@@ -390,18 +400,40 @@ export default function MobileWebsiteView() {
               </div>
             </div>
 
-            {/* WIDGET 2: Core App Action Grid (2x2 Modular Widgets) */}
+            {/* WIDGET 2: Horizontal Quick Specialties Scroller */}
+            <div className="mwa-quick-categories-scroller">
+              {[
+                { label: 'Neonatal Surgery', icon: 'fas fa-baby', key: 'Neonatal' },
+                { label: 'Pediatric Urology', icon: 'fas fa-stethoscope', key: 'Urology' },
+                { label: 'Hydrocephalus (VP Shunt)', icon: 'fas fa-brain', key: 'Hydrocephalus' },
+                { label: 'Safe Circumcision', icon: 'fas fa-band-aid', key: 'Circumcision' },
+                { label: 'Cleft Lip & Palate', icon: 'fas fa-smile', key: 'Cleft' },
+                { label: 'Hernia & Hydrocele', icon: 'fas fa-notes-medical', key: 'Hernia' },
+                { label: 'All Procedures', icon: 'fas fa-th-list', key: '' },
+              ].map(cat => (
+                <button
+                  key={cat.label}
+                  className="mwa-cat-chip"
+                  onClick={() => handleSelectSpecialty(cat.key)}
+                >
+                  <i className={cat.icon}></i>
+                  <span>{cat.label}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* WIDGET 3: Core App Action Hub (4 Distinct, Valuable Features) */}
             <div className="mwa-action-grid-widget">
               <div 
                 className="mwa-ag-card teal-card"
-                onClick={() => handleSelectHospitalAndBook('')}
+                onClick={() => { setActiveTab('services'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               >
                 <div className="mwa-ag-icon teal">
-                  <i className="fas fa-calendar-alt"></i>
+                  <i className="fas fa-stethoscope"></i>
                 </div>
                 <div className="mwa-ag-text">
-                  <h4>Book Visit</h4>
-                  <p>Select clinic &amp; slot</p>
+                  <h4>Surgical Care</h4>
+                  <p>Procedures &amp; specialities</p>
                 </div>
                 <i className="fas fa-chevron-right mwa-ag-arrow"></i>
               </div>
@@ -411,25 +443,11 @@ export default function MobileWebsiteView() {
                 onClick={() => { setActiveTab('hospitals'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               >
                 <div className="mwa-ag-icon blue">
-                  <i className="fas fa-hospital"></i>
+                  <i className="fas fa-calendar-alt"></i>
                 </div>
                 <div className="mwa-ag-text">
-                  <h4>Clinics</h4>
+                  <h4>Clinic Timings</h4>
                   <p>Mian Channu &amp; Multan</p>
-                </div>
-                <i className="fas fa-chevron-right mwa-ag-arrow"></i>
-              </div>
-
-              <div 
-                className="mwa-ag-card emerald-card"
-                onClick={() => { setActiveTab('services'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              >
-                <div className="mwa-ag-icon emerald">
-                  <i className="fas fa-stethoscope"></i>
-                </div>
-                <div className="mwa-ag-text">
-                  <h4>Surgeries</h4>
-                  <p>Pediatric care guide</p>
                 </div>
                 <i className="fas fa-chevron-right mwa-ag-arrow"></i>
               </div>
@@ -443,13 +461,29 @@ export default function MobileWebsiteView() {
                 </div>
                 <div className="mwa-ag-text">
                   <h4>Patient Portal</h4>
-                  <p>Records &amp; advice</p>
+                  <p>Records &amp; doctor advice</p>
                 </div>
                 <i className="fas fa-chevron-right mwa-ag-arrow"></i>
               </div>
+
+              <a 
+                href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20have%20an%20inquiry%20regarding%20my%20child." 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="mwa-ag-card emerald-card"
+              >
+                <div className="mwa-ag-icon emerald">
+                  <i className="fab fa-whatsapp"></i>
+                </div>
+                <div className="mwa-ag-text">
+                  <h4>Direct WhatsApp</h4>
+                  <p>Instant clinic assistant</p>
+                </div>
+                <i className="fas fa-chevron-right mwa-ag-arrow"></i>
+              </a>
             </div>
 
-            {/* WIDGET 3: Hospital Branches Fast Selector Widget */}
+            {/* WIDGET 4: Practice Locations & OPD Timetables (No duplicate booking buttons) */}
             <div className="mwa-branches-card-widget">
               <div className="mwa-bcw-header">
                 <div>
@@ -460,48 +494,62 @@ export default function MobileWebsiteView() {
                   className="mwa-widget-link"
                   onClick={() => { setActiveTab('hospitals'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 >
-                  View Details →
+                  View Maps →
                 </button>
               </div>
 
               <div className="mwa-bcw-grid">
                 {/* Branch 1: Al Manzoor */}
-                <div 
-                  className="mwa-bcw-branch"
-                  onClick={() => handleSelectHospitalAndBook('almanzoor')}
-                >
+                <div className="mwa-bcw-branch">
                   <div className="mwa-bcw-branch-top">
                     <span className="mwa-bcw-day-badge sunday">Sunday Only</span>
                     <span className="mwa-bcw-slot-pill">11 AM – 4 PM</span>
                   </div>
                   <h4 className="mwa-bcw-branch-name">Al Manzoor Hospital</h4>
                   <p className="mwa-bcw-branch-loc"><i className="fas fa-map-marker-alt"></i> Tulamba Road, Mian Channu</p>
-                  <div className="mwa-bcw-book-link">
-                    <span>Book Sunday Slot</span>
-                    <i className="fas fa-chevron-right"></i>
+                  
+                  <div className="mwa-bcw-actions-row">
+                    <a 
+                      href="https://maps.google.com/?cid=17289175519676733035" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="mwa-bcw-btn-dir"
+                    >
+                      <i className="fas fa-directions"></i> Map
+                    </a>
+                    <a href="tel:+923098683232" className="mwa-bcw-btn-call">
+                      <i className="fas fa-phone-alt"></i> Call
+                    </a>
                   </div>
                 </div>
 
                 {/* Branch 2: Sughran Wazir */}
-                <div 
-                  className="mwa-bcw-branch"
-                  onClick={() => handleSelectHospitalAndBook('sughran')}
-                >
+                <div className="mwa-bcw-branch">
                   <div className="mwa-bcw-branch-top">
                     <span className="mwa-bcw-day-badge multan">Thu – Sat</span>
                     <span className="mwa-bcw-slot-pill">6 PM – 9 PM</span>
                   </div>
                   <h4 className="mwa-bcw-branch-name">Sughran Wazir Complex</h4>
                   <p className="mwa-bcw-branch-loc"><i className="fas fa-map-marker-alt"></i> Syedan Wala Bypass, Multan Cantt</p>
-                  <div className="mwa-bcw-book-link">
-                    <span>Book Multan Slot</span>
-                    <i className="fas fa-chevron-right"></i>
+                  
+                  <div className="mwa-bcw-actions-row">
+                    <a 
+                      href="https://maps.google.com/?q=Sughran+Wazir+Medical+Complex+Multan" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="mwa-bcw-btn-dir"
+                    >
+                      <i className="fas fa-directions"></i> Map
+                    </a>
+                    <a href="tel:+923023569088" className="mwa-bcw-btn-call">
+                      <i className="fas fa-phone-alt"></i> Call
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* WIDGET 4: Pediatric Surgical Specialties (Interactive Cards Grid) */}
+            {/* WIDGET 5: Pediatric Surgical Specialties (Quick Grid) */}
             <div className="mwa-specialties-widget">
               <div className="mwa-sw-header">
                 <div>
@@ -539,24 +587,6 @@ export default function MobileWebsiteView() {
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-
-            {/* WIDGET 5: Patient Health Records Portal Card */}
-            <div 
-              className="mwa-patient-portal-widget"
-              onClick={() => { setActiveTab('records'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            >
-              <div className="mwa-ppw-icon">
-                <i className="fas fa-user-shield"></i>
-              </div>
-              <div className="mwa-ppw-info">
-                <h4>{user ? `Patient Records · ${user.name}` : 'Child Consultation Records'}</h4>
-                <p>{user ? 'View scheduled consultations, doctor clinical notes, and post-op care' : 'Sign in to access your child’s appointments and review doctor advice'}</p>
-              </div>
-              <div className="mwa-ppw-action">
-                <span>{user ? 'Open Portal' : 'Sign In'}</span>
-                <i className="fas fa-arrow-right"></i>
               </div>
             </div>
 
@@ -1073,14 +1103,14 @@ export default function MobileWebsiteView() {
 
       </main>
 
-      {/* ── 4. Fixed Native Bottom Tab Bar (Dark Glassmorphism Theme) ── */}
+      {/* ── 4. Fixed Native Bottom Tab Bar (Airy & Elevated Native Dock) ── */}
       <nav className="mwa-bottom-tabbar">
         {[
           { key: 'home', label: 'Home', icon: 'fas fa-home' },
-          { key: 'services', label: 'Services', icon: 'fas fa-stethoscope' },
-          { key: 'book', label: 'Book Now', icon: 'fas fa-calendar-check', highlight: true },
+          { key: 'services', label: 'Treatments', icon: 'fas fa-stethoscope' },
+          { key: 'book', label: 'Book Visit', icon: 'fas fa-calendar-plus', highlight: true },
           { key: 'hospitals', label: 'Clinics', icon: 'fas fa-hospital' },
-          { key: 'records', label: 'Records', icon: 'fas fa-user-circle' },
+          { key: 'records', label: 'Portal', icon: 'fas fa-user-circle' },
         ].map(item => (
           <button
             key={item.key}
