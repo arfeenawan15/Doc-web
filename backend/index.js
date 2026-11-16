@@ -12,7 +12,7 @@ import Appointment from './appointment.js';
 import User from './user.js';
 import Settings from './settings.js';
 import { defaultServices, defaultHospitals } from './seedData.js';
-import { sendAppointmentEmail } from './emailService.js';
+import { sendAppointmentEmail, sendAdminNewBookingNotification } from './emailService.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CREDS_FILE = path.join(__dirname, 'admin_credentials.json');
@@ -289,6 +289,18 @@ app.post('/appointments', async (req, res) => {
     const newAppointment = new Appointment(req.body);
     const saved = await newAppointment.save();
     console.log('💾 Saved to MongoDB:', saved._id);
+
+    // Notify doctor / admin via email immediately
+    sendAdminNewBookingNotification(saved).then(result => {
+      if (result && result.success) {
+        console.log(`📧 Admin notification email sent for appointment: ${saved._id}`);
+      } else {
+        console.error(`⚠️ Failed to send admin notification email:`, result?.error);
+      }
+    }).catch(err => {
+      console.error(`⚠️ Error triggering admin notification email:`, err.message);
+    });
+
     res.status(201).json({ success: true, message: 'Appointment booked successfully!', data: saved });
   } catch (err) {
     console.error('❌ Save Error:', err.message);

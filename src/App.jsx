@@ -82,7 +82,14 @@ export default function App() {
   useEffect(() => {
     const handleKeyDown = (e) => {
       // Check for Ctrl + Shift + A (Windows/Linux) or Cmd + Shift + A (Mac)
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+      // Also support Ctrl + Alt + A or Ctrl + Shift + D in case a screenshot tool hijacks Ctrl+Shift+A
+      const isA = e.key === 'A' || e.key === 'a';
+      const isD = e.key === 'D' || e.key === 'd';
+      const hasModifier = e.ctrlKey || e.metaKey;
+
+      if ((hasModifier && e.shiftKey && isA) ||
+          (hasModifier && e.altKey && isA) ||
+          (hasModifier && e.shiftKey && isD)) {
         e.preventDefault();
         window.open('/admin', '_blank', 'noopener,noreferrer');
       }

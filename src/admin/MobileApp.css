@@ -1,0 +1,856 @@
+/* ══════════════════════════════════════════════════════════
+   MOBILE APP NATIVE EXPERIENCE (FOR ADMIN PORTAL)
+   Designed specifically as a standalone mobile application UI
+   ══════════════════════════════════════════════════════════ */
+
+.mob-app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #f8fafc;
+  color: #0f172a;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 90px; /* Space for native bottom navigation bar */
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* ── Sticky Top App Header ── */
+.mob-top-header {
+  position: sticky;
+  top: 0;
+  z-index: 990;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.mob-header-doctor {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mob-doc-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+  flex-shrink: 0;
+}
+
+.mob-doc-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.mob-doc-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.mob-doc-status {
+  font-size: 11px;
+  color: #059669;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+.mob-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  display: inline-block;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+.mob-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mob-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mob-icon-btn:active {
+  transform: scale(0.92);
+  background: #e2e8f0;
+}
+
+.mob-icon-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.mob-icon-btn.logout {
+  color: #ef4444;
+  border-color: #fee2e2;
+  background: #fef2f2;
+}
+
+/* ── Content Container ── */
+.mob-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Notification Banner (Action Required) ── */
+.mob-alert-banner {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid #fde68a;
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.08);
+}
+
+.mob-alert-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mob-alert-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #f59e0b;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mob-alert-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.mob-alert-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #92400e;
+}
+
+.mob-alert-desc {
+  font-size: 11px;
+  color: #b45309;
+  margin-top: 2px;
+}
+
+.mob-alert-btn {
+  background: #d97706;
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.mob-alert-btn:active {
+  transform: scale(0.95);
+}
+
+/* ── Native Stat Cards (2x2 Grid) ── */
+.mob-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.mob-stat-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.mob-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--mob-stat-color, #0284c7);
+}
+
+.mob-stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.mob-stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.3px;
+}
+
+.mob-stat-icon-wrap {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--mob-stat-bg, #e0f2fe);
+  color: var(--mob-stat-color, #0284c7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mob-stat-icon-wrap svg {
+  width: 14px;
+  height: 14px;
+}
+
+.mob-stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+}
+
+.mob-stat-sub {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* ── Section Title Card ── */
+.mob-section-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.mob-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.mob-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mob-section-title svg {
+  width: 18px;
+  height: 18px;
+  color: #0284c7;
+}
+
+/* ── Segmented Control (Filter Chips) ── */
+.mob-segmented-control {
+  display: flex;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mob-segment-btn {
+  flex: 1;
+  min-width: 70px;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.mob-segment-btn.active {
+  background: #ffffff;
+  color: #0284c7;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.mob-segment-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: #e2e8f0;
+  color: #475569;
+  font-weight: 700;
+}
+
+.mob-segment-btn.active .mob-segment-badge {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+/* ── App Search Input ── */
+.mob-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.mob-search-input {
+  width: 100%;
+  height: 42px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 0 38px 0 38px;
+  font-size: 13px;
+  color: #0f172a;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.mob-search-input:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+}
+
+.mob-search-icon {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.mob-search-clear {
+  position: absolute;
+  right: 10px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: #e2e8f0;
+  color: #64748b;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ══════════════════════════════════════════════════════════
+   NATIVE PATIENT APPOINTMENT CARDS (MOBILE APPOINTMENTS FEED)
+   ══════════════════════════════════════════════════════════ */
+.mob-patient-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mob-patient-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mob-patient-card:active {
+  transform: scale(0.99);
+}
+
+.mob-card-status-strip {
+  height: 3px;
+  width: 100%;
+}
+.mob-card-status-strip.pending { background: #f59e0b; }
+.mob-card-status-strip.confirmed { background: #10b981; }
+.mob-card-status-strip.cancelled { background: #ef4444; }
+
+.mob-card-body {
+  padding: 14px 16px;
+}
+
+/* Header inside card */
+.mob-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.mob-patient-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mob-avatar-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  color: #0284c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  border: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.mob-patient-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.mob-patient-fullname {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.mob-patient-age-badge {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.mob-status-pill {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.mob-status-pill.pending { background: #fef3c7; color: #92400e; }
+.mob-status-pill.confirmed { background: #d1fae5; color: #065f46; }
+.mob-status-pill.cancelled { background: #fee2e2; color: #991b1b; }
+
+.mob-status-pill-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.pending .mob-status-pill-dot { background: #f59e0b; }
+.confirmed .mob-status-pill-dot { background: #10b981; }
+.cancelled .mob-status-pill-dot { background: #ef4444; }
+
+/* Details row inside card */
+.mob-card-meta-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #f8fafc;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.mob-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #475569;
+}
+
+.mob-meta-row .label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.mob-meta-row .label svg {
+  width: 13px;
+  height: 13px;
+  color: #0284c7;
+}
+
+.mob-meta-row .val {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.mob-meta-row .val.highlight {
+  color: #0284c7;
+  font-weight: 700;
+}
+
+/* Quick Contact Row */
+.mob-contact-quick-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.mob-contact-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #334155;
+  transition: all 0.2s ease;
+}
+
+.mob-contact-btn.whatsapp {
+  background: #25d366;
+  color: #ffffff;
+  border-color: #22c55e;
+}
+
+.mob-contact-btn.call {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+}
+
+.mob-contact-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Card Main Action Row */
+.mob-card-action-bar {
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 12px;
+}
+
+.mob-action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mob-action-btn.confirm {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.mob-action-btn.cancel {
+  background: #fef2f2;
+  color: #ef4444;
+  border: 1px solid #fee2e2;
+}
+
+.mob-action-btn.details {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.mob-action-btn:active {
+  transform: scale(0.96);
+}
+
+.mob-action-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Expanded Card Drawer (Inside Mobile Card) */
+.mob-card-expanded-panel {
+  border-top: 1px dashed #e2e8f0;
+  padding: 14px 16px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mob-expanded-block h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.mob-concern-text {
+  font-size: 12px;
+  color: #334155;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.mob-notes-textarea {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: #0f172a;
+  outline: none;
+  resize: vertical;
+  background: #ffffff;
+}
+
+.mob-notes-textarea:focus {
+  border-color: #0284c7;
+}
+
+.mob-save-notes-btn {
+  margin-top: 6px;
+  width: 100%;
+  padding: 8px 12px;
+  background: #0284c7;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mob-email-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.mob-email-status-pill.sent { background: #d1fae5; color: #065f46; }
+.mob-email-status-pill.failed { background: #fee2e2; color: #991b1b; }
+.mob-email-status-pill.none { background: #f1f5f9; color: #64748b; }
+
+.mob-resend-email-btn {
+  margin-top: 6px;
+  padding: 6px 12px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mob-card-danger-zone {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.mob-delete-record-btn {
+  padding: 6px 10px;
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ══════════════════════════════════════════════════════════
+   NATIVE BOTTOM TAB BAR (iOS / ANDROID STYLE)
+   ══════════════════════════════════════════════════════════ */
+.mob-bottom-tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px 8px calc(8px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.mob-tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 6px 4px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  position: relative;
+  text-decoration: none;
+}
+
+.mob-tab-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mob-tab-icon-wrap svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease;
+}
+
+.mob-tab-item.active {
+  color: #0284c7;
+}
+
+.mob-tab-item.active .mob-tab-icon-wrap svg {
+  transform: translateY(-2px);
+  color: #0284c7;
+}
+
+.mob-tab-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.mob-tab-item.active .mob-tab-label {
+  font-weight: 700;
+}
+
+.mob-tab-badge {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+/* Empty State */
+.mob-empty-feed {
+  text-align: center;
+  padding: 40px 20px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px dashed #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.mob-empty-feed svg {
+  width: 44px;
+  height: 44px;
+  color: #94a3b8;
+}
+
+.mob-empty-feed p {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
