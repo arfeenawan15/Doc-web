@@ -330,7 +330,7 @@ export default function MobileWebsiteView() {
       {/* ── Main App Feed Panes ── */}
       <main className="mwa-main-canvas">
 
-        {/* ════ TAB 1: HOME FEED (WIDGET-BASED NATIVE MOBILE APP DASHBOARD) ════ */}
+        {/* ════ TAB 1: HOME FEED (CLEAN, UNCONGESTED WIDGET-BASED MOBILE APP DASHBOARD) ════ */}
         {activeTab === 'home' && (
           <div className="mwa-feed-pane">
 
@@ -401,38 +401,7 @@ export default function MobileWebsiteView() {
               </div>
             </div>
 
-            {/* WIDGET 2: Smart Real-Time Clinic Status Widget */}
-            {(() => {
-              const status = getClinicStatus();
-              return (
-                <div className="mwa-smart-status-widget">
-                  <div className="mwa-ssw-header">
-                    <div className={`mwa-ssw-badge ${status.badgeClass}`}>
-                      <span className="mwa-ssw-dot"></span>
-                      <span>{status.badge}</span>
-                    </div>
-                    <span className="mwa-ssw-tag">Live Timing</span>
-                  </div>
-                  <div className="mwa-ssw-body">
-                    <h4 className="mwa-ssw-hosp">{status.title}</h4>
-                    <div className="mwa-ssw-time">
-                      <i className="fas fa-clock"></i>
-                      <span>{status.time}</span>
-                    </div>
-                    <p className="mwa-ssw-sub">{status.subtext}</p>
-                    <button 
-                      className="mwa-ssw-btn"
-                      onClick={() => handleSelectHospitalAndBook(status.hospKey)}
-                    >
-                      <span>{status.btnText}</span>
-                      <i className="fas fa-arrow-right"></i>
-                    </button>
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/* WIDGET 3: Core App Action Grid (2x2 Modular Widgets) */}
+            {/* WIDGET 2: Core App Action Grid (2x2 Modular Widgets) */}
             <div className="mwa-action-grid-widget">
               <div 
                 className="mwa-ag-card teal-card"
@@ -491,7 +460,7 @@ export default function MobileWebsiteView() {
               </div>
             </div>
 
-            {/* WIDGET 4: Hospital Branches Fast Selector Widget */}
+            {/* WIDGET 3: Hospital Branches Fast Selector Widget */}
             <div className="mwa-branches-card-widget">
               <div className="mwa-bcw-header">
                 <div>
@@ -543,7 +512,7 @@ export default function MobileWebsiteView() {
               </div>
             </div>
 
-            {/* WIDGET 5: Pediatric Surgical Specialties (Horizontal Carousel Swiper) */}
+            {/* WIDGET 4: Pediatric Surgical Specialties (Interactive Cards Grid) */}
             <div className="mwa-specialties-widget">
               <div className="mwa-sw-header">
                 <div>
@@ -558,60 +527,33 @@ export default function MobileWebsiteView() {
                 </button>
               </div>
 
-              <div className="mwa-sw-reel">
+              <div className="mwa-sw-grid">
                 {[
-                  { label: 'Neonatal', icon: 'fas fa-baby', sub: 'Newborn care' },
-                  { label: 'Urology', icon: 'fas fa-stethoscope', sub: 'Kidney & bladder' },
-                  { label: 'Hydrocephalus', icon: 'fas fa-brain', sub: 'VP Shunt' },
-                  { label: 'Circumcision', icon: 'fas fa-band-aid', sub: 'Safe Plastibell' },
-                  { label: 'Cleft Lip', icon: 'fas fa-smile', sub: 'Palate repair' },
-                  { label: 'Hernia', icon: 'fas fa-notes-medical', sub: 'Inguinal repair' },
+                  { label: 'Neonatal Care', icon: 'fas fa-baby', sub: 'Newborn surgery' },
+                  { label: 'Pediatric Urology', icon: 'fas fa-stethoscope', sub: 'Kidney & bladder' },
+                  { label: 'Hydrocephalus', icon: 'fas fa-brain', sub: 'VP Shunt procedure' },
+                  { label: 'Safe Circumcision', icon: 'fas fa-band-aid', sub: 'Plastibell method' },
+                  { label: 'Cleft Lip & Palate', icon: 'fas fa-smile', sub: 'Reconstructive repair' },
+                  { label: 'Hernia & Hydrocele', icon: 'fas fa-notes-medical', sub: 'Inguinal repair' },
                 ].map(item => (
                   <div
                     key={item.label}
-                    className="mwa-sw-item"
-                    onClick={() => handleSelectSpecialty(item.label)}
+                    className="mwa-sw-grid-item"
+                    onClick={() => handleSelectSpecialty(item.label.split(' ')[0])}
                   >
                     <div className="mwa-sw-icon">
                       <i className={item.icon}></i>
                     </div>
-                    <span className="mwa-sw-title">{item.label}</span>
-                    <span className="mwa-sw-sub">{item.sub}</span>
+                    <div className="mwa-sw-text">
+                      <span className="mwa-sw-title">{item.label}</span>
+                      <span className="mwa-sw-sub">{item.sub}</span>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* WIDGET 6: 24/7 Pediatric Emergency Helpline Widget */}
-            <div className="mwa-emergency-widget">
-              <div className="mwa-ew-left">
-                <div className="mwa-ew-icon-box">
-                  <i className="fas fa-ambulance"></i>
-                </div>
-                <div className="mwa-ew-text">
-                  <h4>24/7 Pediatric Emergency</h4>
-                  <p>Immediate support for neonatal distress or acute pediatric conditions</p>
-                </div>
-              </div>
-              <div className="mwa-ew-actions">
-                <a href="tel:+923098683232" className="mwa-ew-call-btn" title="Call Emergency Line">
-                  <i className="fas fa-phone-alt"></i>
-                  <span>Call 0309 8683232</span>
-                </a>
-                <a 
-                  href="https://wa.me/923318034846?text=EMERGENCY%3A%20Child%20Consultation%20Required" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="mwa-ew-wa-btn"
-                  title="WhatsApp Emergency"
-                >
-                  <i className="fab fa-whatsapp"></i>
-                  <span>Urgent WhatsApp</span>
-                </a>
-              </div>
-            </div>
-
-            {/* WIDGET 7: Patient Health Records Portal Card */}
+            {/* WIDGET 5: Patient Health Records Portal Card */}
             <div 
               className="mwa-patient-portal-widget"
               onClick={() => { setActiveTab('records'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
@@ -629,7 +571,7 @@ export default function MobileWebsiteView() {
               </div>
             </div>
 
-            {/* WIDGET 8: Verified Clinical Statistics */}
+            {/* WIDGET 6: Verified Clinical Statistics */}
             <div className="mwa-stats-widget">
               {STATS.map((st, i) => (
                 <div key={i} className="mwa-sw-stat-box">
