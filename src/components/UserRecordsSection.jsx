@@ -10,10 +10,13 @@ export default function UserRecordsSection() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // If user is not logged in, this functionality is completely hidden from the website
-  if (!user) return null;
-
   useEffect(() => {
+    if (!user?.token) {
+      setAppointments([]);
+      setLoading(false);
+      return;
+    }
+
     const fetchMyAppointments = async () => {
       try {
         const res = await fetch(`${API}/appointments/me`, {
@@ -31,9 +34,7 @@ export default function UserRecordsSection() {
       setLoading(false);
     };
 
-    if (user?.token) {
-      fetchMyAppointments();
-    }
+    fetchMyAppointments();
   }, [user]);
 
   const handleCancelAppointment = async (id) => {
@@ -71,6 +72,9 @@ export default function UserRecordsSection() {
 
   const confirmedCount = appointments.filter(a => a.status === 'confirmed').length;
   const pendingCount = appointments.filter(a => a.status === 'pending').length;
+
+  // If user is not logged in, this section is completely hidden from the website
+  if (!user) return null;
 
   return (
     <section className="urs-section" id="my-records">

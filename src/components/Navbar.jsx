@@ -96,7 +96,7 @@ export default function Navbar() {
               </li>
             )}
             <li>
-              <button onClick={() => { logout(); setOpen(false); }} className="nav-btn nav-logout">
+              <button onClick={() => { logout(); setOpen(false); navigate('/'); }} className="nav-btn nav-logout">
                 <i className="fas fa-sign-out-alt" style={{ marginRight: 6 }}></i> Logout
               </button>
             </li>
@@ -164,7 +164,7 @@ export default function Navbar() {
                 </Link>
               </li>
               <li>
-                <button onClick={() => { logout(); setOpen(false); }} className="nav-btn nav-logout">
+                <button onClick={() => { logout(); setOpen(false); navigate('/'); }} className="nav-btn nav-logout">
                   Logout
                 </button>
               </li>
