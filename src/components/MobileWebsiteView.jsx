@@ -273,9 +273,6 @@ export default function MobileWebsiteView() {
             <i className="fas fa-calendar-check"></i>
             <span>Book Now</span>
           </button>
-          <a href="tel:+923098683232" className="mwa-head-btn call" title="Call Clinic">
-            <i className="fas fa-phone-alt"></i>
-          </a>
         </div>
       </header>
 
@@ -286,14 +283,25 @@ export default function MobileWebsiteView() {
         {activeTab === 'home' && (
           <div className="mwa-feed-pane">
 
-            {/* 1. Doctor Profile Hero Card */}
+            {/* 1. Doctor Profile Hero Card with Corner WhatsApp & Field Overview */}
             <div className="mwa-hero-theme-card">
               <div className="mwa-hero-overlay"></div>
               <div className="mwa-hero-glow"></div>
 
+              {/* Round WhatsApp Logo in Corner */}
+              <a 
+                href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20consult%20regarding%20my%20child." 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="mwa-hero-corner-wa"
+                title="Chat with Dr. Waqas on WhatsApp"
+              >
+                <i className="fab fa-whatsapp"></i>
+              </a>
+
               <div className="mwa-hero-content">
                 <div className="mwa-hero-badge">
-                  ✦ Pediatric Surgeon &amp; Child Specialist
+                  ✦ Pediatric Surgeon &amp; Child Health Specialist
                 </div>
 
                 <div className="mwa-hero-profile-row">
@@ -312,19 +320,28 @@ export default function MobileWebsiteView() {
 
                   <div className="mwa-hero-avatar-wrap">
                     <img src="/assets/pic1.png" alt="Dr. Waqas Ahmad Awan" className="mwa-hero-avatar-img" />
-                    <span className="mwa-hero-online-dot" title="Available for Appointments"></span>
+                    <span className="mwa-hero-online-dot" title="Available for Consultations"></span>
                   </div>
                 </div>
 
-                {/* Direct WhatsApp Consultation Chat */}
-                <a 
-                  href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20consult%20regarding%20my%20child." 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="mwa-hero-wa-btn"
-                >
-                  <i className="fab fa-whatsapp"></i> Chat on WhatsApp with Doctor's Team
-                </a>
+                {/* About Doctor & Specialized Pediatric Surgical Field */}
+                <div className="mwa-hero-about-box">
+                  <h4 className="mwa-hero-about-head">
+                    <i className="fas fa-user-md"></i> About Dr. Waqas &amp; His Field
+                  </h4>
+                  <p className="mwa-hero-about-text">
+                    With over 8 years of dedicated clinical experience at Children's Hospital Multan and Al Manzoor Hospital Mian Channu, Dr. Waqas provides compassionate, specialized surgical care tailored exclusively for newborns, infants, and growing children.
+                  </p>
+
+                  <div className="mwa-hero-field-pills">
+                    <span className="mwa-field-pill"><i className="fas fa-baby"></i> Neonatal Surgery</span>
+                    <span className="mwa-field-pill"><i className="fas fa-check-circle"></i> Pediatric Urology</span>
+                    <span className="mwa-field-pill"><i className="fas fa-brain"></i> Hydrocephalus (VP Shunt)</span>
+                    <span className="mwa-field-pill"><i className="fas fa-notes-medical"></i> Hernia &amp; Hydrocele</span>
+                    <span className="mwa-field-pill"><i className="fas fa-smile"></i> Cleft Lip &amp; Palate</span>
+                    <span className="mwa-field-pill"><i className="fas fa-band-aid"></i> Safe Circumcision</span>
+                  </div>
+                </div>
               </div>
             </div>
 

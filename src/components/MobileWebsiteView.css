@@ -323,31 +323,83 @@
   box-shadow: 0 0 6px #10b981;
 }
 
-.mwa-hero-wa-btn {
+/* ── Corner Floating WhatsApp Button ── */
+.mwa-hero-corner-wa {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 13px 18px;
-  background: #25d366;
-  color: #ffffff;
-  border-radius: 14px;
-  font-weight: 700;
-  font-size: 13px;
+  font-size: 22px;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.45);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  z-index: 10;
   text-decoration: none;
-  border: none;
-  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
   transition: transform 0.15s ease;
-  margin-top: 6px;
 }
 
-.mwa-hero-wa-btn:active {
-  transform: scale(0.98);
+.mwa-hero-corner-wa:active {
+  transform: scale(0.92);
 }
 
-.mwa-hero-wa-btn i {
-  font-size: 17px;
+/* ── About Doctor & Pediatric Field Highlights ── */
+.mwa-hero-about-box {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 14px 14px 12px;
+  margin-top: 14px;
+}
+
+.mwa-hero-about-head {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--mwa-gold-light);
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.mwa-hero-about-head i {
+  color: var(--mwa-teal-light);
+}
+
+.mwa-hero-about-text {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+.mwa-hero-field-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mwa-field-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(13, 115, 119, 0.38);
+  border: 1px solid rgba(20, 160, 165, 0.45);
+  color: #e6fffa;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+.mwa-field-pill i {
+  color: var(--mwa-teal-light);
+  font-size: 10px;
 }
 
 /* ── 2. Interactive Appointment Booking Quick Widget (Airy, Light & Modern) ── */
