@@ -22,71 +22,27 @@
   color: var(--mwa-text);
   display: flex;
   flex-direction: column;
-  padding-top: 96px; /* 32px emergency strip + 64px header */
+  padding-top: 68px; /* Fixed app header */
   padding-bottom: 74px; /* Fixed bottom tab bar */
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── 1. Top Emergency Strip ── */
-.mwa-emergency-bar {
+/* ── Fixed App Header Bar ── */
+.mwa-top-bar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 32px;
-  background: linear-gradient(90deg, #0d1b2a 0%, #0d7377 60%, #0d1b2a 100%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 14px;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.85);
-  z-index: 1001;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.mwa-em-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(239, 68, 68, 0.2);
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #fca5a5;
-  padding: 2px 7px;
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-}
-
-.mwa-em-num {
-  color: #ffffff;
-  font-weight: 700;
-  text-decoration: none;
-  letter-spacing: 0.3px;
-}
-
-.mwa-em-time {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 10.5px;
-}
-
-/* ── 2. Fixed App Header Bar ── */
-.mwa-top-bar {
-  position: fixed;
-  top: 32px;
-  left: 0;
-  right: 0;
   height: 64px;
-  background: rgba(13, 27, 42, 0.97);
+  background: rgba(13, 27, 42, 0.98);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 14px;
   z-index: 1000;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
@@ -149,17 +105,43 @@
 .mwa-header-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+}
+
+.mwa-head-book-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--mwa-teal) 0%, var(--mwa-teal-light) 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(13, 115, 119, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mwa-head-book-btn:active {
+  transform: scale(0.93);
+}
+
+.mwa-head-book-btn i {
+  font-size: 11px;
+  color: var(--mwa-gold-light);
 }
 
 .mwa-head-btn {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 14px;
   text-decoration: none;
   transition: transform 0.15s ease;
 }
@@ -190,7 +172,213 @@
   padding: 14px 14px 24px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
+}
+
+/* ── Appointment Booking Quick Widget (On Top of App) ── */
+.mwa-booking-quick-widget {
+  background: linear-gradient(145deg, #0d1b2a 0%, #0f2738 55%, #0d7377 100%);
+  border-radius: 20px;
+  padding: 16px 15px;
+  color: #ffffff;
+  border: 1px solid rgba(20, 160, 165, 0.4);
+  box-shadow: 0 10px 30px rgba(13, 27, 42, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.mwa-booking-quick-widget::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 151, 58, 0.22) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.mwa-bqw-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.mwa-bqw-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #6ee7b7;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.mwa-bqw-pulse {
+  width: 7px;
+  height: 7px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+  animation: mwaPulse 1.8s infinite;
+}
+
+@keyframes mwaPulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.mwa-bqw-tag {
+  font-size: 11px;
+  color: var(--mwa-gold-light);
+  font-weight: 600;
+  font-style: italic;
+}
+
+.mwa-bqw-card-body {
+  position: relative;
+  z-index: 2;
+}
+
+.mwa-bqw-icon-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.mwa-bqw-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(13, 115, 119, 0.45);
+  border: 1.5px solid var(--mwa-teal-light);
+  color: var(--mwa-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.mwa-bqw-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 2px;
+  line-height: 1.25;
+}
+
+.mwa-bqw-subtext {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.mwa-bqw-branches-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.mwa-bqw-branch-pill {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 10px 10px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  transition: all 0.2s ease;
+}
+
+.mwa-bqw-branch-pill:active {
+  background: rgba(20, 160, 165, 0.25);
+  transform: scale(0.97);
+}
+
+.mwa-bqw-bp-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.mwa-bqw-bp-day {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #86efac;
+  background: rgba(22, 163, 74, 0.28);
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+.mwa-bqw-bp-day.multan {
+  color: #d8b4fe;
+  background: rgba(147, 51, 234, 0.28);
+}
+
+.mwa-bqw-bp-top i {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.mwa-bqw-branch-pill strong {
+  font-size: 12px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mwa-bqw-branch-pill span {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.mwa-bqw-submit-cta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--mwa-teal), var(--mwa-teal-light));
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(13, 115, 119, 0.4);
+  transition: transform 0.15s ease;
+}
+
+.mwa-bqw-submit-cta:active {
+  transform: scale(0.98);
+}
+
+.mwa-bqw-submit-cta i:first-child {
+  color: var(--mwa-gold-light);
+}
+
+.mwa-bqw-submit-cta i:last-child {
+  font-size: 11px;
+  margin-left: 4px;
 }
 
 /* ── Hero Theme Atmosphere Card ── */

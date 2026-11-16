@@ -247,20 +247,8 @@ export default function MobileWebsiteView() {
 
   return (
     <div className="mwa-root">
-      
-      {/* ── 1. Top Emergency Strip (Matching Website Header) ── */}
-      <div className="mwa-emergency-bar">
-        <div className="mwa-em-badge">
-          <i className="fas fa-phone-alt"></i> 24/7 EMERGENCY
-        </div>
-        <a href="tel:+923098683232" className="mwa-em-num">+92 309 8683232</a>
-        <span className="mwa-em-time">
-          <i className="fas fa-clock" style={{ marginRight: 4 }}></i>
-          {currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-        </span>
-      </div>
 
-      {/* ── 2. Fixed App Header Bar (Theme: Midnight Slate & Medical Teal) ── */}
+      {/* ── Fixed App Header Bar (Theme: Midnight Slate & Medical Teal) ── */}
       <header className="mwa-top-bar">
         <div className="mwa-brand-left" onClick={handleBrandTap}>
           <div className="mwa-avatar-box">
@@ -274,6 +262,17 @@ export default function MobileWebsiteView() {
         </div>
 
         <div className="mwa-header-actions">
+          <button 
+            className="mwa-head-book-btn"
+            onClick={() => {
+              setActiveTab('book');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            title="Book Appointment"
+          >
+            <i className="fas fa-calendar-check"></i>
+            <span>Book</span>
+          </button>
           <a 
             href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20book%20an%20appointment." 
             target="_blank" 
@@ -289,12 +288,70 @@ export default function MobileWebsiteView() {
         </div>
       </header>
 
-      {/* ── 3. Main App Feed Panes ── */}
+      {/* ── Main App Feed Panes ── */}
       <main className="mwa-main-canvas">
 
         {/* ════ TAB 1: HOME FEED (THEME-ALIGNED) ════ */}
         {activeTab === 'home' && (
           <div className="mwa-feed-pane">
+
+            {/* ── Appointment Booking Quick Widget (On Top of App) ── */}
+            <div className="mwa-booking-quick-widget">
+              <div className="mwa-bqw-head">
+                <div className="mwa-bqw-live">
+                  <span className="mwa-bqw-pulse"></span>
+                  <span>Direct Online Booking Open</span>
+                </div>
+                <span className="mwa-bqw-tag">Dr. Waqas Ahmad Awan</span>
+              </div>
+
+              <div className="mwa-bqw-card-body">
+                <div className="mwa-bqw-icon-title-row">
+                  <div className="mwa-bqw-icon">
+                    <i className="fas fa-calendar-check"></i>
+                  </div>
+                  <div>
+                    <h3 className="mwa-bqw-heading">Book Child Consultation</h3>
+                    <p className="mwa-bqw-subtext">Reserve an appointment at your preferred hospital branch</p>
+                  </div>
+                </div>
+
+                <div className="mwa-bqw-branches-grid">
+                  <div 
+                    className="mwa-bqw-branch-pill active"
+                    onClick={() => { setActiveTab('book'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  >
+                    <div className="mwa-bqw-bp-top">
+                      <span className="mwa-bqw-bp-day">Sunday Only</span>
+                      <i className="fas fa-chevron-right"></i>
+                    </div>
+                    <strong>Al Manzoor Hospital</strong>
+                    <span>Mian Channu · 11 AM - 4 PM</span>
+                  </div>
+
+                  <div 
+                    className="mwa-bqw-branch-pill"
+                    onClick={() => { setActiveTab('book'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  >
+                    <div className="mwa-bqw-bp-top">
+                      <span className="mwa-bqw-bp-day multan">Thu – Sat</span>
+                      <i className="fas fa-chevron-right"></i>
+                    </div>
+                    <strong>Sughran Wazir Complex</strong>
+                    <span>Multan Cantt · 6 PM - 9 PM</span>
+                  </div>
+                </div>
+
+                <button 
+                  className="mwa-bqw-submit-cta"
+                  onClick={() => { setActiveTab('book'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                >
+                  <i className="fas fa-calendar-plus"></i>
+                  <span>Schedule Consultation Now</span>
+                  <i className="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
 
             {/* Hero Dark Medical Atmosphere Card */}
             <div className="mwa-hero-theme-card">
