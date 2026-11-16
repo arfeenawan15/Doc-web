@@ -2,8 +2,8 @@ export const DOCTOR = {
   name:      "Dr. Waqas Ahmad Awan",
   title:     "Child Surgeon & Child Specialist",
   tagline:   "MBBS, MS — Top Child Surgeon & Specialist in Mian Channu & Multan",
-  bio1:      "Dr. Waqas Ahmad Awan (MBBS, MS) is a leading Child Surgeon & Child Specialist in Mian Channu and Multan (بچوں کا ڈاکٹر اور سرجن). With more than 8 years of dedicated clinical experience at Children's Hospital Multan and Al Manzoor Hospital Mian Channu, he has performed over 1,000 successful surgeries in infants and children.",
-  bio2:      "Widely recommended as the best Bachon Ka Doctor and Bachon Ka Surgeon in Mian Channu, Dr. Waqas specializes in neonatal surgery, pediatric urology (undescended testes, hypospadias), hernia and hydrocele repair, VP shunting for hydrocephalus, cleft lip and palate, and minimally invasive laparoscopic surgery.",
+  bio1:      "Dr. Waqas Ahmad Awan (MBBS, MS) is a leading Child Surgeon & Child Specialist in Mian Channu and Multan. With more than 8 years of dedicated clinical experience at Children's Hospital Multan and Al Manzoor Hospital Mian Channu, he has performed over 1,000 successful surgeries in infants and children.",
+  bio2:      "Widely recognized as a top Pediatric Surgeon and Child Specialist in Mian Channu, Dr. Waqas specializes in neonatal surgery, pediatric urology (undescended testes, hypospadias), hernia and hydrocele repair, VP shunting for hydrocephalus, cleft lip and palate, and minimally invasive laparoscopic surgery.",
   whatsapp:  "923318034846",
   phone1:    "+92 65 2663232",
   phone2:    "+92 3023569088",
@@ -12,7 +12,6 @@ export const DOCTOR = {
 export const EDUCATION = [
   { degree: "MBBS",                           institution: "Sahiwal Teaching Hospital" },
   { degree: "Specialization – Pediatric Surgery", institution: "Children's Hospital & Institute of Child Health Multan" },
-  { degree: "Member",                         institution: "Association of Paediatric Surgeons of Pakistan" },
 ];
 
 export const STATS = [
@@ -137,7 +136,6 @@ export const NAV_LINKS = [
   { label: "Services",    href: "#services"    },
   { label: "Schedule",    href: "#schedule"    },
   { label: "Locations",   href: "#locations"   },
-  { label: "FAQs",        href: "#faq"         },
   { label: "Contact",     href: "#contact"     },
 ];
 

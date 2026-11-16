@@ -85,8 +85,8 @@ export default function Navbar() {
           {user ? (
             <>
               <li>
-                <Link to="/patient-dashboard" className="nav-user-name" onClick={() => setOpen(false)}>
-                  Hi, {user.name.split(' ')[0]}
+                <Link to="/patient-dashboard" className="nav-btn nav-my-records" onClick={() => setOpen(false)} style={{ background: '#0d9488', color: '#fff', border: 'none' }}>
+                  <i className="fas fa-notes-medical" style={{ marginRight: 6 }}></i> My Records
                 </Link>
               </li>
               <li>

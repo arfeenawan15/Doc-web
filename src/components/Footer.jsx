@@ -72,7 +72,7 @@ export default function Footer() {
       <div className="footer-bottom">
         <p>© {new Date().getFullYear()} Dr. Waqas Ahmad Awan. All rights reserved.</p>
         <p>
-          Member · Association of Paediatric Surgeons of Pakistan |{' '}
+          Compassionate pediatric surgical &amp; neonatal medical care |{' '}
           <Link to="/admin" target="_blank" rel="noopener noreferrer" className="admin-link">Admin Portal</Link>
         </p>
       </div>

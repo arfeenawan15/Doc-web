@@ -105,20 +105,50 @@ export default function PatientDashboard() {
                 </div>
                 
                 <div className="pd-details">
-                  <p><i className="fas fa-user"></i> Patient: {apt.patientName} (Age {apt.age})</p>
-                  <p><i className="fas fa-clock"></i> {fmtDate(apt.date)} at {apt.time}</p>
+                  <p><i className="fas fa-user"></i> <strong>Patient:</strong> {apt.patientName} ({apt.age} years old)</p>
+                  <p><i className="fas fa-calendar-day"></i> <strong>Schedule:</strong> {fmtDate(apt.date)} at {apt.time}</p>
+                  <p><i className="fas fa-hospital"></i> <strong>Location:</strong> {apt.hospital}</p>
                 </div>
 
-                {(apt.status === 'pending' || apt.status === 'confirmed') && (
-                  <div className="pd-actions">
+                {apt.concern && (
+                  <div style={{ background: '#f8fafc', padding: '10px 12px', borderRadius: 8, fontSize: 13, marginBottom: 12, border: '1px solid #e2e8f0' }}>
+                    <strong style={{ color: '#475569', fontSize: 11, textTransform: 'uppercase', display: 'block', marginBottom: 2 }}>Stated Concern:</strong>
+                    <span style={{ color: '#334155', fontStyle: 'italic' }}>“{apt.concern}”</span>
+                  </div>
+                )}
+
+                {apt.doctorNotes ? (
+                  <div style={{ background: '#f0fdfa', padding: '12px 14px', borderRadius: 8, fontSize: 13, marginBottom: 14, border: '1px solid #ccfbf1' }}>
+                    <strong style={{ color: '#0f766e', fontSize: 12, display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                      <i className="fas fa-user-md" /> Doctor's Clinical Advice &amp; Prescription:
+                    </strong>
+                    <p style={{ margin: 0, color: '#134e4a', fontWeight: 600 }}>{apt.doctorNotes}</p>
+                  </div>
+                ) : (
+                  <div style={{ background: '#fffbeb', padding: '10px 12px', borderRadius: 8, fontSize: 12, color: '#92400e', marginBottom: 14, border: '1px solid #fde68a' }}>
+                    <strong>Visit Guidelines:</strong> Please arrive 10-15 minutes early with any previous medical/ultrasound scans.
+                  </div>
+                )}
+
+                <div className="pd-actions" style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <a
+                    href={`https://wa.me/923318034846?text=${encodeURIComponent(`Hello Dr. Waqas, I am ${user.name} regarding appointment for ${apt.patientName} on ${apt.date}.`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: '#16a34a', fontSize: 13, fontWeight: 600, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}
+                  >
+                    <i className="fab fa-whatsapp" /> WhatsApp Clinic Team
+                  </a>
+
+                  {(apt.status === 'pending' || apt.status === 'confirmed') && (
                     <button 
                       className="pd-btn-cancel" 
                       onClick={() => handleCancel(apt._id)}
                     >
-                      Cancel Appointment
+                      Cancel Booking
                     </button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             ))}
           </div>

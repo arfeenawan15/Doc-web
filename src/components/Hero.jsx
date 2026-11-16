@@ -42,7 +42,7 @@ export default function Hero() {
           </h1>
 
           <p className="hero-subtitle">
-            Top <strong>Child Surgeon &amp; Child Specialist in Mian Channu &amp; Multan</strong> (بچوں کا ڈاکٹر اور سرجن). Providing compassionate, expert surgical and medical care for infants and children at Al Manzoor Hospital Mian Channu.
+            Top <strong>Child Surgeon &amp; Child Specialist in Mian Channu &amp; Multan</strong>. Providing compassionate, expert surgical and medical care for infants and children at Al Manzoor Hospital Mian Channu.
           </p>
 
           <div className="hero-creds">
@@ -62,7 +62,7 @@ export default function Hero() {
 
           <div className="hero-trust-pills">
             <span className="trust-pill"><i className="fas fa-user-md" /> Child Specialist Mian Channu</span>
-            <span className="trust-pill"><i className="fas fa-stethoscope" /> Bachon Ka Doctor &amp; Surgeon</span>
+            <span className="trust-pill"><i className="fas fa-stethoscope" /> Pediatric Surgery Specialist</span>
             <span className="trust-pill"><i className="fas fa-hospital" /> Al Manzoor Hospital</span>
             <span className="trust-pill"><i className="fas fa-award" /> 1000+ Surgeries</span>
           </div>

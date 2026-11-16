@@ -7,7 +7,7 @@ import About         from './components/About';
 import Services      from './components/Services';
 import Schedule      from './components/Schedule';
 import Locations     from './components/Locations';
-import FAQ           from './components/FAQ';
+import UserRecordsSection from './components/UserRecordsSection';
 import Appointment   from './components/Appointment';
 import Contact       from './components/Contact';
 import Footer        from './components/Footer';
@@ -69,7 +69,7 @@ function PublicSite() {
         <Services />
         <Schedule />
         <Locations />
-        <FAQ />
+        <UserRecordsSection />
         <Appointment />
         <Contact />
       </main>
