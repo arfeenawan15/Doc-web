@@ -65,35 +65,83 @@ export default function PatientDashboard() {
     });
   };
 
+  const confirmedCount = appointments.filter(a => a?.status === 'confirmed').length;
+  const pendingCount = appointments.filter(a => a?.status === 'pending').length;
+
   return (
     <div className="pd-root">
       <SEO title="My Dashboard | Dr. Waqas Ahmad Awan" noIndex />
       <Navbar />
       
-      <div className="pd-header">
-        <div className="pd-header-top-bar">
-          <Link to="/" className="pd-back-home-btn">
-            <i className="fas fa-arrow-left"></i> Return to Main Website
-          </Link>
-          <div className="pd-top-actions">
-            <Link to="/" className="pd-nav-link-btn">
-              <i className="fas fa-home"></i> Home
+      {/* ── Modern Clinic Patient Greeting Hero ── */}
+      <section className="pd-hero-section">
+        <div className="pd-hero-container">
+          <div className="pd-hero-main">
+            <div className="pd-hero-trust-badge">
+              <i className="fas fa-check-circle"></i> Verified Patient Account
+            </div>
+            <h1 className="pd-hero-title">
+              Welcome, {user?.name?.split(' ')[0] || user?.name || 'Patient'}
+            </h1>
+            <p className="pd-hero-subtitle">
+              Manage your child's clinical consultations, review doctor prescriptions and visit guidelines, and keep your medical records up to date.
+            </p>
+            <div className="pd-hero-quick-meta">
+              <span><i className="fas fa-envelope"></i> {user?.email}</span>
+              <span><i className="fas fa-clinic-medical"></i> Al Manzoor Hospital Mian Channu</span>
+            </div>
+          </div>
+
+          {/* Quick Metrics Bar */}
+          <div className="pd-metrics-row">
+            <div className="pd-metric-card">
+              <div className="pd-metric-num">{appointments.length}</div>
+              <div className="pd-metric-lbl">Total Consultations</div>
+            </div>
+            <div className="pd-metric-card active">
+              <div className="pd-metric-num">{confirmedCount}</div>
+              <div className="pd-metric-lbl">Confirmed Visits</div>
+            </div>
+            {pendingCount > 0 && (
+              <div className="pd-metric-card pending">
+                <div className="pd-metric-num">{pendingCount}</div>
+                <div className="pd-metric-lbl">Under Review</div>
+              </div>
+            )}
+            <a 
+              href="https://wa.me/923318034846" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="pd-metric-card wa-support"
+              title="Message Dr. Waqas team on WhatsApp"
+            >
+              <div className="pd-metric-num"><i className="fab fa-whatsapp"></i></div>
+              <div className="pd-metric-lbl">Clinic WhatsApp</div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Main Dashboard Content ── */}
+      <div className="pd-content">
+        <div className="pd-section-header-bar">
+          <div>
+            <h2 className="pd-section-title">
+              <i className="fas fa-calendar-alt"></i> Consultation Records
+            </h2>
+            <p className="pd-section-sub">
+              Your registered appointment history and doctor clinical notes
+            </p>
+          </div>
+          <div className="pd-header-action-group">
+            <Link to="/" className="pd-btn-secondary">
+              <i className="fas fa-home"></i> Main Website
             </Link>
-            <Link to="/#appointment" className="pd-nav-link-btn primary">
-              <i className="fas fa-calendar-plus"></i> Book New Consultation
+            <Link to="/#appointment" className="pd-btn-primary">
+              <i className="fas fa-calendar-plus"></i> Book Consultation
             </Link>
           </div>
         </div>
-        <div className="pd-header-welcome">
-          <h1>Welcome, {user?.name?.split(' ')[0] || user?.name || 'Patient'}</h1>
-          <p>Manage your child's clinical consultation bookings, review doctor advice, and track appointments</p>
-        </div>
-      </div>
-
-      <div className="pd-content">
-        <h2 className="pd-section-title">
-          <i className="fas fa-calendar-check"></i> My Appointments
-        </h2>
 
         {loading ? (
           <div className="pd-loading">
@@ -102,13 +150,17 @@ export default function PatientDashboard() {
           </div>
         ) : appointments.length === 0 ? (
           <div className="pd-empty">
-            <i className="fas fa-notes-medical"></i>
-            <h3>No Appointments Found</h3>
-            <p>You don't have any past or upcoming appointments registered under your account.</p>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 18, flexWrap: 'wrap' }}>
-              <Link to="/#appointment" className="pd-btn-book">Book an Appointment</Link>
-              <Link to="/" className="pd-btn-home-outline">
-                <i className="fas fa-home"></i> Return to Main Website
+            <div className="pd-empty-icon-wrap">
+              <i className="fas fa-notes-medical"></i>
+            </div>
+            <h3>No Consultations Booked Yet</h3>
+            <p>You don't have any past or active appointments registered under your account. Schedule a consultation with Dr. Waqas Ahmad Awan at your preferred hospital branch.</p>
+            <div className="pd-empty-actions">
+              <Link to="/#appointment" className="pd-btn-primary">
+                <i className="fas fa-calendar-plus"></i> Schedule an Appointment
+              </Link>
+              <Link to="/" className="pd-btn-secondary">
+                <i className="fas fa-home"></i> Explore Clinic Website
               </Link>
             </div>
           </div>
@@ -118,46 +170,54 @@ export default function PatientDashboard() {
               <div className="pd-card" key={apt._id}>
                 <div className="pd-card-header">
                   <div>
-                    <div className="pd-hospital">{apt.hospital}</div>
+                    <div className="pd-hospital">
+                      <i className="fas fa-map-marker-alt" style={{ marginRight: 6, color: '#0284c7' }}></i>
+                      {apt.hospital}
+                    </div>
                     <div className="pd-service">{apt.service || "General Consultation"}</div>
                   </div>
-                  <span className={`pd-badge ${apt.status}`}>{apt.status}</span>
+                  <span className={`pd-badge ${apt.status}`}>
+                    {apt.status === 'confirmed' && '✓ Confirmed'}
+                    {apt.status === 'pending' && '🕒 Pending Review'}
+                    {apt.status === 'cancelled' && '✕ Cancelled'}
+                  </span>
                 </div>
                 
                 <div className="pd-details">
-                  <p><i className="fas fa-user"></i> <strong>Patient:</strong> {apt.patientName} ({apt.age} years old)</p>
+                  <p><i className="fas fa-user-circle"></i> <strong>Patient:</strong> {apt.patientName} ({apt.age} years old)</p>
                   <p><i className="fas fa-calendar-day"></i> <strong>Schedule:</strong> {fmtDate(apt.date)} at {apt.time}</p>
-                  <p><i className="fas fa-hospital"></i> <strong>Location:</strong> {apt.hospital}</p>
+                  <p><i className="fas fa-user-shield"></i> <strong>Guardian:</strong> {apt.guardianName} ({apt.phone})</p>
                 </div>
 
                 {apt.concern && (
-                  <div style={{ background: '#f8fafc', padding: '10px 12px', borderRadius: 8, fontSize: 13, marginBottom: 12, border: '1px solid #e2e8f0' }}>
-                    <strong style={{ color: '#475569', fontSize: 11, textTransform: 'uppercase', display: 'block', marginBottom: 2 }}>Stated Concern:</strong>
-                    <span style={{ color: '#334155', fontStyle: 'italic' }}>“{apt.concern}”</span>
+                  <div className="pd-concern-card">
+                    <strong className="pd-concern-label">Stated Problem / Symptoms:</strong>
+                    <p className="pd-concern-txt">“{apt.concern}”</p>
                   </div>
                 )}
 
                 {apt.doctorNotes ? (
-                  <div style={{ background: '#f0fdfa', padding: '12px 14px', borderRadius: 8, fontSize: 13, marginBottom: 14, border: '1px solid #ccfbf1' }}>
-                    <strong style={{ color: '#0f766e', fontSize: 12, display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                      <i className="fas fa-user-md" /> Doctor's Clinical Advice &amp; Prescription:
+                  <div className="pd-prescription-card">
+                    <strong className="pd-prescription-label">
+                      <i className="fas fa-user-md" /> Doctor's Clinical Advice &amp; Notes:
                     </strong>
-                    <p style={{ margin: 0, color: '#134e4a', fontWeight: 600 }}>{apt.doctorNotes}</p>
+                    <p className="pd-prescription-txt">{apt.doctorNotes}</p>
                   </div>
                 ) : (
-                  <div style={{ background: '#fffbeb', padding: '10px 12px', borderRadius: 8, fontSize: 12, color: '#92400e', marginBottom: 14, border: '1px solid #fde68a' }}>
-                    <strong>Visit Guidelines:</strong> Please arrive 10-15 minutes early with any previous medical/ultrasound scans.
+                  <div className="pd-guidelines-card">
+                    <i className="fas fa-info-circle"></i>
+                    <span><strong>Pre-Visit Guidelines:</strong> Please arrive 15 minutes before your time slot and bring any previous medical ultrasound or laboratory reports.</span>
                   </div>
                 )}
 
-                <div className="pd-actions" style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div className="pd-card-footer">
                   <a
-                    href={`https://wa.me/923318034846?text=${encodeURIComponent(`Hello Dr. Waqas, I am ${user.name} regarding appointment for ${apt.patientName} on ${apt.date}.`)}`}
+                    href={`https://wa.me/923318034846?text=${encodeURIComponent(`Hello Dr. Waqas Clinic, I am ${user.name} regarding appointment for ${apt.patientName} on ${apt.date}.`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ color: '#16a34a', fontSize: 13, fontWeight: 600, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}
+                    className="pd-btn-wa"
                   >
-                    <i className="fab fa-whatsapp" /> WhatsApp Clinic Team
+                    <i className="fab fa-whatsapp" /> WhatsApp Clinic
                   </a>
 
                   {(apt.status === 'pending' || apt.status === 'confirmed') && (
@@ -165,7 +225,7 @@ export default function PatientDashboard() {
                       className="pd-btn-cancel" 
                       onClick={() => handleCancel(apt._id)}
                     >
-                      Cancel Booking
+                      Cancel Consultation
                     </button>
                   )}
                 </div>

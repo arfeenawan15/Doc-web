@@ -12,7 +12,7 @@ import Appointment from './appointment.js';
 import User from './user.js';
 import Settings from './settings.js';
 import { defaultServices, defaultHospitals } from './seedData.js';
-import { sendAppointmentEmail, sendAdminNewBookingNotification } from './emailService.js';
+import { sendAppointmentEmail, sendAdminNewBookingNotification, sendPasswordResetCodeEmail } from './emailService.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CREDS_FILE = path.join(__dirname, 'admin_credentials.json');
@@ -189,6 +189,125 @@ app.post('/auth/login', async (req, res) => {
     res.json({ success: true, token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/* ─── POST /auth/forgot-password — Send OTP Verification Code ─── */
+app.post('/auth/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ success: false, message: 'Please provide your account email address.' });
+  }
+
+  const normalizedEmail = email.toLowerCase().trim();
+  try {
+    const user = await User.findOne({ email: normalizedEmail });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'No registered patient account found with this email address.' });
+    }
+
+    // Generate 6-digit random code
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    user.resetPasswordCode = code;
+    user.resetPasswordExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 mins expiry
+    await user.save();
+
+    // Dispatch verification code email
+    const emailResult = await sendPasswordResetCodeEmail({
+      to: user.email,
+      name: user.name,
+      code
+    });
+
+    if (!emailResult || !emailResult.success) {
+      console.error('Failed to dispatch password reset code email:', emailResult?.error);
+      return res.status(500).json({ success: false, message: 'Could not send verification email. Please try again or contact clinic support.' });
+    }
+
+    res.json({
+      success: true,
+      message: `A 6-digit verification code has been sent to ${user.email}. Please check your inbox and spam folder.`
+    });
+  } catch (err) {
+    console.error('Forgot password error:', err);
+    res.status(500).json({ success: false, message: 'Server error processing password reset.' });
+  }
+});
+
+/* ─── POST /auth/verify-reset-code — Verify OTP Code ─── */
+app.post('/auth/verify-reset-code', async (req, res) => {
+  const { email, code } = req.body;
+  if (!email || !code) {
+    return res.status(400).json({ success: false, message: 'Email and verification code are required.' });
+  }
+
+  const normalizedEmail = email.toLowerCase().trim();
+  try {
+    const user = await User.findOne({ email: normalizedEmail });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Account not found.' });
+    }
+
+    if (!user.resetPasswordCode || user.resetPasswordCode !== code.trim()) {
+      return res.status(400).json({ success: false, message: 'Invalid verification code. Please check your email.' });
+    }
+
+    if (!user.resetPasswordExpires || user.resetPasswordExpires < new Date()) {
+      return res.status(400).json({ success: false, message: 'Verification code has expired. Please request a new code.' });
+    }
+
+    res.json({ success: true, message: 'Verification code confirmed.' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Server error verifying code.' });
+  }
+});
+
+/* ─── POST /auth/reset-password — Set New Password ─── */
+app.post('/auth/reset-password', async (req, res) => {
+  const { email, code, newPassword } = req.body;
+  if (!email || !code || !newPassword) {
+    return res.status(400).json({ success: false, message: 'All fields are required.' });
+  }
+
+  if (newPassword.length < 6) {
+    return res.status(400).json({ success: false, message: 'New password must be at least 6 characters.' });
+  }
+
+  const normalizedEmail = email.toLowerCase().trim();
+  try {
+    const user = await User.findOne({ email: normalizedEmail });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Account not found.' });
+    }
+
+    if (!user.resetPasswordCode || user.resetPasswordCode !== code.trim()) {
+      return res.status(400).json({ success: false, message: 'Invalid verification code.' });
+    }
+
+    if (!user.resetPasswordExpires || user.resetPasswordExpires < new Date()) {
+      return res.status(400).json({ success: false, message: 'Verification code has expired. Please request a new code.' });
+    }
+
+    user.password = newPassword; // Will be hashed by userSchema.pre('save')
+    user.resetPasswordCode = null;
+    user.resetPasswordExpires = null;
+    await user.save();
+
+    const token = jwt.sign(
+      { id: user._id, role: user.role, name: user.name, email: user.email },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
+    res.json({
+      success: true,
+      message: 'Password reset successfully! You are now logged in.',
+      token,
+      user: { id: user._id, name: user.name, email: user.email, role: user.role }
+    });
+  } catch (err) {
+    console.error('Reset password error:', err);
+    res.status(500).json({ success: false, message: 'Server error resetting password.' });
   }
 });
 

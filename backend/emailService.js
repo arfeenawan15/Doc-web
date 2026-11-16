@@ -475,3 +475,102 @@ export async function sendAdminNewBookingNotification(appointment) {
     text: plainText
   });
 }
+
+/**
+ * Dispatches a 6-digit OTP verification email for patient account password resets.
+ */
+export async function sendPasswordResetCodeEmail({ to, name, code }) {
+  const subject = `🔐 ${code} is your Dr. Waqas Ahmad Awan Clinic verification code`;
+
+  const htmlBody = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body style="margin:0; padding:0; background:#f4f7fb; font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1e293b;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f7fb; padding:30px 10px;">
+      <tr>
+        <td align="center">
+          <table width="100%" max-width="560" style="max-width:560px; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.06); border:1px solid #e2e8f0;">
+            
+            <!-- Header -->
+            <tr>
+              <td style="background:linear-gradient(135deg, #0f766e 0%, #0369a1 100%); padding:28px 32px; text-align:center;">
+                <h1 style="margin:0; color:#ffffff; font-size:22px; font-weight:700; letter-spacing:-0.5px;">
+                  Dr. Waqas Ahmad Awan
+                </h1>
+                <p style="margin:5px 0 0; color:#99f6e4; font-size:13px; font-weight:500;">
+                  Pediatric Surgeon &amp; Child Specialist · Patient Portal
+                </p>
+              </td>
+            </tr>
+
+            <!-- Content Area -->
+            <tr>
+              <td style="padding:32px 36px;">
+                <h2 style="margin:0 0 12px; color:#0f172a; font-size:19px; font-weight:600;">
+                  Password Reset Request
+                </h2>
+                <p style="margin:0 0 18px; color:#475569; font-size:14px; line-height:1.6;">
+                  Assalam-o-Alaikum <strong>${name || 'Patient'}</strong>,<br>
+                  We received a request to reset your password for your clinic account. Use the verification code below to set a new password:
+                </p>
+
+                <!-- OTP Code Display Card -->
+                <div style="background:#f0fdfa; border:2px dashed #0d9488; border-radius:12px; padding:22px 20px; text-align:center; margin:24px 0;">
+                  <span style="display:block; font-size:11px; font-weight:700; letter-spacing:1.5px; color:#0f766e; text-transform:uppercase; margin-bottom:8px;">
+                    Your 6-Digit Verification Code
+                  </span>
+                  <span style="display:inline-block; font-size:36px; font-weight:800; letter-spacing:8px; color:#0f766e; font-family:monospace;">
+                    ${code}
+                  </span>
+                  <span style="display:block; font-size:12px; color:#64748b; margin-top:8px;">
+                    ⏱️ Valid for 15 minutes only
+                  </span>
+                </div>
+
+                <p style="margin:0 0 12px; color:#64748b; font-size:13px; line-height:1.5;">
+                  If you did not initiate this request, you can safely ignore this email. Your current password remains secure and unchanged.
+                </p>
+
+                <hr style="border:none; border-top:1px solid #f1f5f9; margin:24px 0;">
+
+                <p style="margin:0; color:#94a3b8; font-size:12px; line-height:1.5;">
+                  Need assistance? Contact our clinic reception at <a href="tel:+923098683232" style="color:#0284c7; text-decoration:none;">+92 309 8683232</a> or WhatsApp us directly at <a href="https://wa.me/923318034846" style="color:#16a34a; text-decoration:none;">+92 331 8034846</a>.
+                </p>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="background:#f8fafc; padding:16px 36px; text-align:center; border-top:1px solid #e2e8f0;">
+                <p style="margin:0; color:#94a3b8; font-size:11px;">
+                  © ${new Date().getFullYear()} Dr. Waqas Ahmad Awan Clinic · All Manzoor Hospital Mian Channu
+                </p>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+  </html>
+  `;
+
+  const plainText = `Password Reset Verification Code - Dr. Waqas Ahmad Awan Clinic\n\n` +
+    `Assalam-o-Alaikum ${name || 'Patient'},\n\n` +
+    `Your 6-digit verification code is: ${code}\n\n` +
+    `This code will expire in 15 minutes.\n` +
+    `If you did not request a password reset, please ignore this email.\n\n` +
+    `Clinic Contact: +92 309 8683232 | WhatsApp: +92 331 8034846\n`;
+
+  return dispatchEmail({
+    to,
+    subject,
+    html: htmlBody,
+    text: plainText
+  });
+}

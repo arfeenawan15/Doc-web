@@ -61,6 +61,59 @@ export default function Navbar() {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  /* ── Dedicated Patient Portal Navigation ── */
+  if (location.pathname === '/patient-dashboard') {
+    return (
+      <nav className="navbar scrolled portal-nav-root" id="navbar">
+        <div className="nav-container portal-nav-container">
+          <Link to="/" className="nav-logo portal-logo">
+            <span className="logo-icon">
+              <img src="/assets/logo.png" alt="Dr. Waqas" className="logo-img" />
+            </span>
+            <div className="logo-text">
+              <div className="logo-name">Dr. Waqas Ahmad Awan</div>
+              <div className="logo-title">Pediatric Surgeon · Patient Portal</div>
+            </div>
+          </Link>
+
+          <ul className={`nav-links portal-links ${open ? 'open' : ''}`}>
+            <li>
+              <Link to="/" className="nav-btn portal-btn-web" onClick={() => setOpen(false)}>
+                <i className="fas fa-home" style={{ marginRight: 6 }}></i> Main Website
+              </Link>
+            </li>
+            <li>
+              <Link to="/#appointment" className="nav-btn nav-book-btn" onClick={() => setOpen(false)}>
+                <i className="fas fa-calendar-plus" style={{ marginRight: 6 }}></i> Book Consultation
+              </Link>
+            </li>
+            {user && (
+              <li className="portal-user-tag">
+                <span className="portal-user-avatar">
+                  {user.name ? user.name[0].toUpperCase() : 'P'}
+                </span>
+                <span className="portal-user-name">{user.name?.split(' ')[0] || 'Patient'}</span>
+              </li>
+            )}
+            <li>
+              <button onClick={() => { logout(); setOpen(false); }} className="nav-btn nav-logout">
+                <i className="fas fa-sign-out-alt" style={{ marginRight: 6 }}></i> Logout
+              </button>
+            </li>
+          </ul>
+
+          <button
+            className={`hamburger ${open ? 'open' : ''}`}
+            aria-label="Toggle menu"
+            onClick={() => setOpen(prev => !prev)}
+          >
+            <span /><span /><span />
+          </button>
+        </div>
+      </nav>
+    );
+  }
+
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="navbar">
       <div className="nav-container">
