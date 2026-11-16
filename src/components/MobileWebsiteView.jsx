@@ -291,29 +291,78 @@ export default function MobileWebsiteView() {
       {/* ── Main App Feed Panes ── */}
       <main className="mwa-main-canvas">
 
-        {/* ════ TAB 1: HOME FEED (THEME-ALIGNED) ════ */}
+        {/* ════ TAB 1: HOME FEED (AIRY, BEAUTIFUL & FLEXIBLE) ════ */}
         {activeTab === 'home' && (
           <div className="mwa-feed-pane">
 
-            {/* ── Appointment Booking Quick Widget (On Top of App) ── */}
+            {/* 1. Doctor Profile Hero Card */}
+            <div className="mwa-hero-theme-card">
+              <div className="mwa-hero-overlay"></div>
+              <div className="mwa-hero-glow"></div>
+
+              <div className="mwa-hero-content">
+                <div className="mwa-hero-badge">
+                  ✦ Pediatric Surgeon &amp; Child Specialist
+                </div>
+
+                <div className="mwa-hero-profile-row">
+                  <div className="mwa-hero-profile-info">
+                    <h1 className="mwa-hero-title">
+                      Dr. Waqas <span className="mwa-name-gold">Ahmad Awan</span>
+                    </h1>
+                    <p className="mwa-hero-credentials">
+                      MBBS · FCPS Pediatric Surgery (Children's Hospital &amp; ICH Multan)
+                    </p>
+                    <div className="mwa-hero-trust-chips">
+                      <span className="mwa-trust-chip"><i className="fas fa-award"></i> 8+ Yrs Exp</span>
+                      <span className="mwa-trust-chip"><i className="fas fa-stethoscope"></i> 1000+ Surgeries</span>
+                    </div>
+                  </div>
+
+                  <div className="mwa-hero-avatar-wrap">
+                    <img src="/assets/pic1.png" alt="Dr. Waqas Ahmad Awan" className="mwa-hero-avatar-img" />
+                    <span className="mwa-hero-online-dot" title="Available for Appointments"></span>
+                  </div>
+                </div>
+
+                <p className="mwa-hero-subtitle">
+                  Providing expert, compassionate surgical and medical care for infants and children at Al Manzoor Hospital Mian Channu and Multan.
+                </p>
+
+                {/* Primary Dual Actions */}
+                <div className="mwa-hero-actions">
+                  <button 
+                    className="mwa-btn-primary-theme" 
+                    onClick={() => { setActiveTab('book'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  >
+                    <i className="fas fa-calendar-check"></i> Book Appointment
+                  </button>
+                  <a 
+                    href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20book%20an%20appointment." 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="mwa-btn-wa-theme"
+                  >
+                    <i className="fab fa-whatsapp"></i> WhatsApp
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Interactive Appointment Booking Quick Widget */}
             <div className="mwa-booking-quick-widget">
               <div className="mwa-bqw-head">
                 <div className="mwa-bqw-live">
                   <span className="mwa-bqw-pulse"></span>
-                  <span>Direct Online Booking Open</span>
+                  <span>Direct Clinic Booking Open</span>
                 </div>
-                <span className="mwa-bqw-tag">Dr. Waqas Ahmad Awan</span>
+                <span className="mwa-bqw-tag">Verified Schedule</span>
               </div>
 
               <div className="mwa-bqw-card-body">
-                <div className="mwa-bqw-icon-title-row">
-                  <div className="mwa-bqw-icon">
-                    <i className="fas fa-calendar-check"></i>
-                  </div>
-                  <div>
-                    <h3 className="mwa-bqw-heading">Book Child Consultation</h3>
-                    <p className="mwa-bqw-subtext">Reserve an appointment at your preferred hospital branch</p>
-                  </div>
+                <div className="mwa-bqw-title-wrap">
+                  <h3 className="mwa-bqw-heading">Schedule Child Consultation</h3>
+                  <p className="mwa-bqw-subtext">Choose your preferred hospital branch for consultation</p>
                 </div>
 
                 <div className="mwa-bqw-branches-grid">
@@ -326,7 +375,7 @@ export default function MobileWebsiteView() {
                       <i className="fas fa-chevron-right"></i>
                     </div>
                     <strong>Al Manzoor Hospital</strong>
-                    <span>Mian Channu · 11 AM - 4 PM</span>
+                    <span>Mian Channu · 11 AM – 4 PM</span>
                   </div>
 
                   <div 
@@ -338,7 +387,7 @@ export default function MobileWebsiteView() {
                       <i className="fas fa-chevron-right"></i>
                     </div>
                     <strong>Sughran Wazir Complex</strong>
-                    <span>Multan Cantt · 6 PM - 9 PM</span>
+                    <span>Multan Cantt · 6 PM – 9 PM</span>
                   </div>
                 </div>
 
@@ -347,76 +396,9 @@ export default function MobileWebsiteView() {
                   onClick={() => { setActiveTab('book'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 >
                   <i className="fas fa-calendar-plus"></i>
-                  <span>Schedule Consultation Now</span>
+                  <span>Select Date &amp; Confirm Slot</span>
                   <i className="fas fa-arrow-right"></i>
                 </button>
-              </div>
-            </div>
-
-            {/* Hero Dark Medical Atmosphere Card */}
-            <div className="mwa-hero-theme-card">
-              <div className="mwa-hero-overlay"></div>
-              <div className="mwa-hero-glow"></div>
-
-              <div className="mwa-hero-content">
-                <div className="mwa-hero-badge">
-                  ✦ Best Child Surgeon &amp; Child Specialist in Mian Channu
-                </div>
-
-                <h1 className="mwa-hero-title">
-                  Dr. Waqas<br />
-                  <span className="mwa-name-gold">Ahmad Awan</span>
-                </h1>
-
-                <p className="mwa-hero-subtitle">
-                  Top <strong>Child Surgeon &amp; Child Specialist in Mian Channu &amp; Multan</strong>. Providing compassionate, expert surgical and medical care for infants and children at Al Manzoor Hospital Mian Channu.
-                </p>
-
-                {/* Doctor Portrait with Signature Clinic Frame */}
-                <div className="mwa-doctor-portrait-box">
-                  <div className="mwa-doctor-avatar-wrap">
-                    <img src="/assets/pic1.png" alt="Dr. Waqas Ahmad Awan" className="mwa-doctor-img" />
-                    <div className="mwa-doctor-card-pill experience">
-                      <i className="fas fa-award"></i>
-                      <span><strong>8+ Years</strong> Exp.</span>
-                    </div>
-                    <div className="mwa-doctor-card-pill verified">
-                      <i className="fas fa-stethoscope"></i>
-                      <span>Board Certified</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Credential Checkmarks */}
-                <div className="mwa-creds-list">
-                  <div className="mwa-cred-item">
-                    <i className="fas fa-graduation-cap"></i>
-                    <span>MBBS – Sahiwal Teaching Hospital</span>
-                  </div>
-                  <div className="mwa-cred-item">
-                    <i className="fas fa-award"></i>
-                    <span>Pediatric Surgery – Children's Hospital Multan</span>
-                  </div>
-                  <div className="mwa-cred-item">
-                    <i className="fas fa-stethoscope"></i>
-                    <span>Senior Pediatric Surgeon &amp; Specialist</span>
-                  </div>
-                </div>
-
-                {/* Primary Dual Actions */}
-                <div className="mwa-hero-actions">
-                  <button className="mwa-btn-primary-theme" onClick={() => setActiveTab('book')}>
-                    <i className="fas fa-calendar-check"></i> Book Appointment
-                  </button>
-                  <a 
-                    href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20book%20an%20appointment." 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="mwa-btn-wa-theme"
-                  >
-                    <i className="fab fa-whatsapp"></i> WhatsApp
-                  </a>
-                </div>
               </div>
             </div>
 

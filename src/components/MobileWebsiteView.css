@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: column;
   padding-top: 68px; /* Fixed app header */
-  padding-bottom: 74px; /* Fixed bottom tab bar */
+  padding-bottom: 86px; /* Fixed bottom tab bar with breathing room */
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
 }
@@ -169,50 +169,194 @@
 }
 
 .mwa-feed-pane {
-  padding: 14px 14px 24px;
+  padding: 16px 16px 36px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 22px;
+  max-width: 520px;
+  margin: 0 auto;
 }
 
-/* ── Appointment Booking Quick Widget (On Top of App) ── */
-.mwa-booking-quick-widget {
-  background: linear-gradient(145deg, #0d1b2a 0%, #0f2738 55%, #0d7377 100%);
-  border-radius: 20px;
-  padding: 16px 15px;
+/* ── 1. Doctor Profile Hero Card (Spacious, Airy & Flexible) ── */
+.mwa-hero-theme-card {
+  position: relative;
+  background: linear-gradient(145deg, #0d1b2a 0%, #102636 55%, #0d7377 100%);
+  border-radius: 24px;
+  padding: 22px 18px;
   color: #ffffff;
-  border: 1px solid rgba(20, 160, 165, 0.4);
-  box-shadow: 0 10px 30px rgba(13, 27, 42, 0.35);
+  overflow: hidden;
+  box-shadow: 0 14px 36px rgba(13, 27, 42, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.mwa-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at top right, rgba(20, 160, 165, 0.25) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(13, 27, 42, 0.5) 0%, rgba(13, 27, 42, 0.95) 100%);
+  pointer-events: none;
+}
+
+.mwa-hero-glow {
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 151, 58, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.mwa-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.mwa-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(13, 115, 119, 0.4);
+  border: 1px solid rgba(20, 160, 165, 0.5);
+  color: var(--mwa-teal-light);
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin-bottom: 12px;
+}
+
+.mwa-hero-profile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.mwa-hero-profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mwa-hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  margin: 0 0 4px;
+}
+
+.mwa-name-gold {
+  color: var(--mwa-gold);
+  font-style: italic;
+}
+
+.mwa-hero-credentials {
+  font-size: 11px;
+  color: #b2e0e2;
+  margin: 0 0 8px;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+.mwa-hero-trust-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mwa-trust-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.mwa-trust-chip i {
+  color: var(--mwa-gold);
+}
+
+.mwa-hero-avatar-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  border: 2.5px solid var(--mwa-teal-light);
+  box-shadow: 0 8px 24px rgba(13, 115, 119, 0.45);
+  overflow: hidden;
+  background: #0d2130;
+}
+
+.mwa-hero-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.mwa-hero-online-dot {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 12px;
+  height: 12px;
+  background: #10b981;
+  border: 2px solid #0d1b2a;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.mwa-hero-subtitle {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.55;
+  margin: 0 0 16px;
+}
+
+.mwa-hero-actions {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 10px;
+}
+
+/* ── 2. Interactive Appointment Booking Quick Widget (Airy, Light & Modern) ── */
+.mwa-booking-quick-widget {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 18px 16px;
+  color: var(--mwa-text);
+  border: 1.5px solid #dcf2f3;
+  box-shadow: 0 6px 24px rgba(13, 115, 119, 0.08);
   position: relative;
   overflow: hidden;
-}
-
-.mwa-booking-quick-widget::before {
-  content: '';
-  position: absolute;
-  top: -30px;
-  right: -30px;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(200, 151, 58, 0.22) 0%, transparent 70%);
-  pointer-events: none;
 }
 
 .mwa-bqw-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .mwa-bqw-live {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(16, 185, 129, 0.18);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  color: #6ee7b7;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
   padding: 3px 9px;
   border-radius: 20px;
   font-size: 10.5px;
@@ -229,60 +373,30 @@
   animation: mwaPulse 1.8s infinite;
 }
 
-@keyframes mwaPulse {
-  0% { transform: scale(0.95); opacity: 0.8; }
-  50% { transform: scale(1.3); opacity: 1; }
-  100% { transform: scale(0.95); opacity: 0.8; }
-}
-
 .mwa-bqw-tag {
   font-size: 11px;
-  color: var(--mwa-gold-light);
+  color: var(--mwa-teal);
   font-weight: 600;
-  font-style: italic;
 }
 
-.mwa-bqw-card-body {
-  position: relative;
-  z-index: 2;
-}
-
-.mwa-bqw-icon-title-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.mwa-bqw-title-wrap {
   margin-bottom: 12px;
-}
-
-.mwa-bqw-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(13, 115, 119, 0.45);
-  border: 1.5px solid var(--mwa-teal-light);
-  color: var(--mwa-gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 19px;
-  flex-shrink: 0;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 }
 
 .mwa-bqw-heading {
   font-family: 'Playfair Display', serif;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #ffffff;
-  margin: 0 0 2px;
+  color: var(--mwa-dark);
+  margin: 0 0 3px;
   line-height: 1.25;
 }
 
 .mwa-bqw-subtext {
-  font-size: 11.5px;
-  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  color: var(--mwa-muted);
   margin: 0;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .mwa-bqw-branches-grid {
@@ -293,9 +407,9 @@
 }
 
 .mwa-bqw-branch-pill {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
   padding: 10px 10px;
   text-align: left;
   cursor: pointer;
@@ -306,7 +420,8 @@
 }
 
 .mwa-bqw-branch-pill:active {
-  background: rgba(20, 160, 165, 0.25);
+  background: var(--mwa-teal-pale);
+  border-color: var(--mwa-teal);
   transform: scale(0.97);
 }
 
@@ -321,33 +436,33 @@
   font-size: 9.5px;
   font-weight: 700;
   text-transform: uppercase;
-  color: #86efac;
-  background: rgba(22, 163, 74, 0.28);
+  color: #15803d;
+  background: #dcfce7;
   padding: 2px 6px;
   border-radius: 8px;
 }
 
 .mwa-bqw-bp-day.multan {
-  color: #d8b4fe;
-  background: rgba(147, 51, 234, 0.28);
+  color: #7e22ce;
+  background: #f3e8ff;
 }
 
 .mwa-bqw-bp-top i {
   font-size: 9px;
-  color: rgba(255, 255, 255, 0.5);
+  color: #94a3b8;
 }
 
 .mwa-bqw-branch-pill strong {
   font-size: 12px;
-  color: #ffffff;
+  color: var(--mwa-dark);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .mwa-bqw-branch-pill span {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.68);
+  font-size: 10.5px;
+  color: var(--mwa-muted);
 }
 
 .mwa-bqw-submit-cta {
@@ -356,7 +471,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px;
+  padding: 13px;
   border-radius: 12px;
   background: linear-gradient(135deg, var(--mwa-teal), var(--mwa-teal-light));
   color: #ffffff;
@@ -364,7 +479,7 @@
   font-weight: 700;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(13, 115, 119, 0.4);
+  box-shadow: 0 4px 16px rgba(13, 115, 119, 0.35);
   transition: transform 0.15s ease;
 }
 
@@ -379,170 +494,6 @@
 .mwa-bqw-submit-cta i:last-child {
   font-size: 11px;
   margin-left: 4px;
-}
-
-/* ── Hero Theme Atmosphere Card ── */
-.mwa-hero-theme-card {
-  position: relative;
-  background: var(--mwa-dark);
-  border-radius: 20px;
-  padding: 24px 18px 22px;
-  color: #ffffff;
-  overflow: hidden;
-  box-shadow: 0 12px 36px rgba(13, 27, 42, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.mwa-hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: 
-    linear-gradient(135deg, rgba(13, 27, 42, 0.94) 0%, rgba(13, 115, 119, 0.75) 55%, rgba(13, 27, 42, 0.92) 100%),
-    url('/assets/pic2.avif') center/cover no-repeat;
-  pointer-events: none;
-}
-
-.mwa-hero-glow {
-  position: absolute;
-  top: -40px;
-  left: -40px;
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(20, 160, 165, 0.3) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.mwa-hero-content {
-  position: relative;
-  z-index: 2;
-}
-
-.mwa-hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(13, 115, 119, 0.35);
-  border: 1px solid rgba(20, 160, 165, 0.5);
-  color: var(--mwa-teal-light);
-  padding: 4px 12px;
-  border-radius: 50px;
-  font-size: 11px;
-  font-weight: 600;
-  margin-bottom: 14px;
-}
-
-.mwa-hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.1rem;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.1;
-  margin: 0 0 10px;
-}
-
-.mwa-name-gold {
-  color: var(--mwa-gold);
-  font-style: italic;
-  display: block;
-}
-
-.mwa-hero-subtitle {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  margin: 0 0 18px;
-}
-
-.mwa-hero-subtitle strong {
-  color: #ffffff;
-}
-
-/* Doctor Portrait Box (Signature Clinic Frame) */
-.mwa-doctor-portrait-box {
-  display: flex;
-  justify-content: center;
-  margin: 16px 0 20px;
-}
-
-.mwa-doctor-avatar-wrap {
-  position: relative;
-  width: 240px;
-  height: 290px;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 3px solid var(--mwa-teal);
-  box-shadow: 0 16px 40px rgba(13, 115, 119, 0.4);
-}
-
-.mwa-doctor-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-}
-
-.mwa-doctor-card-pill {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 700;
-  backdrop-filter: blur(10px);
-}
-
-.mwa-doctor-card-pill.experience {
-  bottom: 12px;
-  left: 10px;
-  background: rgba(13, 27, 42, 0.92);
-  color: var(--mwa-gold);
-  border: 1px solid rgba(200, 151, 58, 0.4);
-}
-
-.mwa-doctor-card-pill.experience strong {
-  color: #ffffff;
-}
-
-.mwa-doctor-card-pill.verified {
-  top: 10px;
-  right: 10px;
-  background: rgba(13, 115, 119, 0.92);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  font-size: 10px;
-}
-
-/* Credential List */
-.mwa-creds-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-.mwa-cred-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.mwa-cred-item i {
-  color: var(--mwa-gold);
-  font-size: 13px;
-  width: 16px;
-  text-align: center;
-}
-
-/* Primary Dual Action Buttons */
-.mwa-hero-actions {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 10px;
 }
 
 .mwa-btn-primary-theme {
@@ -726,13 +677,13 @@
   margin: 0;
 }
 
-/* ── Hospital Location Cards ── */
+/* ── Hospital Location Cards (Airy & Premium) ── */
 .mwa-hospital-card {
   background: #ffffff;
-  border-radius: 18px;
-  padding: 18px;
-  border: 1px solid var(--mwa-border);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+  border-radius: 22px;
+  padding: 22px 18px;
+  border: 1.5px solid var(--mwa-border);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
 }
 
 .mwa-hospital-card.primary-branch {
@@ -743,14 +694,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .mwa-hosp-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 12px;
+  padding: 5px 12px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: 700;
@@ -783,29 +734,31 @@
 
 .mwa-hosp-name {
   font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--mwa-dark);
-  margin: 0 0 4px;
+  margin: 0 0 6px;
+  line-height: 1.25;
 }
 
 .mwa-hosp-address {
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--mwa-muted);
-  margin: 0 0 14px;
+  margin: 0 0 16px;
+  line-height: 1.45;
 }
 
 .mwa-hosp-meta-box {
   background: var(--mwa-light-bg);
-  border-radius: 12px;
-  padding: 12px;
+  border-radius: 14px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-size: 12px;
+  gap: 10px;
+  font-size: 12.5px;
   color: var(--mwa-text);
   border: 1px solid #eef3f3;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .mwa-hosp-meta-item {
@@ -827,8 +780,8 @@
 }
 
 .mwa-map-embed-box {
-  margin-bottom: 14px;
-  border-radius: 10px;
+  margin-bottom: 16px;
+  border-radius: 12px;
   overflow: hidden;
   border: 1px solid #e2e8f0;
 }
@@ -836,7 +789,7 @@
 .mwa-hosp-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
 }
 
 .mwa-btn-map {
@@ -844,14 +797,20 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 11px;
-  border-radius: 10px;
+  padding: 12px;
+  border-radius: 12px;
   border: 1.5px solid var(--mwa-teal);
   color: var(--mwa-teal);
   background: transparent;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
   text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.mwa-btn-map:active {
+  background: var(--mwa-teal-pale);
+  transform: scale(0.97);
 }
 
 .mwa-btn-hosp-book {
@@ -859,15 +818,20 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 11px;
-  border-radius: 10px;
+  padding: 12px;
+  border-radius: 12px;
   background: linear-gradient(135deg, var(--mwa-teal), var(--mwa-teal-light));
   color: #ffffff;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
   border: none;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(13, 115, 119, 0.25);
+  transition: transform 0.15s ease;
+}
+
+.mwa-btn-hosp-book:active {
+  transform: scale(0.97);
 }
 
 /* ── Portal Fast-Access Card (Theme Teal Gradient) ── */
@@ -1558,22 +1522,23 @@
   margin: 0 0 16px;
 }
 
-/* ── 4. Fixed Native Bottom Tab Bar (Dark Midnight Glassmorphism) ── */
+/* ── 4. Fixed Native Bottom Tab Bar (Airy & Elevated) ── */
 .mwa-bottom-tabbar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 64px;
+  height: 68px;
+  padding-bottom: max(6px, env(safe-area-inset-bottom));
   background: rgba(13, 27, 42, 0.98);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.25);
 }
 
 .mwa-tab-item {
@@ -1584,7 +1549,7 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 6px 0;
+  padding: 8px 0;
   cursor: pointer;
   color: rgba(255, 255, 255, 0.65);
   position: relative;
@@ -1592,8 +1557,8 @@
 }
 
 .mwa-tab-icon {
-  font-size: 18px;
-  height: 22px;
+  font-size: 19px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1601,7 +1566,7 @@
 }
 
 .mwa-tab-label {
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.2px;
 }
