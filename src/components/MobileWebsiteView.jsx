@@ -339,17 +339,6 @@ export default function MobileWebsiteView() {
               <div className="mwa-hero-overlay"></div>
               <div className="mwa-hero-glow"></div>
 
-              {/* Round WhatsApp Action in Corner */}
-              <a 
-                href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20consult%20regarding%20my%20child." 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="mwa-hero-corner-wa"
-                title="Chat with Dr. Waqas on WhatsApp"
-              >
-                <i className="fab fa-whatsapp"></i>
-              </a>
-
               <div className="mwa-hero-content">
                 <div className="mwa-hero-badge">
                   ✦ Pediatric Surgeon &amp; Child Health Specialist
