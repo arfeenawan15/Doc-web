@@ -35,13 +35,14 @@ const EMPTY_FORM = {
   service: '', concern: '',
 };
 
-export default function AppointmentForm({ onSuccess }) {
+export default function AppointmentForm({ onSuccess, initialHospital }) {
   const { user } = useAuth();
   const { hospitals, services } = useSite();
   const SERVICES_FORM = services.map(s => s.title).concat(["General Consultation", "Other"]);
   
   const [form, setForm]       = useState({
     ...EMPTY_FORM,
+    hospital: initialHospital || '',
     guardianName: user ? user.name : '',
     guardianEmail: user ? user.email : '',
   });
@@ -49,6 +50,12 @@ export default function AppointmentForm({ onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [dateWarn, setDateWarn] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (initialHospital && hospitals?.[initialHospital]) {
+      set('hospital', initialHospital);
+    }
+  }, [initialHospital, hospitals]);
 
   useEffect(() => {
     if (user) {

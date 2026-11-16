@@ -62,6 +62,57 @@ export default function MobileWebsiteView() {
   const [serviceSearch, setServiceSearch] = useState('');
   const [expandedServiceId, setExpandedServiceId] = useState(null);
 
+  // Pre-selected hospital for booking tab
+  const [selectedHospital, setSelectedHospital] = useState('');
+
+  // Live Clinic Status helper based on current day
+  const getClinicStatus = () => {
+    const day = currentTime.getDay(); // 0 = Sun, 4 = Thu, 5 = Fri, 6 = Sat
+    if (day === 0) {
+      return {
+        badge: 'CLINIC OPEN TODAY',
+        badgeClass: 'live-now',
+        title: 'Al Manzoor Hospital (Mian Channu)',
+        time: 'Today: 11:00 AM – 04:00 PM',
+        subtext: 'Direct consultations & pediatric surgical reviews available today.',
+        hospKey: 'almanzoor',
+        btnText: 'Book Today’s Consultation',
+      };
+    } else if (day >= 4 && day <= 6) {
+      return {
+        badge: 'CLINIC OPEN THIS EVENING',
+        badgeClass: 'live-now',
+        title: 'Sughran Wazir Medical Complex (Multan)',
+        time: 'Thu – Sat: 06:00 PM – 09:00 PM',
+        subtext: 'Evening clinic slots open for children, infants & newborns.',
+        hospKey: 'sughran',
+        btnText: 'Book Evening Consultation',
+      };
+    } else {
+      return {
+        badge: 'UPCOMING CLINIC: THURSDAY',
+        badgeClass: 'upcoming',
+        title: 'Sughran Wazir Medical Complex (Multan)',
+        time: 'Thu – Sat: 06:00 PM – 09:00 PM · Sun: Mian Channu',
+        subtext: 'Advance booking open. Sunday clinic at Mian Channu also available.',
+        hospKey: 'sughran',
+        btnText: 'Schedule Advance Slot',
+      };
+    }
+  };
+
+  const handleSelectHospitalAndBook = (hospKey) => {
+    setSelectedHospital(hospKey || '');
+    setActiveTab('book');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectSpecialty = (label) => {
+    setServiceSearch(label);
+    setActiveTab('services');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Patient Records State (when user is logged in)
   const [userAppointments, setUserAppointments] = useState([]);
   const [recordsLoading, setRecordsLoading] = useState(false);
@@ -279,16 +330,16 @@ export default function MobileWebsiteView() {
       {/* ── Main App Feed Panes ── */}
       <main className="mwa-main-canvas">
 
-        {/* ════ TAB 1: HOME FEED (AIRY, BEAUTIFUL & UNCONGESTED) ════ */}
+        {/* ════ TAB 1: HOME FEED (WIDGET-BASED NATIVE MOBILE APP DASHBOARD) ════ */}
         {activeTab === 'home' && (
           <div className="mwa-feed-pane">
 
-            {/* 1. Doctor Profile Hero Card with Corner WhatsApp & Field Overview */}
+            {/* WIDGET 1: Doctor Profile Highlight Card (Hero Glassmorphism) */}
             <div className="mwa-hero-theme-card">
               <div className="mwa-hero-overlay"></div>
               <div className="mwa-hero-glow"></div>
 
-              {/* Round WhatsApp Logo in Corner */}
+              {/* Round WhatsApp Action in Corner */}
               <a 
                 href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20consult%20regarding%20my%20child." 
                 target="_blank" 
@@ -324,248 +375,269 @@ export default function MobileWebsiteView() {
                   </div>
                 </div>
 
-                {/* About Doctor & Specialized Pediatric Surgical Field */}
-                <div className="mwa-hero-about-box">
-                  <h4 className="mwa-hero-about-head">
-                    <i className="fas fa-user-md"></i> About Dr. Waqas &amp; His Field
-                  </h4>
-                  <p className="mwa-hero-about-text">
-                    With over 8 years of dedicated clinical experience at Children's Hospital Multan and Al Manzoor Hospital Mian Channu, Dr. Waqas provides compassionate, specialized surgical care tailored exclusively for newborns, infants, and growing children.
-                  </p>
+                <p className="mwa-hero-short-bio">
+                  Providing expert, compassionate surgical and medical care tailored exclusively for newborns, infants, and growing children at Al Manzoor Hospital Mian Channu and Multan.
+                </p>
 
-                  <div className="mwa-hero-field-pills">
-                    <span className="mwa-field-pill"><i className="fas fa-baby"></i> Neonatal Surgery</span>
-                    <span className="mwa-field-pill"><i className="fas fa-check-circle"></i> Pediatric Urology</span>
-                    <span className="mwa-field-pill"><i className="fas fa-brain"></i> Hydrocephalus (VP Shunt)</span>
-                    <span className="mwa-field-pill"><i className="fas fa-notes-medical"></i> Hernia &amp; Hydrocele</span>
-                    <span className="mwa-field-pill"><i className="fas fa-smile"></i> Cleft Lip &amp; Palate</span>
-                    <span className="mwa-field-pill"><i className="fas fa-band-aid"></i> Safe Circumcision</span>
-                  </div>
+                {/* Direct Action Buttons Inside Hero */}
+                <div className="mwa-hero-actions-row">
+                  <button 
+                    className="mwa-hero-btn-book"
+                    onClick={() => handleSelectHospitalAndBook('')}
+                  >
+                    <i className="fas fa-calendar-check"></i>
+                    <span>Book Appointment</span>
+                  </button>
+                  <a 
+                    href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20consult%20regarding%20my%20child." 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="mwa-hero-btn-wa"
+                  >
+                    <i className="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                  </a>
                 </div>
               </div>
             </div>
 
-            {/* 2. Interactive Appointment Booking Quick Widget */}
-            <div className="mwa-booking-quick-widget">
-              <div className="mwa-bqw-head">
-                <div className="mwa-bqw-live">
-                  <span className="mwa-bqw-pulse"></span>
-                  <span>Direct Clinic Booking Open</span>
+            {/* WIDGET 2: Smart Real-Time Clinic Status Widget */}
+            {(() => {
+              const status = getClinicStatus();
+              return (
+                <div className="mwa-smart-status-widget">
+                  <div className="mwa-ssw-header">
+                    <div className={`mwa-ssw-badge ${status.badgeClass}`}>
+                      <span className="mwa-ssw-dot"></span>
+                      <span>{status.badge}</span>
+                    </div>
+                    <span className="mwa-ssw-tag">Live Timing</span>
+                  </div>
+                  <div className="mwa-ssw-body">
+                    <h4 className="mwa-ssw-hosp">{status.title}</h4>
+                    <div className="mwa-ssw-time">
+                      <i className="fas fa-clock"></i>
+                      <span>{status.time}</span>
+                    </div>
+                    <p className="mwa-ssw-sub">{status.subtext}</p>
+                    <button 
+                      className="mwa-ssw-btn"
+                      onClick={() => handleSelectHospitalAndBook(status.hospKey)}
+                    >
+                      <span>{status.btnText}</span>
+                      <i className="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
                 </div>
-                <span className="mwa-bqw-tag">Verified Schedule</span>
+              );
+            })()}
+
+            {/* WIDGET 3: Core App Action Grid (2x2 Modular Widgets) */}
+            <div className="mwa-action-grid-widget">
+              <div 
+                className="mwa-ag-card teal-card"
+                onClick={() => handleSelectHospitalAndBook('')}
+              >
+                <div className="mwa-ag-icon teal">
+                  <i className="fas fa-calendar-alt"></i>
+                </div>
+                <div className="mwa-ag-text">
+                  <h4>Book Visit</h4>
+                  <p>Select clinic &amp; slot</p>
+                </div>
+                <i className="fas fa-chevron-right mwa-ag-arrow"></i>
               </div>
 
-              <div className="mwa-bqw-card-body">
-                <div className="mwa-bqw-title-wrap">
-                  <h3 className="mwa-bqw-heading">Book Child Consultation</h3>
-                  <p className="mwa-bqw-subtext">Choose your preferred hospital branch for consultation</p>
+              <div 
+                className="mwa-ag-card blue-card"
+                onClick={() => { setActiveTab('hospitals'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              >
+                <div className="mwa-ag-icon blue">
+                  <i className="fas fa-hospital"></i>
                 </div>
-
-                <div className="mwa-bqw-branches-grid">
-                  <div 
-                    className="mwa-bqw-branch-pill active"
-                    onClick={() => { setActiveTab('book'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  >
-                    <div className="mwa-bqw-bp-top">
-                      <span className="mwa-bqw-bp-day">Sunday Only</span>
-                      <i className="fas fa-chevron-right"></i>
-                    </div>
-                    <strong>Al Manzoor Hospital</strong>
-                    <span>Mian Channu · 11 AM – 4 PM</span>
-                  </div>
-
-                  <div 
-                    className="mwa-bqw-branch-pill"
-                    onClick={() => { setActiveTab('book'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  >
-                    <div className="mwa-bqw-bp-top">
-                      <span className="mwa-bqw-bp-day multan">Thu – Sat</span>
-                      <i className="fas fa-chevron-right"></i>
-                    </div>
-                    <strong>Sughran Wazir Complex</strong>
-                    <span>Multan Cantt · 6 PM – 9 PM</span>
-                  </div>
+                <div className="mwa-ag-text">
+                  <h4>Clinics</h4>
+                  <p>Mian Channu &amp; Multan</p>
                 </div>
+                <i className="fas fa-chevron-right mwa-ag-arrow"></i>
+              </div>
 
+              <div 
+                className="mwa-ag-card emerald-card"
+                onClick={() => { setActiveTab('services'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              >
+                <div className="mwa-ag-icon emerald">
+                  <i className="fas fa-stethoscope"></i>
+                </div>
+                <div className="mwa-ag-text">
+                  <h4>Surgeries</h4>
+                  <p>Pediatric care guide</p>
+                </div>
+                <i className="fas fa-chevron-right mwa-ag-arrow"></i>
+              </div>
+
+              <div 
+                className="mwa-ag-card amber-card"
+                onClick={() => { setActiveTab('records'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              >
+                <div className="mwa-ag-icon amber">
+                  <i className="fas fa-notes-medical"></i>
+                </div>
+                <div className="mwa-ag-text">
+                  <h4>Patient Portal</h4>
+                  <p>Records &amp; advice</p>
+                </div>
+                <i className="fas fa-chevron-right mwa-ag-arrow"></i>
+              </div>
+            </div>
+
+            {/* WIDGET 4: Hospital Branches Fast Selector Widget */}
+            <div className="mwa-branches-card-widget">
+              <div className="mwa-bcw-header">
+                <div>
+                  <span className="mwa-widget-label">PRACTICE LOCATIONS</span>
+                  <h3 className="mwa-widget-title">Hospital Schedules</h3>
+                </div>
                 <button 
-                  className="mwa-bqw-submit-cta"
-                  onClick={() => { setActiveTab('book'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  className="mwa-widget-link"
+                  onClick={() => { setActiveTab('hospitals'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 >
-                  <i className="fas fa-calendar-plus"></i>
-                  <span>Select Date &amp; Confirm Slot</span>
-                  <i className="fas fa-arrow-right"></i>
+                  View Details →
                 </button>
               </div>
+
+              <div className="mwa-bcw-grid">
+                {/* Branch 1: Al Manzoor */}
+                <div 
+                  className="mwa-bcw-branch"
+                  onClick={() => handleSelectHospitalAndBook('almanzoor')}
+                >
+                  <div className="mwa-bcw-branch-top">
+                    <span className="mwa-bcw-day-badge sunday">Sunday Only</span>
+                    <span className="mwa-bcw-slot-pill">11 AM – 4 PM</span>
+                  </div>
+                  <h4 className="mwa-bcw-branch-name">Al Manzoor Hospital</h4>
+                  <p className="mwa-bcw-branch-loc"><i className="fas fa-map-marker-alt"></i> Tulamba Road, Mian Channu</p>
+                  <div className="mwa-bcw-book-link">
+                    <span>Book Sunday Slot</span>
+                    <i className="fas fa-chevron-right"></i>
+                  </div>
+                </div>
+
+                {/* Branch 2: Sughran Wazir */}
+                <div 
+                  className="mwa-bcw-branch"
+                  onClick={() => handleSelectHospitalAndBook('sughran')}
+                >
+                  <div className="mwa-bcw-branch-top">
+                    <span className="mwa-bcw-day-badge multan">Thu – Sat</span>
+                    <span className="mwa-bcw-slot-pill">6 PM – 9 PM</span>
+                  </div>
+                  <h4 className="mwa-bcw-branch-name">Sughran Wazir Complex</h4>
+                  <p className="mwa-bcw-branch-loc"><i className="fas fa-map-marker-alt"></i> Syedan Wala Bypass, Multan Cantt</p>
+                  <div className="mwa-bcw-book-link">
+                    <span>Book Multan Slot</span>
+                    <i className="fas fa-chevron-right"></i>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Quick Specialty Tap Bubbles */}
-            <div className="mwa-specialty-strip">
-              <span className="mwa-strip-label">Surgical Specializations</span>
-              <div className="mwa-specialty-scroll">
+            {/* WIDGET 5: Pediatric Surgical Specialties (Horizontal Carousel Swiper) */}
+            <div className="mwa-specialties-widget">
+              <div className="mwa-sw-header">
+                <div>
+                  <span className="mwa-widget-label">PEDIATRIC EXPERTISE</span>
+                  <h3 className="mwa-widget-title">Surgical Specializations</h3>
+                </div>
+                <button 
+                  className="mwa-widget-link"
+                  onClick={() => { setActiveTab('services'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                >
+                  All ({allServices.length}) →
+                </button>
+              </div>
+
+              <div className="mwa-sw-reel">
                 {[
-                  { label: 'Neonatal', icon: 'fas fa-baby', key: 'neonatal' },
-                  { label: 'Urology', icon: 'fas fa-stethoscope', key: 'urology' },
-                  { label: 'Hydrocephalus', icon: 'fas fa-brain', key: 'hydrocephalus' },
-                  { label: 'Circumcision', icon: 'fas fa-band-aid', key: 'circumcision' },
-                  { label: 'Cleft Lip', icon: 'fas fa-smile', key: 'cleft' },
-                  { label: 'Hernia', icon: 'fas fa-notes-medical', key: 'hernia' },
+                  { label: 'Neonatal', icon: 'fas fa-baby', sub: 'Newborn care' },
+                  { label: 'Urology', icon: 'fas fa-stethoscope', sub: 'Kidney & bladder' },
+                  { label: 'Hydrocephalus', icon: 'fas fa-brain', sub: 'VP Shunt' },
+                  { label: 'Circumcision', icon: 'fas fa-band-aid', sub: 'Safe Plastibell' },
+                  { label: 'Cleft Lip', icon: 'fas fa-smile', sub: 'Palate repair' },
+                  { label: 'Hernia', icon: 'fas fa-notes-medical', sub: 'Inguinal repair' },
                 ].map(item => (
-                  <button
-                    key={item.key}
-                    className="mwa-bubble-btn"
-                    onClick={() => {
-                      setServiceSearch(item.label);
-                      setActiveTab('services');
-                    }}
+                  <div
+                    key={item.label}
+                    className="mwa-sw-item"
+                    onClick={() => handleSelectSpecialty(item.label)}
                   >
-                    <div className="mwa-bubble-icon">
+                    <div className="mwa-sw-icon">
                       <i className={item.icon}></i>
                     </div>
-                    <span>{item.label}</span>
-                  </button>
+                    <span className="mwa-sw-title">{item.label}</span>
+                    <span className="mwa-sw-sub">{item.sub}</span>
+                  </div>
                 ))}
               </div>
             </div>
 
-            {/* Stats Row (Matching Website: 1000+, 8+, 1000+) */}
-            <div className="mwa-stats-grid">
+            {/* WIDGET 6: 24/7 Pediatric Emergency Helpline Widget */}
+            <div className="mwa-emergency-widget">
+              <div className="mwa-ew-left">
+                <div className="mwa-ew-icon-box">
+                  <i className="fas fa-ambulance"></i>
+                </div>
+                <div className="mwa-ew-text">
+                  <h4>24/7 Pediatric Emergency</h4>
+                  <p>Immediate support for neonatal distress or acute pediatric conditions</p>
+                </div>
+              </div>
+              <div className="mwa-ew-actions">
+                <a href="tel:+923098683232" className="mwa-ew-call-btn" title="Call Emergency Line">
+                  <i className="fas fa-phone-alt"></i>
+                  <span>Call 0309 8683232</span>
+                </a>
+                <a 
+                  href="https://wa.me/923318034846?text=EMERGENCY%3A%20Child%20Consultation%20Required" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="mwa-ew-wa-btn"
+                  title="WhatsApp Emergency"
+                >
+                  <i className="fab fa-whatsapp"></i>
+                  <span>Urgent WhatsApp</span>
+                </a>
+              </div>
+            </div>
+
+            {/* WIDGET 7: Patient Health Records Portal Card */}
+            <div 
+              className="mwa-patient-portal-widget"
+              onClick={() => { setActiveTab('records'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            >
+              <div className="mwa-ppw-icon">
+                <i className="fas fa-user-shield"></i>
+              </div>
+              <div className="mwa-ppw-info">
+                <h4>{user ? `Patient Records · ${user.name}` : 'Child Consultation Records'}</h4>
+                <p>{user ? 'View scheduled consultations, doctor clinical notes, and post-op care' : 'Sign in to access your child’s appointments and review doctor advice'}</p>
+              </div>
+              <div className="mwa-ppw-action">
+                <span>{user ? 'Open Portal' : 'Sign In'}</span>
+                <i className="fas fa-arrow-right"></i>
+              </div>
+            </div>
+
+            {/* WIDGET 8: Verified Clinical Statistics */}
+            <div className="mwa-stats-widget">
               {STATS.map((st, i) => (
-                <div key={i} className="mwa-stat-card">
-                  <span className="mwa-stat-number">{st.target}{st.suffix}</span>
-                  <span className="mwa-stat-label">{st.label}</span>
+                <div key={i} className="mwa-sw-stat-box">
+                  <span className="mwa-sw-num">{st.target}{st.suffix}</span>
+                  <span className="mwa-sw-label">{st.label}</span>
                 </div>
               ))}
             </div>
-
-            {/* Clinic Hospital Schedule Cards */}
-            <div className="mwa-section-header">
-              <span className="mwa-section-tag">CONSULTATION CLINICS</span>
-              <h2 className="mwa-section-title">Hospital Locations</h2>
-            </div>
-
-            {/* Al Manzoor Hospital Mian Channu (Signature Gold / Teal Card) */}
-            <div className="mwa-hospital-card primary-branch">
-              <div className="mwa-hosp-top">
-                <span className="mwa-hosp-pill sunday">
-                  <i className="fas fa-circle live-dot"></i> Sunday Only
-                </span>
-                <span className="mwa-hosp-num">01</span>
-              </div>
-              <h3 className="mwa-hosp-name">Al Manzoor Hospital</h3>
-              <p className="mwa-hosp-address">Tulamba Road, Mian Channu, Punjab</p>
-
-              <div className="mwa-hosp-meta-box">
-                <div className="mwa-hosp-meta-item">
-                  <i className="fas fa-calendar-day"></i>
-                  <span><strong>Day:</strong> Every Sunday</span>
-                </div>
-                <div className="mwa-hosp-meta-item">
-                  <i className="fas fa-clock"></i>
-                  <span><strong>Hours:</strong> 11:00 AM – 04:00 PM</span>
-                </div>
-                <div className="mwa-hosp-meta-item">
-                  <i className="fas fa-phone-alt"></i>
-                  <span><a href="tel:+92652663232">+92 65 2663232</a> · <a href="tel:+923098683232">+92 309 8683232</a></span>
-                </div>
-              </div>
-
-              <div className="mwa-hosp-actions">
-                <a 
-                  href="https://maps.google.com/?cid=17289175519676733035" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="mwa-btn-map"
-                >
-                  <i className="fas fa-directions"></i> Map Directions
-                </a>
-                <button className="mwa-btn-hosp-book" onClick={() => setActiveTab('book')}>
-                  <i className="fas fa-calendar-check"></i> Book Sunday
-                </button>
-              </div>
-            </div>
-
-            {/* Sughran Wazir Medical Complex Multan */}
-            <div className="mwa-hospital-card">
-              <div className="mwa-hosp-top">
-                <span className="mwa-hosp-pill multan">
-                  <i className="fas fa-calendar-alt"></i> Thu – Sat
-                </span>
-                <span className="mwa-hosp-num">02</span>
-              </div>
-              <h3 className="mwa-hosp-name">Sughran Wazir Medical Complex</h3>
-              <p className="mwa-hosp-address">Syedan Wala Bypass, Bosan Road, Multan Cantt</p>
-
-              <div className="mwa-hosp-meta-box">
-                <div className="mwa-hosp-meta-item">
-                  <i className="fas fa-calendar-day"></i>
-                  <span><strong>Days:</strong> Thursday – Saturday</span>
-                </div>
-                <div className="mwa-hosp-meta-item">
-                  <i className="fas fa-clock"></i>
-                  <span><strong>Hours:</strong> 06:00 PM – 09:00 PM</span>
-                </div>
-                <div className="mwa-hosp-meta-item">
-                  <i className="fas fa-phone-alt"></i>
-                  <span><a href="tel:+923023569088">+92 302 3569088</a></span>
-                </div>
-              </div>
-
-              <div className="mwa-hosp-actions">
-                <a 
-                  href="https://maps.google.com/?q=Sughran+Wazir+Medical+Complex+Multan" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="mwa-btn-map"
-                >
-                  <i className="fas fa-directions"></i> Map Directions
-                </a>
-                <button className="mwa-btn-hosp-book" onClick={() => setActiveTab('book')}>
-                  <i className="fas fa-calendar-check"></i> Book Multan
-                </button>
-              </div>
-            </div>
-
-            {/* Patient Portal Fast-Access Card */}
-            <div className="mwa-portal-fast-card" onClick={() => setActiveTab('records')}>
-              <div className="mwa-pfc-icon">
-                <i className="fas fa-notes-medical"></i>
-              </div>
-              <div className="mwa-pfc-info">
-                <h4>{user ? `Patient Portal · ${user.name}` : 'Patient Records & Prescriptions'}</h4>
-                <p>{user ? 'Access your booked appointments, doctor advice & guidelines' : 'Log in to track your child\'s consultation records'}</p>
-              </div>
-              <i className="fas fa-arrow-right mwa-pfc-arrow"></i>
-            </div>
-
-            {/* Featured Pediatric Surgeries */}
-            <div className="mwa-section-header">
-              <span className="mwa-section-tag">SPECIALIZED CARE</span>
-              <h2 className="mwa-section-title">Pediatric Surgeries</h2>
-            </div>
-
-            <div className="mwa-services-cards-grid">
-              {allServices.slice(0, 4).map((svc, idx) => (
-                <div 
-                  key={svc.id || idx} 
-                  className="mwa-service-card-item"
-                  onClick={() => {
-                    setExpandedServiceId(svc.id || idx);
-                    setActiveTab('services');
-                  }}
-                >
-                  <div className="mwa-sci-icon">
-                    <i className={svc.icon || 'fas fa-stethoscope'}></i>
-                  </div>
-                  <h4 className="mwa-sci-title">{svc.title}</h4>
-                  <p className="mwa-sci-desc">{svc.desc ? svc.desc.slice(0, 80) + '...' : ''}</p>
-                  <span className="mwa-sci-link">View Treatment Info →</span>
-                </div>
-              ))}
-            </div>
-
-            <button className="mwa-btn-all-services" onClick={() => setActiveTab('services')}>
-              Browse All Pediatric Specialties ({allServices.length}) →
-            </button>
 
           </div>
         )}
@@ -662,9 +734,12 @@ export default function MobileWebsiteView() {
             </div>
 
             <div className="mwa-booking-form-wrapper">
-              <AppointmentForm onSuccess={() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }} />
+              <AppointmentForm 
+                initialHospital={selectedHospital}
+                onSuccess={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }} 
+              />
             </div>
           </div>
         )}
@@ -725,7 +800,7 @@ export default function MobileWebsiteView() {
                 >
                   <i className="fas fa-directions"></i> Google Maps
                 </a>
-                <button className="mwa-btn-hosp-book" onClick={() => setActiveTab('book')}>
+                <button className="mwa-btn-hosp-book" onClick={() => handleSelectHospitalAndBook('almanzoor')}>
                   <i className="fas fa-calendar-check"></i> Book Sunday
                 </button>
               </div>
@@ -766,7 +841,7 @@ export default function MobileWebsiteView() {
                 >
                   <i className="fas fa-directions"></i> Google Maps
                 </a>
-                <button className="mwa-btn-hosp-book" onClick={() => setActiveTab('book')}>
+                <button className="mwa-btn-hosp-book" onClick={() => handleSelectHospitalAndBook('sughran')}>
                   <i className="fas fa-calendar-check"></i> Book Multan
                 </button>
               </div>

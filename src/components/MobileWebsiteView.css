@@ -348,58 +348,660 @@
   transform: scale(0.92);
 }
 
-/* ── About Doctor & Pediatric Field Highlights ── */
-.mwa-hero-about-box {
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  padding: 14px 14px 12px;
-  margin-top: 14px;
-}
-
-.mwa-hero-about-head {
+/* ── Hero Bio & Actions ── */
+.mwa-hero-short-bio {
   font-size: 12.5px;
-  font-weight: 700;
-  color: var(--mwa-gold-light);
-  margin: 0 0 6px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.55;
+  margin: 10px 0 16px;
 }
 
-.mwa-hero-about-head i {
-  color: var(--mwa-teal-light);
+.mwa-hero-actions-row {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 10px;
 }
 
-.mwa-hero-about-text {
-  font-size: 11.5px;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.5;
-  margin: 0 0 10px;
-}
-
-.mwa-hero-field-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.mwa-field-pill {
+.mwa-hero-btn-book {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  background: rgba(13, 115, 119, 0.38);
-  border: 1px solid rgba(20, 160, 165, 0.45);
-  color: #e6fffa;
-  font-size: 10.5px;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 10px;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--mwa-teal) 0%, var(--mwa-teal-light) 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(13, 115, 119, 0.4);
+  transition: transform 0.15s ease;
 }
 
-.mwa-field-pill i {
-  color: var(--mwa-teal-light);
+.mwa-hero-btn-book:active {
+  transform: scale(0.96);
+}
+
+.mwa-hero-btn-book i {
+  color: var(--mwa-gold-light);
+  font-size: 13px;
+}
+
+.mwa-hero-btn-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #25d366;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+  transition: transform 0.15s ease;
+}
+
+.mwa-hero-btn-wa:active {
+  transform: scale(0.96);
+}
+
+.mwa-hero-btn-wa i {
+  font-size: 15px;
+}
+
+/* ════ WIDGET 2: SMART LIVE CLINIC STATUS WIDGET ════ */
+.mwa-smart-status-widget {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 16px 18px;
+  border: 1.5px solid #dcf2f3;
+  box-shadow: 0 6px 20px rgba(13, 115, 119, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.mwa-ssw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.mwa-ssw-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.mwa-ssw-badge.live-now {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.mwa-ssw-badge.upcoming {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.mwa-ssw-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+  animation: mwaPulse 1.8s infinite;
+}
+
+.mwa-ssw-tag {
+  font-size: 11px;
+  color: var(--mwa-muted);
+  font-weight: 600;
+}
+
+.mwa-ssw-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mwa-ssw-hosp {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--mwa-dark);
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+}
+
+.mwa-ssw-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mwa-teal);
+  margin-top: 2px;
+}
+
+.mwa-ssw-sub {
+  font-size: 11.5px;
+  color: var(--mwa-muted);
+  margin: 2px 0 10px;
+  line-height: 1.4;
+}
+
+.mwa-ssw-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #f0fdfa;
+  border: 1.5px solid var(--mwa-teal-light);
+  color: var(--mwa-teal-dark);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mwa-ssw-btn:active {
+  background: var(--mwa-teal);
+  color: #ffffff;
+  transform: scale(0.98);
+}
+
+/* ════ WIDGET 3: CORE APP ACTION GRID (2X2 MODULAR WIDGETS) ════ */
+.mwa-action-grid-widget {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.mwa-ag-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 14px 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.mwa-ag-card:active {
+  transform: scale(0.96);
+  border-color: var(--mwa-teal);
+  background: #f8fafc;
+}
+
+.mwa-ag-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.mwa-ag-icon.teal {
+  background: #e6fffa;
+  color: #0d9488;
+}
+
+.mwa-ag-icon.blue {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.mwa-ag-icon.emerald {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.mwa-ag-icon.amber {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+.mwa-ag-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.mwa-ag-text h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--mwa-dark);
+  margin: 0 0 2px;
+  line-height: 1.2;
+}
+
+.mwa-ag-text p {
+  font-size: 10.5px;
+  color: var(--mwa-muted);
+  margin: 0;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mwa-ag-arrow {
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+/* ════ WIDGET 4: HOSPITAL BRANCHES FAST SELECTOR ════ */
+.mwa-branches-card-widget {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 16px 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+.mwa-bcw-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.mwa-widget-label {
+  display: block;
   font-size: 10px;
+  font-weight: 800;
+  color: var(--mwa-teal);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.mwa-widget-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--mwa-dark);
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+}
+
+.mwa-widget-link {
+  background: none;
+  border: none;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--mwa-teal);
+  cursor: pointer;
+  padding: 0;
+}
+
+.mwa-bcw-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.mwa-bcw-branch {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mwa-bcw-branch:active {
+  background: #f0fdfa;
+  border-color: var(--mwa-teal);
+  transform: scale(0.98);
+}
+
+.mwa-bcw-branch-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.mwa-bcw-day-badge {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 8px;
+}
+
+.mwa-bcw-day-badge.sunday {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.mwa-bcw-day-badge.multan {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+.mwa-bcw-slot-pill {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mwa-muted);
+}
+
+.mwa-bcw-branch-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--mwa-dark);
+  margin: 2px 0;
+}
+
+.mwa-bcw-branch-loc {
+  font-size: 11px;
+  color: var(--mwa-muted);
+  margin: 0 0 8px;
+}
+
+.mwa-bcw-branch-loc i {
+  color: var(--mwa-teal);
+  margin-right: 3px;
+}
+
+.mwa-bcw-book-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--mwa-teal-dark);
+  padding-top: 6px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+/* ════ WIDGET 5: PEDIATRIC SPECIALTIES REEL ════ */
+.mwa-specialties-widget {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 16px 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+.mwa-sw-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.mwa-sw-reel {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mwa-sw-reel::-webkit-scrollbar {
+  display: none;
+}
+
+.mwa-sw-item {
+  flex-shrink: 0;
+  width: 95px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 10px 8px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.mwa-sw-item:active {
+  background: #f0fdfa;
+  border-color: var(--mwa-teal);
+  transform: scale(0.95);
+}
+
+.mwa-sw-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #e6fffa;
+  color: var(--mwa-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+.mwa-sw-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--mwa-dark);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.mwa-sw-sub {
+  font-size: 9px;
+  color: var(--mwa-muted);
+  line-height: 1.2;
+}
+
+/* ════ WIDGET 6: 24/7 EMERGENCY HELPLINE WIDGET ════ */
+.mwa-emergency-widget {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 20px;
+  padding: 16px 16px;
+  color: #ffffff;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mwa-ew-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mwa-ew-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #f87171;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.mwa-ew-text h4 {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 2px;
+}
+
+.mwa-ew-text p {
+  font-size: 11px;
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.mwa-ew-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.mwa-ew-call-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #ef4444;
+  color: #ffffff;
+  padding: 10px 10px;
+  border-radius: 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+}
+
+.mwa-ew-call-btn:active {
+  transform: scale(0.97);
+}
+
+.mwa-ew-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #25d366;
+  color: #ffffff;
+  padding: 10px 10px;
+  border-radius: 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+}
+
+.mwa-ew-wa-btn:active {
+  transform: scale(0.97);
+}
+
+/* ════ WIDGET 7: PATIENT PORTAL ACCESS CARD ════ */
+.mwa-patient-portal-widget {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 14px 16px;
+  border: 1.5px solid #dcf2f3;
+  box-shadow: 0 4px 16px rgba(13, 115, 119, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mwa-patient-portal-widget:active {
+  transform: scale(0.98);
+  background: #f0fdfa;
+}
+
+.mwa-ppw-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #e6fffa;
+  color: var(--mwa-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.mwa-ppw-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mwa-ppw-info h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--mwa-dark);
+  margin: 0 0 2px;
+}
+
+.mwa-ppw-info p {
+  font-size: 11px;
+  color: var(--mwa-muted);
+  margin: 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mwa-ppw-action {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--mwa-teal);
+  white-space: nowrap;
+}
+
+/* ════ WIDGET 8: STATS WIDGET ════ */
+.mwa-stats-widget {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.mwa-sw-stat-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 12px 6px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.mwa-sw-num {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--mwa-teal);
+  font-family: 'Playfair Display', serif;
+  line-height: 1.2;
+}
+
+.mwa-sw-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--mwa-muted);
+  line-height: 1.2;
+  margin-top: 2px;
+  display: block;
 }
 
 /* ── 2. Interactive Appointment Booking Quick Widget (Airy, Light & Modern) ── */
