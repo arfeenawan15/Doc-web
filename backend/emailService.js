@@ -1,31 +1,63 @@
 import nodemailer from 'nodemailer';
 
 /* ─── Transporter Setup ─── */
-let gmailTransporter = null;
 const FALLBACK_ADMIN_EMAIL = 'drwaqasahmadawan@gmail.com';
 const FALLBACK_APP_PASSWORD = 'ejcbvsdbyreivxuz';
 
-function getGmailTransporter() {
-  if (!gmailTransporter) {
-    const user = process.env.ADMIN_EMAIL || FALLBACK_ADMIN_EMAIL;
-    const pass = process.env.EMAIL_APP_PASSWORD || FALLBACK_APP_PASSWORD;
-    gmailTransporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user, pass },
-    });
-  }
-  return gmailTransporter;
+function createTransporter(port = 465, secure = true) {
+  const user = process.env.ADMIN_EMAIL || FALLBACK_ADMIN_EMAIL;
+  const pass = process.env.EMAIL_APP_PASSWORD || FALLBACK_APP_PASSWORD;
+  return nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port,
+    secure,
+    auth: { user, pass },
+    connectionTimeout: 6000,
+    greetingTimeout: 6000,
+    socketTimeout: 8000,
+  });
 }
 
 /**
- * Universal email sender that supports Gmail SMTP (via nodemailer)
- * and falls back or uses Brevo API if configured.
+ * Universal email sender that supports:
+ * 1. Resend API (HTTPS port 443 - immune to Render port blocks)
+ * 2. Brevo API (HTTPS port 443 - immune to Render port blocks)
+ * 3. Gmail SMTP port 465 SSL (with connection timeout)
+ * 4. Gmail SMTP port 587 STARTTLS (fallback)
  */
 async function dispatchEmail({ to, subject, html, text }) {
   const adminEmail = process.env.ADMIN_EMAIL || FALLBACK_ADMIN_EMAIL;
   const appPassword = process.env.EMAIL_APP_PASSWORD || FALLBACK_APP_PASSWORD;
 
-  // 1. If Brevo API Key is present, try Brevo HTTP first
+  // 1. If Resend API Key is present, try Resend HTTPS first
+  if (process.env.RESEND_API_KEY) {
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'Dr. Waqas Ahmad Awan Clinic <notifications@drwaqasahmadawan.com>',
+          to: [to],
+          subject,
+          html,
+          text
+        })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log(`[EmailService] Delivered email via Resend to ${to}: id=${data.id}`);
+        return { success: true, messageId: data.id, provider: 'resend' };
+      }
+      console.warn('[EmailService] Resend returned error, falling back:', data);
+    } catch (err) {
+      console.warn('[EmailService] Resend request failed, falling back:', err.message);
+    }
+  }
+
+  // 2. If Brevo API Key is present, try Brevo HTTP
   if (process.env.BREVO_API_KEY) {
     try {
       const response = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -45,19 +77,20 @@ async function dispatchEmail({ to, subject, html, text }) {
       });
       const data = await response.json();
       if (response.ok) {
-        return { success: true, messageId: data.messageId };
+        console.log(`[EmailService] Delivered email via Brevo to ${to}: messageId=${data.messageId}`);
+        return { success: true, messageId: data.messageId, provider: 'brevo' };
       }
-      console.warn('Brevo returned error, falling back to Gmail SMTP:', data.message);
+      console.warn('[EmailService] Brevo returned error, falling back to Gmail SMTP:', data.message);
     } catch (err) {
-      console.warn('Brevo request failed, falling back to Gmail SMTP:', err.message);
+      console.warn('[EmailService] Brevo request failed, falling back to Gmail SMTP:', err.message);
     }
   }
 
-  // 2. Default & Reliable: Gmail SMTP via Nodemailer
+  // 3. Default: Gmail SMTP port 465 (SSL)
   if (appPassword) {
     try {
-      const transporter = getGmailTransporter();
-      const info = await transporter.sendMail({
+      const transporter465 = createTransporter(465, true);
+      const info = await transporter465.sendMail({
         from: {
           name: 'Dr. Waqas Ahmad Awan Clinic',
           address: adminEmail,
@@ -72,11 +105,38 @@ async function dispatchEmail({ to, subject, html, text }) {
           'X-Mailer': 'DrWaqasClinic-Notifier'
         }
       });
-      console.log(`[EmailService] Delivered email to ${to}: messageId=${info.messageId}`);
-      return { success: true, messageId: info.messageId };
-    } catch (err) {
-      console.error(`[EmailService] Gmail SMTP error sending to ${to}:`, err.message);
-      return { success: false, error: err.message };
+      console.log(`[EmailService] Delivered email via Gmail 465 to ${to}: messageId=${info.messageId}`);
+      return { success: true, messageId: info.messageId, provider: 'gmail-465' };
+    } catch (err465) {
+      console.warn(`[EmailService] Gmail 465 failed (${err465.message}), attempting fallback to port 587...`);
+      
+      // 4. Fallback: Gmail SMTP port 587 (STARTTLS)
+      try {
+        const transporter587 = createTransporter(587, false);
+        const info587 = await transporter587.sendMail({
+          from: {
+            name: 'Dr. Waqas Ahmad Awan Clinic',
+            address: adminEmail,
+          },
+          replyTo: adminEmail,
+          to,
+          subject,
+          text,
+          html,
+          headers: {
+            'X-Priority': '1',
+            'X-Mailer': 'DrWaqasClinic-Notifier'
+          }
+        });
+        console.log(`[EmailService] Delivered email via Gmail 587 to ${to}: messageId=${info587.messageId}`);
+        return { success: true, messageId: info587.messageId, provider: 'gmail-587' };
+      } catch (err587) {
+        console.error(`[EmailService] Gmail SMTP (465 & 587) failed: 465=(${err465.message}), 587=(${err587.message})`);
+        return {
+          success: false,
+          error: `SMTP connection failed/blocked. 465: ${err465.message} | 587: ${err587.message}`
+        };
+      }
     }
   }
 

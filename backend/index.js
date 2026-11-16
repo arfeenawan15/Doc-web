@@ -409,27 +409,30 @@ app.post('/appointments', async (req, res) => {
     const saved = await newAppointment.save();
     console.log('💾 Saved to MongoDB:', saved._id);
 
-    // Notify doctor / admin via email immediately
-    try {
-      const emailRes = await sendAdminNewBookingNotification(saved);
-      if (emailRes && emailRes.success) {
-        console.log(`📧 Admin notification email dispatched for appointment: ${saved._id}`);
-      } else {
-        console.error(`⚠️ Failed to send admin notification email:`, emailRes?.error);
-      }
-    } catch (err) {
-      console.error(`⚠️ Error triggering admin notification email:`, err.message);
-    }
-
+    // 1. Respond IMMEDIATELY to patient so booking confirms in milliseconds!
     res.status(201).json({ success: true, message: 'Appointment booked successfully!', data: saved });
+
+    // 2. Dispatch doctor/admin notification email in the background (NON-BLOCKING)
+    setImmediate(async () => {
+      try {
+        const emailRes = await sendAdminNewBookingNotification(saved);
+        if (emailRes && emailRes.success) {
+          console.log(`📧 Admin notification email dispatched for appointment ${saved._id} (Provider: ${emailRes.provider || 'default'})`);
+        } else {
+          console.error(`⚠️ Failed to send admin notification email:`, emailRes?.error);
+        }
+      } catch (err) {
+        console.error(`⚠️ Error triggering admin notification email:`, err.message);
+      }
+    });
   } catch (err) {
     console.error('❌ Save Error:', err.message);
     res.status(400).json({ success: false, message: err.message });
   }
 });
 
-/* ─── POST /admin/test-email — Test Doctor Notification Email ─── */
-app.post('/admin/test-email', async (req, res) => {
+/* ─── GET & POST /admin/test-email — Test Doctor Notification Email ─── */
+const handleTestEmail = async (req, res) => {
   try {
     const adminEmail = process.env.ADMIN_EMAIL || 'drwaqasahmadawan@gmail.com';
     const testAppointment = {
@@ -449,12 +452,16 @@ app.post('/admin/test-email', async (req, res) => {
     const result = await sendAdminNewBookingNotification(testAppointment);
     res.json({
       success: result.success,
+      provider: result.provider || 'none',
       message: result.success ? `Test notification sent successfully to ${adminEmail}` : (result.error || 'Failed to send test email')
     });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
-});
+};
+
+app.get('/admin/test-email', handleTestEmail);
+app.post('/admin/test-email', handleTestEmail);
 
 /* ─── GET /appointments/me — Fetch User's Own Appointments (Protected) ─── */
 app.get('/appointments/me', authMiddleware, async (req, res) => {
