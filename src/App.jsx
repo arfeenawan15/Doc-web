@@ -12,6 +12,7 @@ import Appointment   from './components/Appointment';
 import Contact       from './components/Contact';
 import Footer        from './components/Footer';
 import { Toast, WhatsAppFloat } from './components/Widgets';
+import MobileWebsiteView from './components/MobileWebsiteView';
 
 import AdminLogin     from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
@@ -51,8 +52,21 @@ function PublicSite() {
   const showToast = (message, type = 'success') => setToast({ message, type });
   const location = useLocation();
 
+  // Responsive device view check (Native Mobile App Layout vs Desktop Web Layout)
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth <= 768 : false
+  );
+
   useEffect(() => {
-    if (location.hash) {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (location.hash && !isMobile) {
       const id = location.hash.replace('#', '');
       const el = document.getElementById(id);
       if (el) {
@@ -61,32 +75,38 @@ function PublicSite() {
         }, 120);
       }
     }
-  }, [location.pathname, location.hash]);
+  }, [location.pathname, location.hash, isMobile]);
 
   return (
     <>
       <SEO />
-      <AvailabilityBanner />
-      <Navbar />
-      <WhatsAppFloat />
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
+      {isMobile ? (
+        <MobileWebsiteView />
+      ) : (
+        <>
+          <AvailabilityBanner />
+          <Navbar />
+          <WhatsAppFloat />
+          {toast && (
+            <Toast
+              message={toast.message}
+              type={toast.type}
+              onClose={() => setToast(null)}
+            />
+          )}
+          <main>
+            <Hero />
+            <About />
+            <Services />
+            <Schedule />
+            <Locations />
+            <UserRecordsSection />
+            <Appointment />
+            <Contact />
+          </main>
+          <Footer />
+        </>
       )}
-      <main>
-        <Hero />
-        <About />
-        <Services />
-        <Schedule />
-        <Locations />
-        <UserRecordsSection />
-        <Appointment />
-        <Contact />
-      </main>
-      <Footer />
     </>
   );
 }

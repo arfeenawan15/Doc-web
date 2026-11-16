@@ -1,0 +1,1343 @@
+/* MobileWebsiteView.css - Native Smartphone App UI for Dr. Waqas Ahmad Awan Clinic */
+
+.mwa-root {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #1e293b;
+  display: flex;
+  flex-direction: column;
+  padding-top: 64px; /* Space for fixed app header */
+  padding-bottom: 74px; /* Space for fixed bottom tab bar */
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Fixed Native App Header Bar ── */
+.mwa-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(15, 23, 42, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.mwa-brand-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mwa-avatar-box {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.mwa-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+
+.mwa-online-pulse {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background: #10b981;
+  border-radius: 50%;
+  border: 2px solid #0f172a;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.mwa-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.mwa-brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Playfair Display', serif;
+  line-height: 1.2;
+}
+
+.mwa-brand-role {
+  font-size: 11px;
+  color: #38bdf8;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.mwa-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mwa-header-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+.mwa-header-icon-btn:active {
+  transform: scale(0.92);
+}
+
+.mwa-header-icon-btn.call {
+  background: rgba(2, 132, 199, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.mwa-header-icon-btn.whatsapp {
+  background: rgba(37, 211, 102, 0.2);
+  color: #25d366;
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  font-size: 16px;
+}
+
+/* ── Main Canvas & Feed ── */
+.mwa-main-canvas {
+  flex: 1;
+  width: 100%;
+}
+
+.mwa-feed-pane {
+  padding: 16px 14px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Urgent Alert Pill ── */
+.mwa-alert-pill {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 20px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.mwa-alert-tag {
+  background: #ef4444;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.mwa-alert-txt {
+  color: #991b1b;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mwa-alert-txt a {
+  color: #b91c1c;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* ── Specialty Horizontal Scroll Bubbles ── */
+.mwa-specialty-scroll {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.mwa-specialty-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.mwa-bubble-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 66px;
+  padding: 0;
+}
+
+.mwa-bubble-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  transition: transform 0.15s ease;
+}
+
+.mwa-bubble-item:active .mwa-bubble-circle {
+  transform: scale(0.92);
+  background: #e0f2fe;
+}
+
+.mwa-bubble-lbl {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ── Doctor Hero Card ── */
+.mwa-hero-card {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 18px;
+  padding: 20px 18px;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+}
+
+.mwa-hero-card::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -50px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(2, 132, 199, 0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.mwa-hero-card-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.mwa-hero-doctor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(45, 212, 191, 0.18);
+  color: #2dd4bf;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  border: 1px solid rgba(45, 212, 191, 0.3);
+}
+
+.mwa-hero-doctor-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #ffffff;
+}
+
+.mwa-hero-doctor-creds {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+
+.mwa-hero-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.mwa-hero-tag {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mwa-hero-tag i {
+  color: #38bdf8;
+}
+
+.mwa-hero-dual-btns {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 10px;
+}
+
+/* ── Standard App Buttons ── */
+.mwa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  box-sizing: border-box;
+}
+
+.mwa-btn:active {
+  transform: scale(0.97);
+}
+
+.mwa-btn.primary {
+  background: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+
+.mwa-btn.outline {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mwa-btn.secondary {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.mwa-btn.full {
+  width: 100%;
+}
+
+.mwa-btn.text {
+  background: none;
+  color: #0284c7;
+  border: none;
+  padding: 8px;
+}
+
+.mwa-btn-full {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: #0284c7;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* ── Cards ── */
+.mwa-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+}
+
+.mwa-card.schedule-card {
+  border-left: 4px solid #10b981;
+}
+
+.mwa-card.schedule-card.multan {
+  border-left: 4px solid #8b5cf6;
+}
+
+.mwa-card-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.mwa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 12px;
+  margin-bottom: 4px;
+}
+
+.mwa-badge.live {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.mwa-badge.live i {
+  font-size: 6px;
+  color: #16a34a;
+  animation: pulse 1.5s infinite;
+}
+
+.mwa-badge.purple {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+.mwa-badge.green {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.mwa-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.mwa-link-btn {
+  background: none;
+  border: none;
+  color: #0284c7;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mwa-time-strip {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: #475569;
+  margin-bottom: 12px;
+}
+
+.mwa-time-box, .mwa-location-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mwa-time-box i, .mwa-location-box i {
+  color: #0284c7;
+  width: 14px;
+  text-align: center;
+}
+
+/* ── Portal Touch Card ── */
+.mwa-portal-touch-card {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  border-radius: 16px;
+  padding: 16px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.25);
+  cursor: pointer;
+}
+
+.mwa-ptc-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.mwa-ptc-content {
+  flex: 1;
+}
+
+.mwa-ptc-content h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 2px;
+}
+
+.mwa-ptc-content p {
+  font-size: 11px;
+  color: #ccfbf1;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.mwa-ptc-arrow {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+/* ── Quick Services Section ── */
+.mwa-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.mwa-section-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.mwa-section-header button {
+  background: none;
+  border: none;
+  color: #0284c7;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mwa-quick-services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.mwa-service-touch-item {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+}
+
+.mwa-service-touch-item:active {
+  background: #f8fafc;
+}
+
+.mwa-svc-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #e0f2fe;
+  color: #0284c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.mwa-svc-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.mwa-svc-desc {
+  font-size: 11px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* ── Contact Banner ── */
+.mwa-contact-banner {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mwa-cb-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.mwa-contact-banner h4 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 2px;
+  color: #0f172a;
+}
+
+.mwa-contact-banner p {
+  font-size: 11px;
+  color: #64748b;
+  margin: 0;
+}
+
+.mwa-cb-btn {
+  background: #16a34a;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ── Services Pane ── */
+.mwa-pane-header {
+  margin-bottom: 4px;
+}
+
+.mwa-pane-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px;
+}
+
+.mwa-pane-header p {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+.mwa-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.mwa-search-icon {
+  position: absolute;
+  left: 14px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.mwa-search-wrap input {
+  width: 100%;
+  padding: 12px 38px 12px 38px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 13px;
+  color: #1e293b;
+  box-sizing: border-box;
+}
+
+.mwa-search-wrap input:focus {
+  outline: none;
+  border-color: #0284c7;
+}
+
+.mwa-search-clear {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mwa-services-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mwa-service-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.mwa-service-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.mwa-service-card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #e0f2fe;
+  color: #0284c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.mwa-service-card-head {
+  flex: 1;
+}
+
+.mwa-service-card-head h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.mwa-service-card-sub {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.mwa-service-expand-icon {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.mwa-service-summary {
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.5;
+  margin: 10px 0 0;
+}
+
+.mwa-service-details-drawer {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.mwa-service-full-details {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-size: 12px;
+  color: #334155;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.mwa-service-full-details strong {
+  display: block;
+  color: #0284c7;
+  margin-bottom: 4px;
+}
+
+/* ── Hospital Cards ── */
+.mwa-hosp-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.mwa-hosp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.mwa-hosp-badge.green {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.mwa-hosp-badge.purple {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+.mwa-hosp-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px;
+}
+
+.mwa-hosp-addr {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0 0 14px;
+}
+
+.mwa-hosp-meta-list {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  color: #334155;
+  margin-bottom: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.mwa-hosp-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mwa-hosp-meta-row i {
+  color: #0284c7;
+  width: 16px;
+  text-align: center;
+}
+
+.mwa-hosp-meta-row a {
+  color: #0284c7;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mwa-hosp-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ── Book Form Container ── */
+.mwa-form-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+}
+
+.mwa-booking-help-box {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: #166534;
+}
+
+.mwa-booking-help-box i {
+  font-size: 20px;
+  color: #16a34a;
+}
+
+.mwa-booking-help-box a {
+  color: #15803d;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* ── Patient Records & Portal ── */
+.mwa-patient-portal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mwa-portal-profile-bar {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mwa-portal-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #0d9488;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mwa-portal-user-meta {
+  flex: 1;
+}
+
+.mwa-portal-badge {
+  display: inline-block;
+  background: #ccfbf1;
+  color: #0f766e;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 2px;
+}
+
+.mwa-portal-user-meta h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
+}
+
+.mwa-portal-user-meta p {
+  font-size: 11px;
+  color: #64748b;
+  margin: 0;
+}
+
+.mwa-logout-btn {
+  background: #fee2e2;
+  border: none;
+  color: #dc2626;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mwa-portal-records-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mwa-portal-records-head h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
+}
+
+.mwa-refresh-btn {
+  background: none;
+  border: none;
+  color: #0284c7;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mwa-patient-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mwa-patient-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.mwa-pc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.mwa-pc-hosp {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.mwa-pc-service {
+  font-size: 11px;
+  color: #0284c7;
+  font-weight: 600;
+}
+
+.mwa-pc-status {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.mwa-pc-status.confirmed { background: #dcfce7; color: #15803d; }
+.mwa-pc-status.pending   { background: #fef3c7; color: #b45309; }
+.mwa-pc-status.cancelled { background: #fee2e2; color: #b91c1c; }
+
+.mwa-pc-details p {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mwa-pc-details i {
+  color: #0284c7;
+  width: 14px;
+}
+
+.mwa-pc-concern {
+  background: #f8fafc;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  color: #334155;
+  margin: 8px 0;
+  border: 1px solid #e2e8f0;
+}
+
+.mwa-pc-concern span {
+  font-weight: 700;
+  color: #64748b;
+}
+
+.mwa-pc-doctor-notes {
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 12px;
+}
+
+.mwa-pc-doctor-notes strong {
+  display: block;
+  color: #0f766e;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.mwa-pc-doctor-notes p {
+  margin: 0;
+  color: #115e59;
+  font-weight: 600;
+}
+
+.mwa-pc-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dotted #e2e8f0;
+}
+
+.mwa-btn-wa {
+  color: #16a34a;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mwa-btn-cancel {
+  background: none;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ── Mobile Auth Card (when not logged in) ── */
+.mwa-auth-container {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 22px 18px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.mwa-auth-head {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.mwa-auth-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  color: #0284c7;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+}
+
+.mwa-auth-head h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 6px;
+}
+
+.mwa-auth-head p {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.mwa-auth-segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 16px;
+}
+
+.mwa-auth-segmented button {
+  background: none;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mwa-auth-segmented button.active {
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.mwa-auth-alert {
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+
+.mwa-auth-alert.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.mwa-auth-alert.success {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.mwa-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mwa-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mwa-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.mwa-pass-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mwa-field input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  font-size: 13px;
+  color: #1e293b;
+  box-sizing: border-box;
+}
+
+.mwa-field input:focus {
+  outline: none;
+  border-color: #0284c7;
+}
+
+.mwa-otp-box {
+  letter-spacing: 6px;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  text-align: center;
+  font-family: monospace;
+}
+
+.mwa-staff-link-box {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.mwa-staff-link {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mwa-staff-link:hover {
+  color: #0284c7;
+}
+
+/* ── Fixed Native Bottom Tab Bar ── */
+.mwa-bottom-tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.mwa-tab-item {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 0;
+  cursor: pointer;
+  color: #64748b;
+  position: relative;
+  transition: color 0.15s ease;
+}
+
+.mwa-tab-icon {
+  font-size: 18px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+
+.mwa-tab-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.mwa-tab-item.active {
+  color: #0284c7;
+}
+
+.mwa-tab-item.active .mwa-tab-icon {
+  transform: translateY(-2px);
+}
+
+.mwa-tab-item.highlight .mwa-tab-icon {
+  color: #0284c7;
+}
+
+.mwa-tab-item:active {
+  transform: scale(0.92);
+}
