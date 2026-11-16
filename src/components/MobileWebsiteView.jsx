@@ -271,17 +271,8 @@ export default function MobileWebsiteView() {
             title="Book Appointment"
           >
             <i className="fas fa-calendar-check"></i>
-            <span>Book</span>
+            <span>Book Now</span>
           </button>
-          <a 
-            href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20book%20an%20appointment." 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="mwa-head-btn wa" 
-            title="Chat on WhatsApp"
-          >
-            <i className="fab fa-whatsapp"></i>
-          </a>
           <a href="tel:+923098683232" className="mwa-head-btn call" title="Call Clinic">
             <i className="fas fa-phone-alt"></i>
           </a>
@@ -291,7 +282,7 @@ export default function MobileWebsiteView() {
       {/* ── Main App Feed Panes ── */}
       <main className="mwa-main-canvas">
 
-        {/* ════ TAB 1: HOME FEED (AIRY, BEAUTIFUL & FLEXIBLE) ════ */}
+        {/* ════ TAB 1: HOME FEED (AIRY, BEAUTIFUL & UNCONGESTED) ════ */}
         {activeTab === 'home' && (
           <div className="mwa-feed-pane">
 
@@ -311,7 +302,7 @@ export default function MobileWebsiteView() {
                       Dr. Waqas <span className="mwa-name-gold">Ahmad Awan</span>
                     </h1>
                     <p className="mwa-hero-credentials">
-                      MBBS · FCPS Pediatric Surgery (Children's Hospital &amp; ICH Multan)
+                      MBBS · FCPS Pediatric Surgery (Children's Hospital Multan)
                     </p>
                     <div className="mwa-hero-trust-chips">
                       <span className="mwa-trust-chip"><i className="fas fa-award"></i> 8+ Yrs Exp</span>
@@ -325,27 +316,15 @@ export default function MobileWebsiteView() {
                   </div>
                 </div>
 
-                <p className="mwa-hero-subtitle">
-                  Providing expert, compassionate surgical and medical care for infants and children at Al Manzoor Hospital Mian Channu and Multan.
-                </p>
-
-                {/* Primary Dual Actions */}
-                <div className="mwa-hero-actions">
-                  <button 
-                    className="mwa-btn-primary-theme" 
-                    onClick={() => { setActiveTab('book'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  >
-                    <i className="fas fa-calendar-check"></i> Book Appointment
-                  </button>
-                  <a 
-                    href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20book%20an%20appointment." 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="mwa-btn-wa-theme"
-                  >
-                    <i className="fab fa-whatsapp"></i> WhatsApp
-                  </a>
-                </div>
+                {/* Direct WhatsApp Consultation Chat */}
+                <a 
+                  href="https://wa.me/923318034846?text=Hello%20Dr.%20Waqas%2C%20I%20would%20like%20to%20consult%20regarding%20my%20child." 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="mwa-hero-wa-btn"
+                >
+                  <i className="fab fa-whatsapp"></i> Chat on WhatsApp with Doctor's Team
+                </a>
               </div>
             </div>
 
@@ -361,7 +340,7 @@ export default function MobileWebsiteView() {
 
               <div className="mwa-bqw-card-body">
                 <div className="mwa-bqw-title-wrap">
-                  <h3 className="mwa-bqw-heading">Schedule Child Consultation</h3>
+                  <h3 className="mwa-bqw-heading">Book Child Consultation</h3>
                   <p className="mwa-bqw-subtext">Choose your preferred hospital branch for consultation</p>
                 </div>
 
